@@ -36,7 +36,7 @@ def has_onnxruntime():
         return False
 
 
-class TestBENCHonnxruntime(ExtTestCase):
+class TestBENCHonnxruntime_ensemble(ExtTestCase):
 
     def run_onnxruntime_test(self, name, repeat=100, verbose=True):
         fLOG(
@@ -67,26 +67,6 @@ class TestBENCHonnxruntime(ExtTestCase):
         df.to_csv(out, index=False)
         self.assertExists(out)
         fLOG("Done '%s'" % name)
-
-    @unittest.skipIf(not has_onnxruntime(), reason="onnxruntime is not installed")
-    def test_bench_perf_onnxruntime_LogisticRegression(self):
-        self.run_onnxruntime_test(
-            self._testMethodName.split('_')[-1], verbose=False)
-
-    @unittest.skipIf(not has_onnxruntime(), reason="onnxruntime is not installed")
-    def test_bench_perf_onnxruntime_SGDClassifier(self):
-        self.run_onnxruntime_test(
-            self._testMethodName.split('_')[-1], verbose=False)
-
-    @unittest.skipIf(not has_onnxruntime(), reason="onnxruntime is not installed")
-    def test_bench_perf_onnxruntime_BernouilliNB(self):
-        self.run_onnxruntime_test(
-            self._testMethodName.split('_')[-1], verbose=False)
-
-    @unittest.skipIf(not has_onnxruntime(), reason="onnxruntime is not installed")
-    def test_bench_perf_onnxruntime_MultinomialNB(self):
-        self.run_onnxruntime_test(
-            self._testMethodName.split('_')[-1], verbose=False)
 
     @unittest.skipIf(not has_onnxruntime(), reason="onnxruntime is not installed")
     def test_bench_perf_onnxruntime_DecisionTreeClassifier(self):

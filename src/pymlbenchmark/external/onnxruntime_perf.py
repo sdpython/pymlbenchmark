@@ -15,6 +15,8 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(BenchPerfTest):
     Specific test to compare computing time predictions
     with :epkg:`scikit-learn` and :epkg:`onnxruntime`.
     See example :ref:`l-example-onnxruntime-logreg`.
+    The class requires the following modules to be installed:
+    :epkg:`onnx`, :epkg:`onnxruntime`, :epkg:`skl2onnx`.
     """
 
     def __init__(self, classifier, dim=None, **opts):
@@ -23,9 +25,10 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(BenchPerfTest):
         @param      opts        training settings
         @param      dim         number of features
         """
-        from skl2onnx import convert_sklearn
-        from skl2onnx.common.data_types import FloatTensorType
-        from onnxruntime import InferenceSession
+        # These libraries are optional.
+        from skl2onnx import convert_sklearn  # pylint: disable=E0401
+        from skl2onnx.common.data_types import FloatTensorType  # pylint: disable=E0401
+        from onnxruntime import InferenceSession  # pylint: disable=E0401
 
         if dim is None:
             raise RuntimeError("dim must be defined.")
@@ -107,4 +110,4 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(BenchPerfTest):
                     p1, p2 = res[0], res[i]
                     if len(p1.shape) == 1 and len(p2.shape) == 2:
                         p2 = p2.ravel()
-                    assert_almost_equal(p1, p2, decimal=5)
+                    assert_almost_equal(p1, p2, decimal=4)

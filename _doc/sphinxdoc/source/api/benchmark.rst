@@ -1,6 +1,6 @@
 
-benchmark
-=========
+Generic Benchmarks
+==================
 
 .. autosignature:: pymlbenchmark.benchmark.benchmark_perf.BenchPerfTest
 

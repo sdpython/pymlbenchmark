@@ -26,7 +26,8 @@ def machine_information(pkgs=None):
         :showcode:
 
         from pymlbenchmark.context import machine_information
-        import pandas
+        import numpy
+        import pandas    
         print(pandas.DataFrame(machine_information(['numpy']):
     """
     res = [
@@ -44,7 +45,7 @@ def machine_information(pkgs=None):
             if name in sys.modules:
                 mod = sys.modules[name]
                 res.append(
-                    dict(name=name, version=getattr(mod, '__version__', None)))
+                    dict(name=name, version=getattr(mod, '__version__', 'not-found')))
             else:
                 res.append(dict(name=name, version='not-imported'))
     return res
