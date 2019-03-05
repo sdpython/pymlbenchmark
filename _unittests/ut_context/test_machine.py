@@ -34,7 +34,7 @@ class TestContextMachine(ExtTestCase):
         self.assertGreater(len(res), 3)
         for r in res:
             self.assertIn('name', r)
-        self.assertEqual(res[0]['name'], 'numpy')
+        self.assertEqual(res[0]['name'], 'date')
 
 
 if __name__ == "__main__":

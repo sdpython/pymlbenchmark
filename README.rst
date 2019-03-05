@@ -48,7 +48,6 @@ was about optimizing the computation of polynomial features.
 I reused the template to measure various implementations
 or models.
 
-
 * `GitHub/pymlbenchmark <https://github.com/sdpython/pymlbenchmark/>`_
 * `documentation <http://www.xavierdupre.fr/app/pymlbenchmark/helpsphinx/index.html>`_
 * `Blog <http://www.xavierdupre.fr/app/pymlbenchmark/helpsphinx/blog/main_0000.html#ap-main-0>`_

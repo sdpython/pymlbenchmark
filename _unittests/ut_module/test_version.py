@@ -21,7 +21,7 @@ except ImportError:
         sys.path.append(path)
     import src
 
-from src.mlprodict import __version__
+from src.pymlbenchmark import __version__
 
 
 class TestVersion (unittest.TestCase):
