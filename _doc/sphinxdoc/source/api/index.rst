@@ -6,3 +6,5 @@ API Summary
     :maxdepth: 2
 
     context
+    datasets
+    benchmark
