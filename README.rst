@@ -3,7 +3,7 @@
     :target: https://travis-ci.org/sdpython/pymlbenchmark
     :alt: Build status
 
-.. image:: https://ci.appveyor.com/api/projects/status/g8chk1ufyk1m8uep?svg=true
+.. image:: https://ci.appveyor.com/api/projects/status/l2lk7a0r2pccpg3r?svg=true
     :target: https://ci.appveyor.com/project/sdpython/pymlbenchmark
     :alt: Build Status Windows
 
