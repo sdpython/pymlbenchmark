@@ -33,7 +33,7 @@ def has_onnxruntime():
         return False
 
 
-class TestBENCHonnxruntime_linear(ExtTestCase):
+class TestBENCHonnxruntime_bayes(ExtTestCase):
 
     def run_onnxruntime_test(self, name, repeat=100, verbose=True, stop_if_error=True):
         fLOG(
@@ -45,14 +45,14 @@ class TestBENCHonnxruntime_linear(ExtTestCase):
                              stop_if_error=stop_if_error)
 
     @unittest.skipIf(not has_onnxruntime(), reason="onnxruntime is not installed")
-    def test_bench_perf_onnxruntime_LogisticRegression(self):
+    def test_bench_perf_onnxruntime_BernoulliNB(self):
         self.run_onnxruntime_test(
             self._testMethodName.split('_')[-1], verbose=False)
 
     @unittest.skipIf(not has_onnxruntime(), reason="onnxruntime is not installed")
-    def test_bench_perf_onnxruntime_SGDClassifier(self):
+    def test_bench_perf_onnxruntime_MultinomialNB(self):
         self.run_onnxruntime_test(
-            self._testMethodName.split('_')[-1], verbose=False)
+            self._testMethodName.split('_')[-1], verbose=False, stop_if_error=False)
 
 
 if __name__ == "__main__":

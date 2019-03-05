@@ -91,11 +91,28 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(BenchPerfTest):
                     out[i, k] = v
             return out
 
-        return [{'method': 'predict', 'lib': 'skl', 'fct': predict_skl_predict},
+        fcts = [{'method': 'predict', 'lib': 'skl', 'fct': predict_skl_predict},
+                {'method': 'predict', 'lib': 'ort', 'fct': predict_onnxrt_predict}]
+
+        if hasattr(self.skl, '_check_proba'):
+            try:
+                self.skl._check_proba()
+                prob = True
+            except AttributeError:
+                prob = False
+        elif hasattr(self.skl, 'predict_proba'):
+            prob = True
+        else:
+            prob = False
+
+        if prob:
+            fcts.extend([
                 {'method': 'predict_proba', 'lib': 'skl',
                     'fct': predict_skl_predict_proba},
-                {'method': 'predict', 'lib': 'ort', 'fct': predict_onnxrt_predict},
-                {'method': 'predict_proba', 'lib': 'ort', 'fct': predict_onnxrt_predict_proba}]
+                {'method': 'predict_proba', 'lib': 'ort',
+                    'fct': predict_onnxrt_predict_proba}
+            ])
+        return fcts
 
     def validate(self, results):
         """
