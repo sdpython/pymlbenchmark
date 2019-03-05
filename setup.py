@@ -172,5 +172,5 @@ if not r:
         packages=packages,
         package_dir=package_dir,
         package_data=package_data,
-        install_requires=["pyquickhelper", "mlinsights"],
+        install_requires=["pyquickhelper", "mlinsights>=0.1.199"],
     )
