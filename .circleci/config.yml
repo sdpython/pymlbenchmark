@@ -72,7 +72,7 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            python setup.py unittests
+            python setup.py unittests -g ".*BENCH.*"
 
       - run:
           name: wheel

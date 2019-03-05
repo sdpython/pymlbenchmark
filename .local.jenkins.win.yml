@@ -17,7 +17,9 @@ install:
 before_script:
   - python -u setup.py build_ext --inplace
 script:
-  - { CMD: "python -u setup.py unittests", NAME: "UT" }
+  - { CMD: "python -u setup.py unittests -g \".*BENCH.*\"", NAME: "UT" }
+  - { CMD: "python -u setup.py unittests -e \".*BENCH.*\" -g \".*ALL.*\"", NAME: "UT_BENCH" }
+  - { CMD: "python -u setup.py unittests -e \".*BENCH_ALL.*\"", NAME: "UT_BENCH_ALL", TIMEOUT: 3600 }
 after_script:
   - python -u setup.py bdist_wheel
   - if [ ${DIST} != "conda" and ${NAME} == "UT" ] then copy dist\*.whl {{root_path}}\..\..\local_pypi\local_pypi_server fi

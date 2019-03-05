@@ -31,7 +31,7 @@ before_test:
   - "%PYTHON%\\python -u setup.py build_ext --inplace"
 
 test_script:
-  - "%PYTHON%\\python -u setup.py unittests"
+  - "%PYTHON%\\python -u setup.py unittests -g \".*BENCH.*\""
 
 after_test:
   - "%PYTHON%\\python -u setup.py bdist_wheel"
