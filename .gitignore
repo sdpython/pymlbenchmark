@@ -267,3 +267,4 @@ _doc/sphinxdoc/source/pymlbenchmark
 _doc/sphinxdoc/source/nbcov*.png
 .eggs
 _doc/examples/*.prof
+_doc/examples/*.csv

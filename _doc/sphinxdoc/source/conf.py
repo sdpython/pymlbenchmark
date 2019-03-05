@@ -37,6 +37,7 @@ epkg_dictionary.update({
     'ONNX': 'https://onnx.ai/',
     'onnxruntime': 'https://github.com/Microsoft/onnxruntime',
     'PolynomialFeatures': 'https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html',
+    'pymlbenchmark': blog_root,
     'Python': 'https://www.python.org/',
     'tqdm': 'https://github.com/tqdm/tqdm',
     'scikit-learn': 'https://scikit-learn.org/stable/',

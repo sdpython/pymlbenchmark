@@ -9,6 +9,7 @@ import numpy
 class BenchPerfTest:
     """
     Defines a bench perf test.
+    See example :ref:`l-bench-slk-poly`.
 
     .. faqref::
         :title: Conventions for N, dim
@@ -55,6 +56,7 @@ class BenchPerfTest:
 class BenchPerf:
     """
     Factorizes code to compare two implementations.
+    See example :ref:`l-bench-slk-poly`.
     """
 
     def __init__(self, pbefore, pafter, btest, filter_test=None):
@@ -170,11 +172,23 @@ class BenchPerf:
                     times = []
                     fct.update(obs)
 
-                    for dt in data:
-                        st = time_perf()
-                        r = f(*dt)
-                        d = time_perf() - st
-                        times.append(d)
+                    if isinstance(f, tuple):
+                        if len(f) != 2:
+                            raise RuntimeError(
+                                "If *f* is a tuple, it must return two function f1, f2.")
+                        f1, f2 = f
+                        for dt in data:
+                            dt2 = f1(*dt)
+                            st = time_perf()
+                            r = f2(*dt2)
+                            d = time_perf() - st
+                            times.append(d)
+                    else:
+                        for dt in data:
+                            st = time_perf()
+                            r = f(*dt)
+                            d = time_perf() - st
+                            times.append(d)
 
                     results.append((fct, r))
                     times.sort()

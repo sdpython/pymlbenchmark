@@ -5,14 +5,15 @@
 import sys
 import platform
 from datetime import datetime
-import numpy
 
 
-def machine_information():
+def machine_information(pkgs=None):
     """
     Returns information about the machine.
 
-    @return     list of dictionaries
+    @param      pkgs    if not None, adds version information for the
+                        listed packages
+    @return             list of dictionaries
 
     .. runpython::
         :showcode:
@@ -20,10 +21,16 @@ def machine_information():
         from pymlbenchmark.context import machine_information
         for row in machine_information():
             print(row)
+
+    .. runpython::
+        :showcode:
+
+        from pymlbenchmark.context import machine_information
+        import pandas
+        print(pandas.DataFrame(machine_information(['numpy']):
     """
-    return [
+    res = [
         {"name": "date", "version": str(datetime.now())},
-        {"name": "numpy", "version": numpy.__version__},
         {"name": "python", "value": sys.version},
         {"name": "platform", "value": sys.platform},
         {"name": "OS", "value": platform.platform()},
@@ -32,3 +39,12 @@ def machine_information():
         {"name": "release", "value": platform.release()},
         {"name": "architecture", "value": platform.architecture()},
     ]
+    if pkgs is not None:
+        for name in sorted(pkgs):
+            if name in sys.modules:
+                mod = sys.modules[name]
+                res.append(
+                    dict(name=name, version=getattr(mod, '__version__', None)))
+            else:
+                res.append(dict(name=name, version='not-imported'))
+    return res

@@ -92,11 +92,12 @@ class TestBenchPerf(ExtTestCase):
                 def predict_ort_predict_proba(X, model=self.ort):
                     return model.predict_proba(X)
 
-                return [{'lib': 'skl', 'method': 'predict', 'fct': predict_skl_predict},
+                return [{'lib': 'skl', 'method': 'predict',
+                         'fct': (lambda *args: args, predict_skl_predict)},
                         {'lib': 'skl', 'method': 'predict_proba',
-                            'fct': predict_skl_predict_proba},
+                         'fct': predict_skl_predict_proba},
                         {'lib': 'ort', 'method': 'predict',
-                            'fct': predict_ort_predict},
+                         'fct': predict_ort_predict},
                         {'lib': 'ort', 'method': 'predict_proba', 'fct': predict_ort_predict_proba}]
 
             def data(self, N=10, dim=4, **kwargs):  # pylint: disable=W0221
