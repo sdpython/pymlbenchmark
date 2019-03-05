@@ -27,7 +27,7 @@ def machine_information(pkgs=None):
 
         from pymlbenchmark.context import machine_information
         import numpy
-        import pandas    
+        import pandas
         print(pandas.DataFrame(machine_information(['numpy']):
     """
     res = [
