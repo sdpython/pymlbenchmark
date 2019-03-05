@@ -120,14 +120,16 @@ class BenchPerf:
                 p -= 1
                 pos[p] += 1
 
-    def enumerate_run_benchs(self, repeat=10, verbose=False):
+    def enumerate_run_benchs(self, repeat=10, verbose=False, stop_if_error=True):
         """
         Runs the benchmark.
 
-        @param      repeat      number of repeatition of the same call
-                                with different datasets
-        @param      verbose     if True, use :epkg:`tqdm`
-        @return                 yields dictionaries with all the metrics
+        @param      repeat          number of repeatition of the same call
+                                    with different datasets
+        @param      verbose         if True, use :epkg:`tqdm`
+        @param      stop_if_error   by default, it stops when method *validate*
+                                    fails, if False, the function stores the exception
+        @return                     yields dictionaries with all the metrics
         """
         all_opts = self.pbefore.copy()
         all_opts.update(self.pafter)
@@ -162,6 +164,7 @@ class BenchPerf:
                         "Method *data* must return a list or a tuple.")
                 obs["repeat"] = len(data)
                 results = []
+                stores = []
 
                 for fct in fcts:
                     if not isinstance(fct, dict) or 'fct' not in fct:
@@ -200,7 +203,17 @@ class BenchPerf:
                     times = numpy.array(times)
                     fct['mean'] = times.mean()
                     fct['median'] = numpy.median(times)
-                    yield fct
+                    stores.append(fct)
 
-                inst.validate(results)
+                if stop_if_error:
+                    inst.validate(results)
+                else:
+                    try:
+                        inst.validate(results)
+                    except Exception as e:  # pylint: disable=W0703
+                        msg = str(e).replace("\n", " ").replace(",", " ")
+                        for fct in stores:
+                            fct['error'] = msg
+                for fct in stores:
+                    yield fct
                 next(loop)  # pylint: disable=R1708
