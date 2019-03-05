@@ -185,9 +185,9 @@ def plot_results(df, verbose=False):
 
 
 def run_bench(repeat=100, verbose=False):
-    n_obs = [1, 10, 100, 1000, 10000, 100000]
-    n_features = [10, 20, 40, 60]
-    degrees = [2, 3, 4]
+    n_obs = [1, 10, 100, 1000, 10000]
+    n_features = [10, 20, 40]
+    degrees = [2, 3]
     interactions_only = [False, True]
     orders = ['C', 'F']
 

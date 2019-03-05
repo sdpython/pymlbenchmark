@@ -28,7 +28,7 @@ def machine_information(pkgs=None):
         from pymlbenchmark.context import machine_information
         import numpy
         import pandas
-        print(pandas.DataFrame(machine_information(['numpy']):
+        print(pandas.DataFrame(machine_information(['numpy'])
     """
     res = [
         {"name": "date", "version": str(datetime.now())},
