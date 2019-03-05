@@ -1,0 +1,54 @@
+
+.. image:: https://travis-ci.org/sdpython/pymlbenchmark.svg?branch=master
+    :target: https://travis-ci.org/sdpython/pymlbenchmark
+    :alt: Build status
+
+.. image:: https://ci.appveyor.com/api/projects/status/g8chk1ufyk1m8uep?svg=true
+    :target: https://ci.appveyor.com/project/sdpython/pymlbenchmark
+    :alt: Build Status Windows
+
+.. image:: https://circleci.com/gh/sdpython/pymlbenchmark/tree/master.svg?style=svg
+    :target: https://circleci.com/gh/sdpython/pymlbenchmark/tree/master
+
+.. image:: https://badge.fury.io/py/pymlbenchmark.svg
+    :target: https://pypi.org/project/pymlbenchmark/
+
+.. image:: https://img.shields.io/badge/license-MIT-blue.svg
+    :alt: MIT License
+    :target: http://opensource.org/licenses/MIT
+
+.. image:: https://requires.io/github/sdpython/pymlbenchmark/requirements.svg?branch=master
+     :target: https://requires.io/github/sdpython/pymlbenchmark/requirements/?branch=master
+     :alt: Requirements Status
+
+.. image:: https://codecov.io/github/sdpython/pymlbenchmark/coverage.svg?branch=master
+    :target: https://codecov.io/github/sdpython/pymlbenchmark?branch=master
+
+.. image:: http://img.shields.io/github/issues/sdpython/pymlbenchmark.png
+    :alt: GitHub Issues
+    :target: https://github.com/sdpython/pymlbenchmark/issues
+
+.. image:: https://badge.waffle.io/sdpython/pymlbenchmark.png?label=to%20do&title=to%20do
+    :alt: Waffle
+    :target: https://waffle.io/sdpython/pymlbenchmark
+
+.. image:: http://www.xavierdupre.fr/app/pymlbenchmark/helpsphinx/_images/nbcov.png
+    :target: http://www.xavierdupre.fr/app/pymlbenchmark/helpsphinx/all_notebooks_coverage.html
+    :alt: Notebook Coverage
+
+.. _l-README:
+
+pymlbenchmark
+=============
+
+This project started with my first attempt
+to bring a modification to *scikit-learn*.
+My first `pull request <https://github.com/scikit-learn/scikit-learn/pull/13290>`_
+was about optimizing the computation of polynomial features.
+I reused the template to measure various implementations
+or models.
+
+
+* `GitHub/pymlbenchmark <https://github.com/sdpython/pymlbenchmark/>`_
+* `documentation <http://www.xavierdupre.fr/app/pymlbenchmark/helpsphinx/index.html>`_
+* `Blog <http://www.xavierdupre.fr/app/pymlbenchmark/helpsphinx/blog/main_0000.html#ap-main-0>`_

@@ -1,0 +1,14 @@
+
+.. blogpost::
+    :title: Why mymlbenchark?
+    :keywords: reference, blog, post
+    :date: 2019-03-05
+    :categories: documentation
+
+    I had to write some benchmarks first for a
+    PR in :epkg:`scikit-learn` then for projects
+    related to :epkg:`onnx`. After many copy pasting,
+    I decided to factorize some code even though it breaks
+    the first rule I decided to follow: having
+    standalone script to run benchmarks...
+    Well... nobody is perfect.
