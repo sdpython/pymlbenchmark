@@ -1,6 +1,7 @@
 coverage
 jyquickhelper
 git+https://github.com/sdpython/nbconvert.git@fixes
+mlinsights
 pylint
 pyquickhelper>=1.8
 sphinx_bootstrap_theme
