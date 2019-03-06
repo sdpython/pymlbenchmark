@@ -59,7 +59,7 @@ def filter_df_options(df, options):
             dict(i=2, t='aa', x=0.5),
         ])
 
-        sub = filter_df_options(df, {'i': 1, 't': 'aa})
+        sub = filter_df_options(df, {'i': 1, 't': 'aa'})
         print(sub)
 
         sub = filter_df_options(df, [None])
