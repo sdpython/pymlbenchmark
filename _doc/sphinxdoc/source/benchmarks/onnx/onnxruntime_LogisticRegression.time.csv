@@ -1,0 +1,15 @@
+name,value,version
+date,,2019-03-05 21:04:14.463645
+python,"3.7.2 (default, Mar  1 2019, 18:34:21) 
+[GCC 6.3.0 20170516]",
+platform,linux,
+OS,Linux-4.9.0-8-amd64-x86_64-with-debian-9.6,
+machine,x86_64,
+processor,,
+release,4.9.0-8-amd64,
+architecture,"('64bit', '')",
+numpy,,1.16.2
+onnxruntime,,0.2.1
+pandas,,0.24.1
+skl2onnx,,1.4.3
+sklearn,,0.21.dev0
