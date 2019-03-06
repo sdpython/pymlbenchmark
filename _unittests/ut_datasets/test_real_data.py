@@ -30,7 +30,7 @@ class TestRealData(ExtTestCase):
 
     def test_experiment_results(self):
         res = experiment_results('onnxruntime_LogisticRegression')
-        self.assertEqual(res.shape, (112, 12))
+        self.assertEqual(res.shape, (112, 15))
 
 
 if __name__ == "__main__":
