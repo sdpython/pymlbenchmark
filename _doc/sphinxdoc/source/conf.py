@@ -39,6 +39,8 @@ epkg_dictionary.update({
     'PolynomialFeatures': 'https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html',
     'pymlbenchmark': blog_root,
     'Python': 'https://www.python.org/',
+    'skl2onnx': 'https://github.com/onnx/sklearn-onnx',
+    'skl2onnx': 'https://github.com/onnx/sklearn-onnx',
     'tqdm': 'https://github.com/tqdm/tqdm',
     'scikit-learn': 'https://scikit-learn.org/stable/',
 })

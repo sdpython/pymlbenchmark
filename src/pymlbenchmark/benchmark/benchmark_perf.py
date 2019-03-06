@@ -4,6 +4,7 @@
 """
 from time import perf_counter as time_perf
 import numpy
+from .bench_helper import enumerate_options
 
 
 class BenchPerfTest:
@@ -75,7 +76,7 @@ class BenchPerf:
                                 must be tested or not, None to test them
                                 all
 
-        Every parameter specify a function is called through
+        Every parameter specifies a function is called through
         a method. The user can only overwrite it.
         """
         self.pbefore = pbefore
@@ -103,22 +104,8 @@ class BenchPerf:
 
         The function applies the method *fct_filter_test*.
         """
-        keys = list(sorted(options))
-        mx = [len(options[k]) for k in keys]
-        if min(mx) == 0:
-            mi = min(zip(mx, keys))
-            raise ValueError("Parameter '{0}' has no values.".format(mi[1]))
-        pos = [0 for _ in keys]
-        while pos[0] < mx[0]:
-            opts = {k: options[k][pos[i]] for i, k in enumerate(keys)}
-            if self.fct_filter_test(**opts):
-                yield opts
-            p = len(pos) - 1
-            pos[p] += 1
-            while p > 0 and pos[p] >= mx[p]:
-                pos[p] = 0
-                p -= 1
-                pos[p] += 1
+        for row in enumerate_options(options, self.fct_filter_test):
+            yield row
 
     def enumerate_run_benchs(self, repeat=10, verbose=False, stop_if_error=True):
         """

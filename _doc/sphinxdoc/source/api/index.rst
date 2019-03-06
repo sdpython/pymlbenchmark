@@ -8,4 +8,5 @@ API Summary
     context
     datasets
     benchmark
+    plotting
     external
