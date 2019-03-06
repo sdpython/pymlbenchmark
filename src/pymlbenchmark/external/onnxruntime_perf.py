@@ -122,7 +122,7 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(BenchPerfTest):
         """
         for method in {'predict', 'predict_proba'}:
             res = [row[1] for row in results if row[0]['method'] == method]
-            if res[0].shape[0] <= 10000:
+            if len(res) > 0 and res[0].shape[0] <= 10000:
                 for i in range(1, len(res)):
                     p1, p2 = res[0], res[i]
                     if len(p1.shape) == 1 and len(p2.shape) == 2:

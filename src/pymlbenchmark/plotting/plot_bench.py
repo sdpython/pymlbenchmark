@@ -7,7 +7,8 @@ from .plot_helper import list_col_options, filter_df_options, options2label, ax_
 
 def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,
                        cmp_col_values=('lib', 'skl'),
-                       x_value='N', y_value='mean', title=None,
+                       x_value='N', y_value='mean',
+                       err_value=('lower', 'upper'), title=None,
                        ax=None, box_side=4):
     """
     Plots benchmark results.
@@ -19,6 +20,7 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,
     @param      cmp_col_values  if can be one column or one tuple ``(column, baseline name)``
     @param      x_value         value for x-axis
     @param      y_value         value to plot on y-axis (such as *mean*, *min*, ...)
+    @param      err_value       lower and upper bounds
     @param      ax              existing axis
     @param      box_side        graph side, the function adjusts the size of the graph
     @return                     fig, ax
@@ -83,28 +85,79 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,
                 legh = options2label(hue_opt)
 
                 if isinstance(cmp_col_values, tuple):
-                    keep_cols = [x_value, cmp_col_values[0], y_value]
+                    y_cols = [x_value, cmp_col_values[0], y_value]
+                    if err_value is not None:
+                        lower_cols = [x_value, cmp_col_values[0], err_value[0]]
+                        upper_cols = [x_value, cmp_col_values[0], err_value[1]]
                 else:
-                    keep_cols = [x_value, cmp_col_values, y_value]
+                    y_cols = [x_value, cmp_col_values, y_value]
+                    if err_value is not None:
+                        lower_cols = [x_value, cmp_col_values, err_value[0]]
+                        upper_cols = [x_value, cmp_col_values, err_value[1]]
+
                 try:
-                    piv = ds.pivot(*keep_cols)
+                    piv = ds.pivot(*y_cols)
                 except ValueError as e:
                     raise ValueError("Unable to compute a pivot on columns {}\n{}".format(
-                        keep_cols, ds[keep_cols].head())) from e
+                        y_cols, ds[y_cols].head())) from e
+                except KeyError as e:
+                    raise ValueError(
+                        "Unable to find columns {} in {}".format(y_cols, ds.columns))
+                if lower_cols is not None:
+                    try:
+                        lower_piv = ds.pivot(*lower_cols)
+                    except ValueError as e:
+                        raise ValueError("Unable to compute a pivot on columns {}\n{}".format(
+                            lower_cols, ds[lower_cols].head())) from e
+                    except KeyError as e:
+                        raise ValueError("Unable to find columns {} in {}".format(
+                            lower_cols, ds.columns))
+                else:
+                    lower_piv = None
+                if upper_cols is not None:
+                    try:
+                        upper_piv = ds.pivot(*upper_cols)
+                    except ValueError as e:
+                        raise ValueError("Unable to compute a pivot on columns {}\n{}".format(
+                            upper_cols, ds[upper_cols].head())) from e
+                    except KeyError as e:
+                        raise ValueError("Unable to find columns {} in {}".format(
+                            upper_cols, ds.columns))
+                else:
+                    upper_piv = None
                 ys = list(piv.columns)
-                piv = piv.reset_index(drop=False)
 
+                piv = piv.reset_index(drop=False)
+                if upper_piv is not None:
+                    upper_piv = upper_piv.reset_index(drop=False)
+                if lower_piv is not None:
+                    lower_piv = lower_piv.reset_index(drop=False)
+
+                for i, ly in enumerate(ys):
+                    if hue_opt is None:
+                        color = colors[i]
+                    if upper_piv is not None and lower_piv is not None:
+                        a.fill_between(piv[x_value], lower_piv[ly], upper_piv[ly],
+                                       color=color, alpha=0.1)
+                    elif upper_piv is not None:
+                        a.fill_between(piv[x_value], piv[ly], upper_piv[ly],
+                                       color=color, alpha=0.1)
+                    elif lower_piv is not None:
+                        a.fill_between(piv[x_value], lower_piv[ly], piv[ly],
+                                       color=color, alpha=0.1)
                 for i, ly in enumerate(ys):
                     if hue_opt is None:
                         color = colors[i]
                     style = '--' if ly == cmp_col_values[1] else '-'
                     piv.plot(x=x_value, y=ly, ax=a, style=style,
-                             logx=True, logy=True, c=color,
-                             label="{}-{}".format(ly, legh))
+                             logx=True, logy=True, c=color, lw=2,
+                             label="{}-{}".format(ly, legh)
+                                   if legh != '-' else ly)
 
             a.legend(loc=0, fontsize='x-small')
-            a.set_xlabel("{}\n{}".format(x_value, legx) if row ==
-                         shape[0] - 1 else "", fontsize='x-small')
+            a.set_xlabel("{}\n{}".format(x_value, legx)
+                         if row == shape[0] - 1 else "",
+                         fontsize='x-small')
             a.set_ylabel("{}\n{}".format(legy, y_value)
                          if col == 0 else "", fontsize='x-small')
             if row == 0:

@@ -189,6 +189,10 @@ class BenchPerf:
                         fct['max3'] = times[-3]
                     times = numpy.array(times)
                     fct['mean'] = times.mean()
+                    std = times.std()
+                    fct['lower'] = fct['mean'] - std * 1.96
+                    fct['upper'] = fct['mean'] + std * 1.96
+                    fct['count'] = len(times)
                     fct['median'] = numpy.median(times)
                     stores.append(fct)
 
