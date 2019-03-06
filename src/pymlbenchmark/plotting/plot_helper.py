@@ -118,8 +118,8 @@ def ax_position(shape, pos):
         :showcode:
 
         from pymlbenchmark.plotting.plot_helper import ax_position
-        print(ax_position((2, 2), (0, 0))
-        print(ax_position((1, 2), (0, 0))
+        print(ax_position((2, 2), (0, 0)))
+        print(ax_position((1, 2), (0, 0)))
     """
     res = []
     for a, b in zip(shape, pos):
