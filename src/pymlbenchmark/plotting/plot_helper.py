@@ -63,7 +63,7 @@ def filter_df_options(df, options):
         print(sub)
 
         sub = filter_df_options(df, [None])
-        print(sub
+        print(sub)
     """
     if options is None:
         return df
