@@ -53,7 +53,7 @@ def filter_df_options(df, options):
 
         from pymlbenchmark.plotting.plot_helper import filter_df_options
         from pandas import DataFrame
-        df = pandas.DataFrame([
+        df = DataFrame([
             dict(i=1, t='aa', x=0.5),
             dict(i=2, t='bb', x=0.5),
             dict(i=2, t='aa', x=0.5),
