@@ -43,10 +43,10 @@ pymlbenchmark
 
 This project started with my first attempt
 to bring a modification to *scikit-learn*.
-My first `pull request <https://github.com/scikit-learn/scikit-learn/pull/13290>`_
-was about optimizing the computation of polynomial features.
-I reused the template to measure various implementations
-or models.
+The template was reused to measure various
+implementations or models and to make them
+shorter but with probably less understanding
+of the whole script.
 
 * `GitHub/pymlbenchmark <https://github.com/sdpython/pymlbenchmark/>`_
 * `documentation <http://www.xavierdupre.fr/app/pymlbenchmark/helpsphinx/index.html>`_

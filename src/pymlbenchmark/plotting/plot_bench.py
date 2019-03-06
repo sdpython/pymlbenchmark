@@ -170,4 +170,4 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,
 
     if title is not None:
         fig.suptitle(title, fontsize=10)
-    return fig, ax
+    return ax

@@ -7,6 +7,7 @@ import os
 import unittest
 import pandas
 from pyquickhelper.pycode import ExtTestCase, get_temp_folder
+from pyquickhelper.texthelper import compare_module_version
 
 
 try:
@@ -27,12 +28,12 @@ from src.pymlbenchmark.benchmark import BenchPerf
 from src.pymlbenchmark.external import onnxruntime_perf_binary_classifiers
 
 
-def has_onnxruntime():
+def has_onnxruntime(version):
     try:
         import onnxruntime
-        return onnxruntime is not None
+        return compare_module_version(onnxruntime.__version__, version) >= 0
     except ImportError:
-        return False
+        return None
 
 
 class TestPerfOnnxRuntime(ExtTestCase):
@@ -41,7 +42,8 @@ class TestPerfOnnxRuntime(ExtTestCase):
         res = onnxruntime_perf_binary_classifiers()
         self.assertGreater(len(res), 1)
 
-    @unittest.skipIf(not has_onnxruntime(), reason="onnxruntime is not installed")
+    @unittest.skipIf(not has_onnxruntime('0.3.0'),
+                     reason="onnxruntime is not installed")
     def test_perf_onnxruntime_logreg(self):
         res = onnxruntime_perf_binary_classifiers()[0]
 
