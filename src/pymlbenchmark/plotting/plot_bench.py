@@ -37,7 +37,7 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,
     shape = (len(lrows_options), len(lcols_options))
     if ax is None:
         if fig is not None:
-            fig, ax = plt.subplots(shape[0], shape[1])
+            ax = fig.subplots(shape[0], shape[1])
         else:
             import matplotlib.pyplot as plt
             figsize = (shape[0] * box_side, shape[1] * box_side)
