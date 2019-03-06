@@ -50,6 +50,7 @@ epkg_dictionary.update({
     'Benchmarks about Machine Learning': 'http://www.xavierdupre.fr/app/_benchmarks/helpsphinx/index.html',
     'C': "https://en.wikipedia.org/wiki/C_(programming_language)",
     'cffi': "https://cffi.readthedocs.io/en/latest/",
+    'MKL-DNN': 'https://github.com/intel/mkl-dnn',
     'onnx': 'https://github.com/onnx/onnx',
     'ONNX': 'https://onnx.ai/',
     'onnxruntime': 'https://github.com/Microsoft/onnxruntime',

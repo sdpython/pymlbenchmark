@@ -8,6 +8,13 @@ before_install:
   - sudo apt-get update -qq
 install:
   - sudo apt-get install -qq gcc-6 g++-6
+  - sudo apt-get install protobuf-compiler libprotoc-dev
+  # builds onnx
+  - git clone https://github.com/onnx/onnx.git --recursive
+  - export ONNX_ML=1
+  - cd onnx
+  - python setup.py install
+  - cd ..
   - pip install onnxruntime onnx skl2onnx
   - pip install -r requirements_conda.txt
   - pip install -r requirements.txt

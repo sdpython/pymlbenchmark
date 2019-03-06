@@ -44,11 +44,34 @@ jobs:
                     sudo apt-get install -y graphviz
           
       - run:
+          name: Install onnx
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            sudo apt-get install protobuf-compiler libprotoc-dev
+            git clone https://github.com/onnx/onnx.git --recursive
+            export ONNX_ML=1
+            cd onnx
+            python setup.py install
+            cd ..
+
+      - run:
+          name: Install onnxruntime
+          command: |
+
+      - run:
           name: install dependencies (1)
           command: |
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements_conda.txt
+
+      - run:
+          name: Install skl2onnx
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install git+https://github.com/onnx/sklearn-onnx
 
       - run:
           name: install dependencies (2)

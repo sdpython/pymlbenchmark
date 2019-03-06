@@ -21,6 +21,7 @@ or models.
     gyexamples/index
     all_notebooks
     blog/blogindex
+    technical
     i_faq
     LICENSE
     HISTORY
