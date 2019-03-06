@@ -35,9 +35,10 @@ class TestPlotBench(ExtTestCase):
         data = os.path.join(temp, "..", "data",
                             "onnxruntime_LogisticRegression.perf.csv")
         df = pandas.read_csv(data)
-        fig, _ = plot_bench_results(df, row_cols='N', col_cols='method',
-                                    x_value='dim', hue_cols='fit_intercept',
-                                    title="unittest")
+        ax = plot_bench_results(df, row_cols='N', col_cols='method',
+                                x_value='dim', hue_cols='fit_intercept',
+                                title="unittest")
+        fig = ax[0, 0].get_figure()
         fig.savefig(img)
         if __name__ == "__main__":
             plt.show()
@@ -51,10 +52,11 @@ class TestPlotBench(ExtTestCase):
         data = os.path.join(temp, "..", "data",
                             "plot_bench_polynomial_features_partial_fit.perf.csv")
         df = pandas.read_csv(data)
-        fig, _ = plot_bench_results(df, row_cols='N', col_cols=None,
-                                    x_value='dim', hue_cols=None,
-                                    cmp_col_values='test',
-                                    title="unittest")
+        ax = plot_bench_results(df, row_cols='N', col_cols=None,
+                                x_value='dim', hue_cols=None,
+                                cmp_col_values='test',
+                                title="unittest")
+        fig = ax[0].get_figure()
         fig.savefig(img)
         if __name__ == "__main__":
             plt.show()
