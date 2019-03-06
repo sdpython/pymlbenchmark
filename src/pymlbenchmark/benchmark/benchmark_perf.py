@@ -88,7 +88,7 @@ class BenchPerf:
         """
         Tells if the test by *conf* is valid or not.
 
-        @param      options     dicotionary ``{name: value}``
+        @param      conf        dictionary ``{name: value}``
         @return                 boolean
         """
         if self.filter_test is None:

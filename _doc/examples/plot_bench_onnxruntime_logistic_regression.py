@@ -2,10 +2,19 @@
 """
 .. _l-example-onnxruntime-logreg:
 
-Benchmark of onnxruntime on DecisionTree
-========================================
+Benchmark of onnxruntime on LogisticRegression
+==============================================
 
-The example uses what :epkg:`pymlbenchmark` implements.
+The example uses what :epkg:`pymlbenchmark` implements, in particular
+class :class:`OnnxRuntimeBenchPerfTestBinaryClassification <pymlbenchmark.external.onnxruntime_perf.OnnxRuntimeBenchPerfTestBinaryClassification>`
+which defines a side-by-side benchmark to compare the prediction
+function between :epkg:`scikit-learn` and :epkg:`onnxruntime`.
+
+.. contents::
+    :local:
+
+Benchmark function
+++++++++++++++++++
 """
 from time import perf_counter as time
 import pandas
@@ -36,8 +45,9 @@ def run_bench(repeat=100, verbose=False):
     print("Total time = %0.3f sec\n" % (end - start))
     return results_df
 
-###################
-# Runs the benchmark.
+#########################
+# Runs the benchmark
+# ++++++++++++++++++
 
 
 df = run_bench(verbose=True)
@@ -45,15 +55,19 @@ df.to_csv("bench_plot_onnxruntime_logistic_regression.perf.csv", index=False)
 print(df.head())
 
 #########################
-# Extract information about the machine used.
+# Extract information about the machine used
+# ++++++++++++++++++++++++++++++++++++++++++
+
 pkgs = ['numpy', 'pandas', 'sklearn', 'skl2onnx', 'onnxruntime', 'onnx']
 dfi = pandas.DataFrame(machine_information(pkgs))
 dfi.to_csv("bench_plot_onnxruntime_logistic_regression.time.csv", index=False)
 print(dfi)
 
 #############################
-# Plots the results.
-plot_bench_results(df, row_cols=['N'], col_cols=['method'],
-                   x_value='dim', hue_cols=['fit_intercept'],
+# Plot the results
+# ++++++++++++++++
+
+plot_bench_results(df, row_cols='N', col_cols='method',
+                   x_value='dim', hue_cols='fit_intercept',
                    title="LogisticRegression\nBenchmark scikit-learn / onnxruntime")
 plt.show()

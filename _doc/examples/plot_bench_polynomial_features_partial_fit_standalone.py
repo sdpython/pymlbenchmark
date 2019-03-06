@@ -10,13 +10,14 @@ This benchmark looks into a new implementation of
 proposed in `PR13290 <https://github.com/scikit-learn/scikit-learn/pull/13290>`_.
 It tests the following configurations:
 
-* *SGD*: *SGDClassifier* only
-* *SGD-SKL*: *PolynomialFeatures* from scikit-learn (no matter what it is)
-* *SGD-FAST*: new implementation copy-pasted in the benchmark source file
-* *SGD-SLOW*: implementation of 0.20.2 copy-pasted in the benchmark source file
+* **SGD**: :epkg:`sklearn:linear_model:SGDClassifier` only
+* **SGD-SKL**: :epkg:`sklearn:preprocessing:PolynomialFeatures` from scikit-learn (no matter what it is)
+* **SGD-FAST**: new implementation copy-pasted in the benchmark source file
+* **SGD-SLOW**: implementation of 0.20.2 copy-pasted in the benchmark source file
 
-As opposed to :ref:`l-bench-slk-poly`, this one does not use
-:epkg:`pymlbenchmark`.
+This script is standalone and does not require
+:epkg:`pymlbenchmark` as opposed to :ref:`l-bench-slk-poly`
+which reuse functions implemented in :epkg:`pymlbenchmark`.
 
 .. contents::
     :local:
@@ -26,9 +27,7 @@ from io import BytesIO
 from time import perf_counter as time
 from itertools import combinations, chain
 from itertools import combinations_with_replacement as combinations_w_r
-import cProfile
 import io
-import pstats
 import os
 import sys
 
@@ -91,23 +90,8 @@ def build_x_y(ntrain, nfeat):
     return X_train, y_train
 
 
-def doprofile(func, filename, args):
-    pr = cProfile.Profile()
-    pr.enable()
-    func(*args)
-    pr.disable()
-    s = io.StringIO()
-    ps = pstats.Stats(pr, stream=s).sort_stats('cumulative')
-    ps.print_stats()
-    rem = os.path.normpath(os.path.join(os.getcwd(), "..", "..", ".."))
-    res = s.getvalue().replace(rem, "")
-    res = res.replace(sys.base_prefix, "").replace("\\", "/")
-    ps.dump_stats(filename)
-    return res
-
-
 @ignore_warnings(category=FutureWarning)
-def bench(n_obs, n_features, repeat=1000, verbose=False, profiles=None):
+def bench(n_obs, n_features, repeat=1000, verbose=False):
     res = []
     for n in n_obs:
         for nfeat in n_features:
@@ -158,35 +142,6 @@ def bench(n_obs, n_features, repeat=1000, verbose=False, profiles=None):
             end = time()
             obs["time_pipe_slow"] = (end - st) / r
             res.append(obs)
-
-            if profiles and (n, nfeat) in profiles:
-                def repeat_fct(fct, X, y):
-                    for r in range(1000):
-                        fct(X, y)
-
-                sres = doprofile(lambda X, y: repeat_fct(fct1, X, y),
-                                 "fct1_%d_%d.prof" % (n, nfeat), Xpolys[0])
-                if verbose:
-                    print("---- fct1_%d_%d.prof" % (n, nfeat))
-                    print(sres)
-
-                sres = doprofile(lambda X, y: repeat_fct(fct2, X, y),
-                                 "fct2_%d_%d.prof" % (n, nfeat), Xs[0])
-                if verbose:
-                    print("---- fct2_%d_%d.prof" % (n, nfeat))
-                    print(sres)
-
-                sres = doprofile(lambda X, y: repeat_fct(fct3, X, y),
-                                 "fct3_%d_%d.prof" % (n, nfeat), Xs[0])
-                if verbose:
-                    print("---- fct3_%d_%d.prof" % (n, nfeat))
-                    print(sres)
-
-                sres = doprofile(lambda X, y: repeat_fct(fct4, X, y),
-                                 "fct4_%d_%d.prof" % (n, nfeat), Xs[0])
-                if verbose:
-                    print("---- fct4_%d_%d.prof" % (n, nfeat))
-                    print(sres)
 
             if verbose and (len(res) % 1 == 0 or n >= 10000):
                 print("bench", len(res), ":", obs)
@@ -244,13 +199,16 @@ def plot_results(df, verbose=False):
     plt.suptitle("Benchmark for Polynomial with SGDClassifier", fontsize=16)
 
 
+#################################
+# Final function for the benchmark
+# ++++++++++++++++++++++++++++++++
+
 def run_bench(repeat=100, verbose=False):
     n_obs = [10, 100, 1000]
     n_features = [5, 10, 50]
 
     start = time()
-    results = bench(n_obs, n_features, repeat=repeat, verbose=verbose,
-                    profiles=[(100, 10)])
+    results = bench(n_obs, n_features, repeat=repeat, verbose=verbose)
     end = time()
 
     results_df = pandas.DataFrame(results)
@@ -259,6 +217,10 @@ def run_bench(repeat=100, verbose=False):
     # plot the results
     plot_results(results_df, verbose=verbose)
     return results_df
+
+#################################
+# Run the benchmark
+# +++++++++++++++++
 
 
 import sklearn

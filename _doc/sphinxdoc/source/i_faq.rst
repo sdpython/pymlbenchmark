@@ -6,3 +6,5 @@ FAQ
 
 .. contents::
     :local:
+
+.. faqreflist::

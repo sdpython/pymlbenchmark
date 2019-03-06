@@ -1,6 +1,6 @@
 
 .. blogpost::
-    :title: Why mymlbenchark?
+    :title: Why pymlbenchark?
     :keywords: reference, blog, post
     :date: 2019-03-05
     :categories: documentation

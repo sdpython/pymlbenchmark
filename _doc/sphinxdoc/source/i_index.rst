@@ -10,7 +10,4 @@ FAQ, code, ...
     all_report
     filechanges
     index_module
-    i_faq
-    i_nb
-    LICENSE
     README

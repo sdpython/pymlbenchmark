@@ -1,13 +1,17 @@
 # coding: utf-8
 """
-Benchmark of polynomial features for dense matrices
-implemented in 0.20.2 against implementation from PR #13290.
-"""
-# Authors: Xavier Dupré (benchmark)
-# License: MIT
-import matplotlib
-matplotlib.use('Agg')
+Benchmark of PolynomialFeatures
+===============================
 
+This benchmark looks into a new implementation of
+`PolynomialFeatures <https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html>`_
+proposed in `PR13290 <https://github.com/scikit-learn/scikit-learn/pull/13290>`_.
+
+.. contents::
+    :local:
+
+*to be rewritten soon*
+"""
 from time import time
 from itertools import combinations, chain
 from itertools import combinations_with_replacement as combinations_w_r
@@ -22,8 +26,8 @@ from sklearn.preprocessing import PolynomialFeatures
 
 
 ##############################
-# Implementations to benchmark.
-##############################
+# Implementations to benchmark
+# ++++++++++++++++++++++++++++
 
 def _combinations(n_features, degree, interaction_only, include_bias):
     comb = (combinations if interaction_only else combinations_w_r)
@@ -62,7 +66,7 @@ def fct_polynomial_features(X, degree, interaction_only, order):
 
 ##############################
 # Benchmarks
-##############################
+# ++++++++++
 
 def allow_configuration(n_obs, n_feature, degree, interaction_only, order):
     if n_feature >= 60 and degree >= 4 and n_obs < 100:
@@ -140,8 +144,8 @@ def bench(n_obs, n_features, degrees, interactions_only, orders,
 
 
 ##############################
-# Plots.
-##############################
+# Plots
+# +++++
 
 def plot_results(df, verbose=False):
     nrows = len(set(df.degree))
@@ -185,8 +189,8 @@ def plot_results(df, verbose=False):
 
 
 def run_bench(repeat=100, verbose=False):
-    n_obs = [1, 10, 100, 1000, 10000]
-    n_features = [10, 20, 40]
+    n_obs = [1, 10, 100, 1000]
+    n_features = [10, 20]
     degrees = [2, 3]
     interactions_only = [False, True]
     orders = ['C', 'F']
@@ -204,12 +208,6 @@ def run_bench(repeat=100, verbose=False):
     return results_df
 
 
-if __name__ == '__main__':
-    import sklearn
-    import numpy
-    print("numpy:", numpy.__version__)
-    print("scikit-learn:", sklearn.__version__)
-    df = run_bench(verbose=True)
-    plt.savefig("bench_polynomial_features.png")
-    df.to_csv("bench_polynomial_features.csv", index=False)
-    # plt.show()
+df = run_bench(verbose=True)
+plt.savefig("bench_polynomial_features.png")
+df.to_csv("bench_polynomial_features.csv", index=False)

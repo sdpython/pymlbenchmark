@@ -5,6 +5,33 @@
 Benchmarks around Machine Learning with Python
 ==============================================
 
+This project started with my first attempt
+to bring a modification to :epkg:`scikit-learn`.
+My first `pull request <https://github.com/scikit-learn/scikit-learn/pull/13290>`_
+was about optimizing the computation of polynomial features.
+I reused the template to measure various implementations
+or models.
+
+.. toctree::
+    :maxdepth: 1
+
+    api/index
+    i_ex
+    i_index
+    gyexamples/index
+    all_notebooks
+    blog/blogindex
+    i_faq
+    LICENSE
+    HISTORY
+
+The project is used to avoid too much replications
+of code in projects :epkg:`Benchmarks about Machine Learning`.
+It produces the following figures.
+
+.. image:: illust.png
+    :width: 500
+
 **Links:** `github <https://github.com/sdpython/pymlbenchmark/>`_,
 `documentation <http://www.xavierdupre.fr/app/pymlbenchmark/helpsphinx/index.html>`_,
 :ref:`l-README`,
@@ -46,23 +73,6 @@ Benchmarks around Machine Learning with Python
 .. image:: nbcov.png
     :target: http://www.xavierdupre.fr/app/pymlbenchmark/helpsphinx/all_notebooks_coverage.html
     :alt: Notebook Coverage
-
-This project started with my first attempt
-to bring a modification to :epkg:`scikit-learn`.
-My first `pull request <https://github.com/scikit-learn/scikit-learn/pull/13290>`_
-was about optimizing the computation of polynomial features.
-I reused the template to measure various implementations
-or models.
-
-.. toctree::
-    :maxdepth: 1
-
-    api/index
-    i_ex
-    i_index
-    all_notebooks
-    blog/blogindex
-    HISTORY
 
 +----------------------+---------------------+---------------------+--------------------+------------------------+------------------------------------------------+
 | :ref:`l-modules`     |  :ref:`l-functions` | :ref:`l-classes`    | :ref:`l-methods`   | :ref:`l-staticmethods` | :ref:`l-properties`                            |

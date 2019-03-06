@@ -31,7 +31,7 @@ def machine_information(pkgs=None):
         print(pandas.DataFrame(machine_information(['numpy'])))
     """
     res = [
-        {"name": "date", "version": str(datetime.now())},
+        {"name": "date", "version": str(datetime.now()).split()[0]},
         {"name": "python", "value": sys.version},
         {"name": "platform", "value": sys.platform},
         {"name": "OS", "value": platform.platform()},

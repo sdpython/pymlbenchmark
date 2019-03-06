@@ -268,3 +268,4 @@ _doc/sphinxdoc/source/nbcov*.png
 .eggs
 _doc/examples/*.prof
 _doc/examples/*.csv
+_doc/examples/*.png

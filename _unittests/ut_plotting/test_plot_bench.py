@@ -35,8 +35,25 @@ class TestPlotBench(ExtTestCase):
         data = os.path.join(temp, "..", "data",
                             "onnxruntime_LogisticRegression.perf.csv")
         df = pandas.read_csv(data)
-        fig, _ = plot_bench_results(df, row_cols=['N'], col_cols=['method'],
-                                    x_value='dim', hue_cols=['fit_intercept'],
+        fig, _ = plot_bench_results(df, row_cols='N', col_cols='method',
+                                    x_value='dim', hue_cols='fit_intercept',
+                                    title="unittest")
+        fig.savefig(img)
+        if __name__ == "__main__":
+            plt.show()
+        plt.close('all')
+        self.assertExists(img)
+
+    def test_plot_polypf(self):
+        from matplotlib import pyplot as plt
+        temp = get_temp_folder(__file__, "temp_plot_polypf")
+        img = os.path.join(temp, "plot_polypf.png")
+        data = os.path.join(temp, "..", "data",
+                            "plot_bench_polynomial_features_partial_fit.perf.csv")
+        df = pandas.read_csv(data)
+        fig, _ = plot_bench_results(df, row_cols='N', col_cols=None,
+                                    x_value='dim', hue_cols=None,
+                                    cmp_col_values='test',
                                     title="unittest")
         fig.savefig(img)
         if __name__ == "__main__":

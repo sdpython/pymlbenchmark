@@ -19,18 +19,35 @@ set_sphinx_variables(__file__, "pymlbenchmark", "Xavier Dupré", 2019,
 blog_root = "http://www.xavierdupre.fr/app/pymlbenchmark/helpsphinx/"
 
 html_context = {
-    'css_files': get_default_stylesheet() + ['_static/my-styles.css'],
+    'css_files': get_default_stylesheet() + ['_static/my-styles.css', '_static/gallery.css'],
 }
 
 html_logo = "project_ico.png"
 
-html_sidebars = {}
+if html_theme == "bootstrap":
+    html_theme_options = {
+        'navbar_title': ".",
+        'navbar_site_name': "Site",
+        'navbar_links': [
+            ("XD", "http://www.xavierdupre.fr", True),
+        ],
+        'navbar_sidebarrel': True,
+        'navbar_pagenav': True,
+        'navbar_pagenav_name': "Page",
+        'bootswatch_theme': "readable",
+        # united = weird colors, sandstone=green, simplex=red, paper=trop bleu
+        # lumen: OK
+        # to try, yeti, flatly, paper
+        'bootstrap_version': "3",
+        'source_link_position': "footer",
+    }
 
 language = "en"
 
 mathdef_link_only = True
 
 epkg_dictionary.update({
+    'Benchmarks about Machine Learning': 'http://www.xavierdupre.fr/app/_benchmarks/helpsphinx/index.html',
     'C': "https://en.wikipedia.org/wiki/C_(programming_language)",
     'cffi': "https://cffi.readthedocs.io/en/latest/",
     'onnx': 'https://github.com/onnx/onnx',
