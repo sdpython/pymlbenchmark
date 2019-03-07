@@ -26,7 +26,7 @@ except ImportError:
 from src.pymlbenchmark.plotting import plot_bench_results
 
 
-class TestPlotBench(ExtTestCase):
+class TestPlotBenchCurve(ExtTestCase):
 
     def test_plot_logreg(self):
         from matplotlib import pyplot as plt
