@@ -1,6 +1,6 @@
 
-FAQ, code, ...
-==============
+Navigational indexes
+====================
 
 .. toctree::
     :maxdepth: 2

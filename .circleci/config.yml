@@ -54,6 +54,7 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             sudo apt-get install protobuf-compiler libprotoc-dev
+            pip install protobuf
             git clone https://github.com/onnx/onnx.git --recursive
             export ONNX_ML=1
             cd onnx
