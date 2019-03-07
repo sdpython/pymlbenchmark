@@ -53,9 +53,14 @@ def fct_polynomial_features_0_20_2(X, degree, interaction_only, order):
 
 def fct_polynomial_features(X, degree, interaction_only, order):
     "Current implementation of PolynomialFeatures."
-    model = PolynomialFeatures(degree=degree, include_bias=False,
-                               interaction_only=interaction_only,
-                               order=order)
+    try:
+        model = PolynomialFeatures(degree=degree, include_bias=False,
+                                   interaction_only=interaction_only,
+                                   order=order)
+    except TypeError:
+        # order parameter added in 0.21
+        model = PolynomialFeatures(degree=degree, include_bias=False,
+                                   interaction_only=interaction_only)
     model.fit(X)
 
     def compute_feat(X, model=model):
