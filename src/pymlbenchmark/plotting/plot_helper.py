@@ -12,21 +12,24 @@ def list_col_options(df, cols):
     @param      cols    cols to look for options
     @return             options
 
-    .. runpython::
-        :showcode:
+    .. exref::
+        :title: Enumerate all coordinates
 
-        from pymlbenchmark.plotting.plot_helper import list_col_options
-        from pandas import DataFrame
-        df = DataFrame([
-            dict(i=1, t='aa', x=0.5),
-            dict(i=2, t='bb', x=0.5),
-            dict(i=2, t='aa', x=0.5),
-        ])
-        for opt in list_col_options(df, ['i', 't']):
-            print(opt)
+        .. runpython::
+            :showcode:
 
-        # if None...
-        print(list_col_options(df, None))
+            from pymlbenchmark.plotting.plot_helper import list_col_options
+            from pandas import DataFrame
+            df = DataFrame([
+                dict(i=1, t='aa', x=0.5),
+                dict(i=2, t='bb', x=0.5),
+                dict(i=2, t='aa', x=0.5),
+            ])
+            for opt in list_col_options(df, ['i', 't']):
+                print(opt)
+
+            # if None...
+            print(list_col_options(df, None))
     """
     if cols is None:
         return [None]

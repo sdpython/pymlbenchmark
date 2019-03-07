@@ -1,5 +1,7 @@
 
 .. _l-EX2:
 
-Examples
-========
+Snippets of codes
+=================
+
+.. exreflist::

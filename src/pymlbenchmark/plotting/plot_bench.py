@@ -26,18 +26,21 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,
     @param      ax              existing axis
     @return                     fig, ax
 
-    .. plot::
+    .. exref::
+        :title: Plot benchmark results
 
-        from pymlbenchmark.datasets import experiment_results
-        from pymlbenchmark.plotting import plot_bench_results
-        import matplotlib.pyplot as plt
+        .. plot::
 
-        df = experiment_results('onnxruntime_LogisticRegression')
+            from pymlbenchmark.datasets import experiment_results
+            from pymlbenchmark.plotting import plot_bench_results
+            import matplotlib.pyplot as plt
 
-        plot_bench_results(df, row_cols='N', col_cols='method',
-                           x_value='dim', hue_cols='fit_intercept',
-                           title="LogisticRegression\\nBenchmark scikit-learn / onnxruntime")
-        plt.show()
+            df = experiment_results('onnxruntime_LogisticRegression')
+
+            plot_bench_results(df, row_cols='N', col_cols='method',
+                               x_value='dim', hue_cols='fit_intercept',
+                               title="LogisticRegression\\nBenchmark scikit-learn / onnxruntime")
+            plt.show()
     """
     if not isinstance(row_cols, (tuple, list)):
         row_cols = [row_cols]
@@ -195,18 +198,21 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
     @param      ax              existing axis
     @return                     fig, ax
 
-    .. plot::
+    .. exref::
+        :title: Plot benchmark improvments
 
-        from pymlbenchmark.datasets import experiment_results
-        from pymlbenchmark.plotting import plot_bench_xtime
-        import matplotlib.pyplot as plt
+        .. plot::
 
-        df = experiment_results('onnxruntime_LogisticRegression')
+            from pymlbenchmark.datasets import experiment_results
+            from pymlbenchmark.plotting import plot_bench_xtime
+            import matplotlib.pyplot as plt
 
-        plot_bench_xtime(df, row_cols='N', col_cols='method',
-                         hue_cols='fit_intercept',
-                         title="LogisticRegression\\nAcceleration scikit-learn / onnxruntime")
-        plt.show()
+            df = experiment_results('onnxruntime_LogisticRegression')
+
+            plot_bench_xtime(df, row_cols='N', col_cols='method',
+                             hue_cols='fit_intercept',
+                             title="LogisticRegression\\nAcceleration scikit-learn / onnxruntime")
+            plt.show()
     """
     if not isinstance(row_cols, (tuple, list)):
         row_cols = [row_cols]

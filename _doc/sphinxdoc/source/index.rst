@@ -16,13 +16,13 @@ or models.
     :maxdepth: 1
 
     api/index
-    i_ex
-    i_index
     gyexamples/index
     all_notebooks
     blog/blogindex
+    i_ex
     technical
     i_faq
+    i_index
     LICENSE
     HISTORY
 
