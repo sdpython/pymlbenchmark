@@ -2,7 +2,8 @@
 @file
 @brief Plotting for benchmarks.
 """
-from .plot_helper import list_col_options, filter_df_options, options2label, ax_position, plt_colors
+from .plot_helper import list_col_options, filter_df_options, options2label
+from .plot_helper import ax_position, plt_colors, plt_styles
 
 
 def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,
@@ -65,6 +66,7 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,
         import matplotlib.pyplot as plt
         fig = plt.gcf()
     colors = plt_colors()
+    styles = plt_styles()
 
     for row, row_opt in enumerate(lrows_options):
 
@@ -149,12 +151,15 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,
                     elif lower_piv is not None:
                         a.fill_between(piv[x_value], lower_piv[ly], piv[ly],
                                        color=color, alpha=0.1)
-                for i, ly in enumerate(ys):
+
+                for i, (ly, style) in enumerate(zip(ys, styles)):
                     if hue_opt is None:
                         color = colors[i]
-                    style = '--' if ly == cmp_col_values[1] else '-'
-                    piv.plot(x=x_value, y=ly, ax=a, style=style,
-                             logx=True, logy=True, c=color, lw=2,
+                    lw = 4. if ly == cmp_col_values[1] else 1.5
+                    ms = lw * 3
+                    piv.plot(x=x_value, y=ly, ax=a, marker=style[0],
+                             style=style[1], logx=True, logy=True,
+                             c=color, lw=lw, ms=ms,
                              label="{}-{}".format(ly, legh)
                                    if legh != '-' else ly)
 

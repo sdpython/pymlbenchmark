@@ -127,4 +127,10 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(BenchPerfTest):
                     p1, p2 = res[0], res[i]
                     if len(p1.shape) == 1 and len(p2.shape) == 2:
                         p2 = p2.ravel()
-                    assert_almost_equal(p1, p2, decimal=4)
+                    try:
+                        assert_almost_equal(p1, p2, decimal=4)
+                    except AssertionError as e:
+                        rows = [row[0]
+                                for row in results if row[0]['method'] == method]
+                        raise AssertionError("Discrepencies between\n{} and\n{}.".format(
+                            rows[0], rows[i])) from e

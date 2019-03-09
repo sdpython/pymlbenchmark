@@ -8,7 +8,8 @@ Benchmark of onnxruntime on LogisticRegression
 The example uses what :epkg:`pymlbenchmark` implements, in particular
 class :class:`OnnxRuntimeBenchPerfTestBinaryClassification <pymlbenchmark.external.onnxruntime_perf.OnnxRuntimeBenchPerfTestBinaryClassification>`
 which defines a side-by-side benchmark to compare the prediction
-function between :epkg:`scikit-learn` and :epkg:`onnxruntime`.
+function between :epkg:`scikit-learn`, :epkg:`onnxruntime` and
+a simple :epkg:`numpy` implementation.
 
 .. contents::
     :local:
@@ -17,14 +18,48 @@ Benchmark function
 ++++++++++++++++++
 """
 from time import perf_counter as time
+import numpy
 import pandas
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LogisticRegression
 from sklearn.utils.testing import ignore_warnings
+from sklearn.utils.extmath import softmax
+from scipy.special import expit
 from pymlbenchmark.context import machine_information
 from pymlbenchmark.benchmark import BenchPerf
 from pymlbenchmark.external import OnnxRuntimeBenchPerfTestBinaryClassification
 from pymlbenchmark.plotting import plot_bench_results
+
+
+class OnnxRuntimeBenchPerfTestBinaryClassification3(OnnxRuntimeBenchPerfTestBinaryClassification):
+    """
+    Overwrites the class to add a pure python implementation
+    of the logistic regression.
+    """
+
+    def fcts(self, dim=None, **kwargs):
+
+        def predict_py_predict(X, model=self.skl):
+            coef = model.coef_
+            intercept = model.intercept_
+            pred = numpy.dot(X, coef.T) + intercept
+            return (pred >= 0).astype(numpy.int32)
+
+        def predict_py_predict_proba(X, model=self.skl):
+            coef = model.coef_
+            intercept = model.intercept_
+            pred = numpy.dot(X, coef.T) + intercept
+            decision_2d = numpy.c_[-pred, pred]
+            return expit(decision_2d)
+
+        res = OnnxRuntimeBenchPerfTestBinaryClassification.fcts(
+            self, dim=dim, **kwargs)
+        res.extend([
+            {'method': 'predict', 'lib': 'py', 'fct': predict_py_predict},
+            {'method': 'predict_proba', 'lib': 'py',
+                'fct': predict_py_predict_proba},
+        ])
+        return res
 
 
 @ignore_warnings(category=FutureWarning)
@@ -33,7 +68,7 @@ def run_bench(repeat=100, verbose=False):
     pbefore = dict(dim=[1, 5, 10, 20, 50, 100, 150],
                    fit_intercept=[True, False])
     pafter = dict(N=[1, 10])
-    test = lambda dim=None, **opts: OnnxRuntimeBenchPerfTestBinaryClassification(
+    test = lambda dim=None, **opts: OnnxRuntimeBenchPerfTestBinaryClassification3(
         LogisticRegression, dim=dim, **opts)
     bp = BenchPerf(pbefore, pafter, test)
 

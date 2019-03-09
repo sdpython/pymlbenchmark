@@ -1,8 +1,8 @@
 
 .. blogpost::
-    :title: Why pymlbenchmark?
+    :title:
     :keywords: reference, blog, post
-    :date: 2019-03-05
+    :date: 2019-03-08
     :categories: documentation
 
     I had to write some benchmarks first for a

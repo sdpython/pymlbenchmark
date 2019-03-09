@@ -24,7 +24,7 @@ except ImportError:
 
 
 from src.pymlbenchmark.plotting.plot_helper import list_col_options, filter_df_options
-from src.pymlbenchmark.plotting.plot_helper import options2label, ax_position, plt_colors
+from src.pymlbenchmark.plotting.plot_helper import options2label, ax_position, plt_colors, plt_styles
 
 
 class TestPlotHelper(ExtTestCase):
@@ -68,6 +68,10 @@ class TestPlotHelper(ExtTestCase):
         r = plt_colors()
         self.assertIn('blue', r)
         self.assertIn('orange', r)
+
+    def test_plt_styles(self):
+        r = plt_styles()
+        self.assertEqual(r[0], ('o', '-'))
 
 
 if __name__ == "__main__":
