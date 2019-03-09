@@ -107,7 +107,8 @@ class BenchPerf:
         for row in enumerate_options(options, self.fct_filter_test):
             yield row
 
-    def enumerate_run_benchs(self, repeat=10, verbose=False, stop_if_error=True):
+    def enumerate_run_benchs(self, repeat=10, verbose=False,
+                             stop_if_error=True, validate=True):
         """
         Runs the benchmark.
 
@@ -116,6 +117,7 @@ class BenchPerf:
         @param      verbose         if True, use :epkg:`tqdm`
         @param      stop_if_error   by default, it stops when method *validate*
                                     fails, if False, the function stores the exception
+        @param      validate        compare the outputs against the baseline
         @return                     yields dictionaries with all the metrics
         """
         all_opts = self.pbefore.copy()
@@ -196,15 +198,16 @@ class BenchPerf:
                     fct['median'] = numpy.median(times)
                     stores.append(fct)
 
-                if stop_if_error:
-                    inst.validate(results)
-                else:
-                    try:
+                if validate:
+                    if stop_if_error:
                         inst.validate(results)
-                    except Exception as e:  # pylint: disable=W0703
-                        msg = str(e).replace("\n", " ").replace(",", " ")
-                        for fct in stores:
-                            fct['error'] = msg
+                    else:
+                        try:
+                            inst.validate(results)
+                        except Exception as e:  # pylint: disable=W0703
+                            msg = str(e).replace("\n", " ").replace(",", " ")
+                            for fct in stores:
+                                fct['error'] = msg
                 for fct in stores:
                     yield fct
                 next(loop)  # pylint: disable=R1708

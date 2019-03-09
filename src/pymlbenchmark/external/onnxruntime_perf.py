@@ -132,5 +132,5 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(BenchPerfTest):
                     except AssertionError as e:
                         rows = [row[0]
                                 for row in results if row[0]['method'] == method]
-                        raise AssertionError("Discrepencies between\n{} and\n{}.".format(
-                            rows[0], rows[i])) from e
+                        raise AssertionError("Dim {} - discrepencies between\n{} and\n{}.".format(
+                            p1.shape, rows[0], rows[i])) from e

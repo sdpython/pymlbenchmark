@@ -58,7 +58,7 @@ def onnxruntime_perf_binary_classifiers():
 
 
 def run_onnxruntime_test(folder, name, repeat=100, verbose=True,
-                         stop_if_error=True, fLOG=None):
+                         stop_if_error=True, validate=True, fLOG=None):
     """
     Runs a benchmark for :epkg:`onnxruntime`.
 
@@ -69,6 +69,7 @@ def run_onnxruntime_test(folder, name, repeat=100, verbose=True,
     @param      verbose         print progress with :epkg:`tqdm`
     @param      stop_if_error   by default, it stops when method *validate*
                                 fails, if False, the function stores the exception
+    @param      validate        validate the outputs against the baseline
     @param      fLOG            logging function
     @return                     two dataframes, one for the results,
                                 the other one for the context (see @see fn machine_information)
@@ -85,7 +86,8 @@ def run_onnxruntime_test(folder, name, repeat=100, verbose=True,
 
     bp = BenchPerf(res['pbefore'], res['pafter'], res['fct'])
     results = list(bp.enumerate_run_benchs(repeat=repeat, verbose=verbose,
-                                           stop_if_error=stop_if_error))
+                                           stop_if_error=stop_if_error,
+                                           validate=validate))
     results_df = pandas.DataFrame(results)
     if folder:
         out = os.path.join(folder, "onnxruntime_%s.perf.csv" % name)
