@@ -104,8 +104,8 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,
                 try:
                     piv = ds.pivot(*y_cols)
                 except ValueError as e:
-                    raise ValueError("Unable to compute a pivot on columns {}\n{}".format(
-                        y_cols, ds[y_cols].head())) from e
+                    raise ValueError("Unable to compute a pivot on columns {}\nAvailable: {}\n{}".format(
+                        y_cols, list(df.columns), ds[y_cols].head())) from e
                 except KeyError as e:
                     raise ValueError(
                         "Unable to find columns {} in {}".format(y_cols, ds.columns))
@@ -176,6 +176,10 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,
                 tick.set_fontsize(7)
             for tick in a.xaxis.get_majorticklabels():
                 tick.set_fontsize(7)
+            for tick in a.xaxis.get_minorticklabels():
+                tick.text = ''
+            for tick in a.yaxis.get_minorticklabels():
+                tick.text = ''
 
     if title is not None:
         fig.suptitle(title, fontsize=10)
@@ -311,6 +315,10 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
                 tick.set_fontsize(7)
             for tick in a.xaxis.get_majorticklabels():
                 tick.set_fontsize(7)
+            for tick in a.xaxis.get_minorticklabels():
+                tick.text = ''
+            for tick in a.yaxis.get_minorticklabels():
+                tick.text = ''
 
     if title is not None:
         fig.suptitle(title, fontsize=10)

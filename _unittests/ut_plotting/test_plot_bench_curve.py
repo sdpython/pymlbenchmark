@@ -63,6 +63,25 @@ class TestPlotBenchCurve(ExtTestCase):
         plt.close('all')
         self.assertExists(img)
 
+    def test_plot_polypf2(self):
+        from matplotlib import pyplot as plt
+        temp = get_temp_folder(__file__, "temp_plot_polypf2")
+        img = os.path.join(temp, "plot_polypf2.png")
+        data = os.path.join(temp, "..", "data",
+                            "plot_bench_polynomial_features.perf.csv")
+        df = pandas.read_csv(data)
+        ax = plot_bench_results(df, row_cols=['N', 'order'],
+                                col_cols=['degree'], x_value='dim',
+                                hue_cols=['interaction_only'],
+                                cmp_col_values='test',
+                                title="unittest")
+        fig = ax[0, 0].get_figure()
+        fig.savefig(img)
+        if __name__ == "__main__":
+            plt.show()
+        plt.close('all')
+        self.assertExists(img)
+
 
 if __name__ == "__main__":
     unittest.main()
