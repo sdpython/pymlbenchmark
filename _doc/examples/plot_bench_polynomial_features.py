@@ -88,7 +88,7 @@ class PolyBenchPerfTest(BenchPerfTest):
         return [{'test': 'PF-0.20.2', 'fct': fct_polynomial_features_0_20_2},
                 {'test': 'PF-DEV', 'fct': compute_feat_dev}]
 
-    def validate(self, results):
+    def validate(self, results, **kwargs):
         """
         Checks that methods *predict* and *predict_proba* returns
         the same results for both :epkg:`scikit-learn` and

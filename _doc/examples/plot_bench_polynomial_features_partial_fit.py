@@ -101,7 +101,7 @@ class PolyBenchPerfTest(BenchPerfTest):
                 {'test': 'SGD-FAST', 'fct': partial_fit_model3},
                 {'test': 'SGD-SLOW', 'fct': partial_fit_model4}]
 
-    def validate(self, results):
+    def validate(self, results, **kwargs):
         for row in results:
             assert isinstance(row[0], dict)  # test options
             assert isinstance(row[1], SGDClassifier)  # trained model
