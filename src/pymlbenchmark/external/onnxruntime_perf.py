@@ -6,7 +6,10 @@ import contextlib
 from io import BytesIO, StringIO
 import numpy
 from numpy.testing import assert_almost_equal
+from sklearn.ensemble.forest import BaseForest
+from sklearn.tree.tree import BaseDecisionTree
 from ..benchmark import BenchPerfTest
+from ..benchmark.sklearn_helper import get_nb_skl_base_estimators
 from ..datasets import random_binary_classification
 
 
@@ -47,9 +50,36 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(BenchPerfTest):
                 onx = convert_sklearn(self.skl, initial_types=initial_types)
         f = BytesIO()
         f.write(onx.SerializeToString())
+        self.ort_onnx = onx
         content = f.getvalue()
         self.ort = InferenceSession(content)
         self.outputs = [o.name for o in self.ort.get_outputs()]
+        self.extract_model_info_skl()
+        self.extract_model_info_ort(ort_size=len(content))
+
+    def extract_model_info_skl(self, **kwargs):
+        """
+        Populates member ``self.skl_info`` with additional
+        information on the model such as the number of node for
+        a decision tree.
+        """
+        self.skl_info = dict(
+            skl_nb_nase_estimators=get_nb_skl_base_estimators(self.skl, fitted=True))
+        self.skl_info.update(kwargs)
+        if isinstance(self.skl, BaseDecisionTree):
+            self.skl_info["skl_dt_nodes"] = self.skl.tree_.node_count
+        elif isinstance(self.skl, BaseForest):
+            self.skl_info["skl_rf_nodes"] = sum(
+                est.tree_.node_count for est in self.skl.estimators_)
+
+    def extract_model_info_ort(self, **kwargs):
+        """
+        Populates member ``self.ort_info`` with additional
+        information on the :epkg:`ONNX` graph.
+        """
+        self.ort_info = dict(ort_nodes=len(
+            self.ort_onnx.graph.node))  # pylint: disable=E1101
+        self.ort_info.update(kwargs)
 
     def data(self, N=None, dim=None, **kwargs):  # pylint: disable=W0221
         """
@@ -112,6 +142,11 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(BenchPerfTest):
                 {'method': 'predict_proba', 'lib': 'ort',
                     'fct': predict_onnxrt_predict_proba}
             ])
+        for fct in fcts:
+            if fct['lib'] == 'skl':
+                fct.update(self.skl_info)
+            elif fct['lib'] == 'ort':
+                fct.update(self.ort_info)
         return fcts
 
     def validate(self, results):
@@ -134,3 +169,11 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(BenchPerfTest):
                                 for row in results if row[0]['method'] == method]
                         raise AssertionError("Dim {} - discrepencies between\n{} and\n{}.".format(
                             p1.shape, rows[0], rows[i])) from e
+
+    def model_info(self, model):
+        """
+        Returns additional informations about a model.
+
+        @param      model       model to describe
+        @return                 dictionary with additional descriptor
+        """
