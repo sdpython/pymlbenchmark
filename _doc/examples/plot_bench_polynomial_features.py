@@ -9,8 +9,6 @@ proposed in `PR13290 <https://github.com/scikit-learn/scikit-learn/pull/13290>`_
 
 .. contents::
     :local:
-
-*to be rewritten soon*
 """
 from time import time
 from itertools import combinations, chain
@@ -141,7 +139,7 @@ def allow_configuration(N=None, dim=None, degree=None,
 def run_bench(repeat=10, verbose=False):
     pbefore = dict(dim=[2, 5, 10, 20, 50], degree=[2, 3],
                    interaction_only=[False, True])
-    pafter = dict(N=[1, 10, 100, 1000, 10000], order=['C', 'F'])
+    pafter = dict(N=[1, 10, 100, 1000], order=['C', 'F'])
 
     bp = BenchPerf(pbefore, pafter, PolyBenchPerfTest,
                    filter_test=allow_configuration)
