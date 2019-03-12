@@ -2,6 +2,8 @@
 @file
 @brief Implements a benchmark about performance.
 """
+import os
+import pickle
 from time import perf_counter as time_perf
 import numpy
 from .bench_helper import enumerate_options
@@ -41,17 +43,43 @@ class BenchPerfTest:
         """
         raise NotImplementedError()
 
-    def validate(self, results):
+    def validate(self, results, **kwargs):
         """
         Runs validations after the test was done
         to make sure it was valid.
 
         @param      results     results to validate, list of tuple
                                 ``(parameters, results)``
+        @param      kwargs      additional information in case
+                                errors must traced
 
         The function raised an exception or not.
         """
         pass
+
+    def dump_error(self, msg, **kwargs):
+        """
+        Dumps everything which is needed to investigate an error.
+        Everything is pickled in the current folder or *dump_folder*
+        is attribute *dump_folder* was defined. This folder is created
+        if it does not exist.
+
+        @param      msg     message
+        @param      kwargs  needed data to investigate
+        @return             filename
+        """
+        dump_folder = getattr(self, "dump_folder", '.')
+        if not os.path.exists(dump_folder):
+            os.makedirs(dump_folder)
+        pattern = os.path.join(
+            dump_folder, "BENCH-ERROR-{0}-%d.pk".format(self.__class__.__name__))
+        err = 0
+        name = pattern % err
+        while os.path.exists(name):
+            err += 1
+            name = pattern % err
+        with open(name, "wb") as f:
+            pickle.dump({'msg': msg, 'data': kwargs}, f)
 
 
 class BenchPerf:
@@ -192,18 +220,24 @@ class BenchPerf:
                     times = numpy.array(times)
                     fct['mean'] = times.mean()
                     std = times.std()
-                    fct['lower'] = fct['mean'] - std * 1.96
-                    fct['upper'] = fct['mean'] + std * 1.96
+                    if len(times) >= 4:
+                        fct['lower'] = max(
+                            fct['min'], fct['mean'] - std * 1.96)
+                        fct['upper'] = min(
+                            fct['max'], fct['mean'] + std * 1.96)
+                    else:
+                        fct['lower'] = fct['min']
+                        fct['upper'] = fct['max']
                     fct['count'] = len(times)
                     fct['median'] = numpy.median(times)
                     stores.append(fct)
 
                 if validate:
                     if stop_if_error:
-                        inst.validate(results)
+                        inst.validate(results, data=data)
                     else:
                         try:
-                            inst.validate(results)
+                            inst.validate(results, data=data)
                         except Exception as e:  # pylint: disable=W0703
                             msg = str(e).replace("\n", " ").replace(",", " ")
                             for fct in stores:

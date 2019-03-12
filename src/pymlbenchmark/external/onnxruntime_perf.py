@@ -31,7 +31,6 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(BenchPerfTest):
         # These libraries are optional.
         from skl2onnx import convert_sklearn  # pylint: disable=E0401
         from skl2onnx.common.data_types import FloatTensorType  # pylint: disable=E0401
-        from onnxruntime import InferenceSession  # pylint: disable=E0401
 
         if dim is None:
             raise RuntimeError("dim must be defined.")
@@ -48,6 +47,12 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(BenchPerfTest):
         with contextlib.redirect_stdout(self.logconvert):
             with contextlib.redirect_stderr(self.logconvert):
                 onx = convert_sklearn(self.skl, initial_types=initial_types)
+
+        self._init(onx)
+
+    def _init(self, onx):
+        "Finalizes the init."
+        from onnxruntime import InferenceSession  # pylint: disable=E0401
         f = BytesIO()
         f.write(onx.SerializeToString())
         self.ort_onnx = onx
@@ -149,7 +154,7 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(BenchPerfTest):
                 fct.update(self.ort_info)
         return fcts
 
-    def validate(self, results):
+    def validate(self, results, **kwargs):
         """
         Checks that methods *predict* and *predict_proba* returns
         the same results for both :epkg:`scikit-learn` and
@@ -167,8 +172,11 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(BenchPerfTest):
                     except AssertionError as e:
                         rows = [row[0]
                                 for row in results if row[0]['method'] == method]
-                        raise AssertionError("Dim {} - discrepencies between\n{} and\n{}.".format(
-                            p1.shape, rows[0], rows[i])) from e
+                        msg = "ERROR: Dim {} - discrepencies between\n{} and\n{}.".format(
+                            p1.shape, rows[0], rows[i])
+                        self.dump_error(msg, skl=self.skl, ort=self.ort,
+                                        results=results, **kwargs)
+                        raise AssertionError(msg) from e
 
     def model_info(self, model):
         """

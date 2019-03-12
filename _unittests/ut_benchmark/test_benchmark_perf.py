@@ -7,8 +7,9 @@ import contextlib
 import sys
 import os
 import unittest
+import pickle
 import numpy
-from pyquickhelper.pycode import ExtTestCase
+from pyquickhelper.pycode import ExtTestCase, get_temp_folder
 
 
 try:
@@ -111,6 +112,69 @@ class TestBenchPerf(ExtTestCase):
         self.assertEqual(len(res), 96)
         self.assertLesser(res[0]['min'], res[0]['max'])
         self.assertEqual(set(_['N'] for _ in res), {1, 10})
+
+    def test_perf_benchmark_dump(self):
+
+        temp = get_temp_folder(__file__, "temp_perf_benchmark_dump")
+
+        class dummycl:
+            def __init__(self, alpha):
+                self.alpha = alpha
+
+            def fit(self, X, y):
+                self.mean_ = X.mean(axis=0)  # pylint: disable=W0201
+                return self
+
+            def predict(self, X):
+                return self.decision_function(X) > 0
+
+            def decision_function(self, X):
+                return numpy.sum(X - self.mean_[numpy.newaxis, :], axis=1) * self.alpha
+
+        class dummycl2(dummycl):
+            def predict(self, X):
+                r = dummycl.predict(self, X)
+                return r
+
+        class myBenchPerfTest(BenchPerfTest):
+            def __init__(self, N=10, dim=4, alpha=3):
+                BenchPerfTest.__init__(self)
+                X, y = random_binary_classification(N, dim)
+                self.skl = dummycl(alpha).fit(X, y)
+                self.ort = dummycl2(alpha).fit(X, y)
+                self.dump_folder = temp
+
+            def fcts(self, **kwargs):
+
+                def predict_skl_predict(X, model=self.skl):
+                    return model.predict(X)
+
+                def predict_ort_predict(X, model=self.ort):
+                    return model.predict(X)
+
+                return [{'lib': 'skl', 'method': 'predict',
+                         'fct': (lambda *args: args, predict_skl_predict)},
+                        {'lib': 'ort', 'method': 'predict',
+                         'fct': predict_ort_predict}]
+
+            def data(self, N=10, dim=4, **kwargs):  # pylint: disable=W0221
+                return random_binary_classification(N, dim)[:1]
+
+            def validate(self, results, **kwargs):
+                self.dump_error(msg="TEST", results=results, **kwargs)
+
+        pbefore = dict(alpha=[0, 1, 2], dim=[1, 10])
+        pafter = dict(method=["predict", "predict_proba"],
+                      N=[1, 10])
+        bp = BenchPerf(pbefore, pafter, myBenchPerfTest)
+        list(bp.enumerate_run_benchs())
+        name = os.path.join(temp, "BENCH-ERROR-myBenchPerfTest-0.pk")
+        with open(name, 'rb') as f:
+            content = pickle.load(f)
+        self.assertIsInstance(content, dict)
+        self.assertIn('msg', content)
+        self.assertIn('data', content)
+        self.assertIsInstance(content['data'], dict)
 
 
 if __name__ == "__main__":
