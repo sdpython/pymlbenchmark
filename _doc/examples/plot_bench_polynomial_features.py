@@ -1,7 +1,7 @@
 # coding: utf-8
 """
-Benchmark of PolynomialFeatures
-===============================
+Benchmark of PolynomialFeatures in scikit-learn 0.20.0
+======================================================
 
 This benchmark looks into a new implementation of
 `PolynomialFeatures <https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html>`_

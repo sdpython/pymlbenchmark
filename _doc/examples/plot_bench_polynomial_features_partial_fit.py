@@ -2,8 +2,8 @@
 """
 .. _l-bench-slk-poly:
 
-Benchmark of PolynomialFeatures
-===============================
+Benchmark of PolynomialFeatures + partialfit of SGDClassifier
+=============================================================
 
 This benchmark looks into a new implementation of
 `PolynomialFeatures <https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html>`_
