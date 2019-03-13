@@ -61,7 +61,7 @@ def bench_pivot(data, experiment='lib', value='mean', index=None):
 
         import pandas
         from pymlbenchmark.datasets import experiment_results
-        from mymlbenchmark.benchmark.bench_helper import bench_pivot
+        from pymlbenchmark.benchmark.bench_helper import bench_pivot
 
         df = experiment_results('onnxruntime_LogisticRegression.csv')
         piv = bench_pivot(df)
