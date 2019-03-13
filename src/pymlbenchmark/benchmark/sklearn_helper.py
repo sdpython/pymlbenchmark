@@ -27,8 +27,6 @@ def get_nb_skl_base_estimators(obj, fitted=True):
                     t = get_nb_skl_base_estimators(o, fitted=fitted)
             elif not k.endswith('_'):
                 t = get_nb_skl_base_estimators(o, fitted=fitted)
-            if t > 0:
-                print(k, t, o)
             ct += t
     elif isinstance(obj, (list, tuple)):
         for o in obj:
