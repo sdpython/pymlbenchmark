@@ -97,13 +97,13 @@ def bench_pivot(data, experiment='lib', value='mean', index=None):
 
 def remove_almost_nan_columns(df):
     """
-    Automatically removes columns with more than 2/5
+    Automatically removes columns with more than 1/3
     nan values.
 
     @param      df      dataframe
     @return             clean dataframe
     """
-    n = df.shape[0] * 2 // 3
+    n = df.shape[0] * 1 // 3
     nanc = [c for c in df.columns if sum(df[c].isnull()) >= n]
     if nanc:
         return df.drop(nanc, axis=1)

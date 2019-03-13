@@ -69,18 +69,22 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,
     colors = plt_colors()
     styles = plt_styles()
 
+    nb_empty = 0
+    nb_total = 0
     for row, row_opt in enumerate(lrows_options):
 
         sub = filter_df_options(df, row_opt)
+        nb_total += 1
         if sub.shape[0] == 0:
+            nb_empty += 1
             continue
-        legy = options2label(row_opt)
+        legy = options2label(row_opt, sep="\n")
 
         for col, col_opt in enumerate(lcols_options):
             sub2 = filter_df_options(sub, col_opt)
             if sub2.shape[0] == 0:
                 continue
-            legx = options2label(col_opt)
+            legx = options2label(col_opt, sep="\n")
 
             pos = ax_position(shape, (row, col))
             a = ax[pos] if pos else ax
@@ -89,7 +93,7 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,
                 ds = filter_df_options(sub2, hue_opt)
                 if ds.shape[0] == 0:
                     continue
-                legh = options2label(hue_opt)
+                legh = options2label(hue_opt, sep="\n")
 
                 if isinstance(cmp_col_values, tuple):
                     y_cols = [x_value, cmp_col_values[0], y_value]
@@ -106,7 +110,7 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,
                     piv = ds.pivot(*y_cols)
                 except ValueError as e:
                     raise ValueError("Unable to compute a pivot on columns {}\nAvailable: {}\n{}".format(
-                        y_cols, list(df.columns), ds[y_cols].head())) from e
+                        y_cols, list(df.columns), ds[y_cols].head(n=10))) from e
                 except KeyError as e:
                     raise ValueError(
                         "Unable to find columns {} in {}".format(y_cols, ds.columns))
@@ -180,6 +184,9 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,
             plt.setp(a.get_xminorticklabels(), visible=False)
             plt.setp(a.get_yminorticklabels(), visible=False)
 
+    if nb_empty == nb_total:
+        raise RuntimeError("All graphs are empty for dataframe,\nrow_cols={},\ncol_cols={},\nhue_cols={},\ncolumns={}".format(
+            row_cols, col_cols, hue_cols, df.columns))
     if title is not None:
         fig.suptitle(title, fontsize=10)
     return ax
@@ -254,20 +261,27 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
     piv = df.pivot_table(index=index, values=x_value,
                          columns=cmp_col_values[0])
     piv = piv.reset_index(drop=False)
+    if piv.shape[0] == 0:
+        raise RuntimeError("pivot table is empty,\nindex={},\nx_value={},\ncolumns={},\ndf.columns={}".format(
+            index, x_value, cmp_col_values[0], df.columns))
     vals = list(sorted(set(df[cmp_col_values[0]])))
 
+    nb_empty = 0
+    nb_total = 0
     for row, row_opt in enumerate(lrows_options):
 
         sub = filter_df_options(piv, row_opt)
+        nb_total += 1
         if sub.shape[0] == 0:
+            nb_empty += 1
             continue
-        legy = options2label(row_opt)
+        legy = options2label(row_opt, sep="\n")
 
         for col, col_opt in enumerate(lcols_options):
             sub2 = filter_df_options(sub, col_opt)
             if sub2.shape[0] == 0:
                 continue
-            legx = options2label(col_opt)
+            legx = options2label(col_opt, sep="\n")
 
             pos = ax_position(shape, (row, col))
             a = ax[pos] if pos else ax
@@ -285,7 +299,7 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
                 ds = filter_df_options(sub2, hue_opt).copy()
                 if ds.shape[0] == 0:
                     continue
-                legh = options2label(hue_opt)
+                legh = options2label(hue_opt, sep="\n")
 
                 im = 0
                 for ly in vals:
@@ -324,6 +338,9 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
             plt.setp(a.get_xminorticklabels(), visible=False)
             plt.setp(a.get_yminorticklabels(), visible=False)
 
+    if nb_empty == nb_total:
+        raise RuntimeError("All graphs are empty for dataframe,\nrow_cols={},\ncol_cols={},\nhue_cols={},\ncolumns={}".format(
+            row_cols, col_cols, hue_cols, df.columns))
     if title is not None:
         fig.suptitle(title, fontsize=10)
     return ax
