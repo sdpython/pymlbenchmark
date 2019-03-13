@@ -4,6 +4,7 @@
 """
 from .plot_helper import list_col_options, filter_df_options, options2label
 from .plot_helper import ax_position, plt_colors, plt_styles
+from ..benchmark.bench_helper import remove_almost_nan_columns
 
 
 def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,
@@ -43,6 +44,7 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,
                                title="LogisticRegression\\nBenchmark scikit-learn / onnxruntime")
             plt.show()
     """
+    import matplotlib.pyplot as plt
     if not isinstance(row_cols, (tuple, list)):
         row_cols = [row_cols]
     if not isinstance(col_cols, (tuple, list)):
@@ -50,20 +52,19 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,
     if not isinstance(hue_cols, (tuple, list)):
         hue_cols = [hue_cols]
 
+    df = remove_almost_nan_columns(df)
     lrows_options = list_col_options(df, row_cols)
     lcols_options = list_col_options(df, col_cols)
     lhues_options = list_col_options(df, hue_cols)
 
     shape = (len(lrows_options), len(lcols_options))
     if ax is None:
-        import matplotlib.pyplot as plt
         figsize = (shape[1] * box_side, shape[0] * box_side)
         fig, ax = plt.subplots(shape[0], shape[1], figsize=figsize)
     elif ax.shape != shape:
         raise RuntimeError(
             "Shape mismatch ax.shape={} when expected values is {}".format(ax.shape, shape))
     else:
-        import matplotlib.pyplot as plt
         fig = plt.gcf()
     colors = plt_colors()
     styles = plt_styles()
@@ -176,10 +177,8 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,
                 tick.set_fontsize(7)
             for tick in a.xaxis.get_majorticklabels():
                 tick.set_fontsize(7)
-            for tick in a.xaxis.get_minorticklabels():
-                tick.text = ''
-            for tick in a.yaxis.get_minorticklabels():
-                tick.text = ''
+            plt.setp(a.get_xminorticklabels(), visible=False)
+            plt.setp(a.get_yminorticklabels(), visible=False)
 
     if title is not None:
         fig.suptitle(title, fontsize=10)
@@ -223,6 +222,7 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
                              title="LogisticRegression\\nAcceleration scikit-learn / onnxruntime")
             plt.show()
     """
+    import matplotlib.pyplot as plt
     if not isinstance(row_cols, (tuple, list)):
         row_cols = [row_cols]
     if not isinstance(col_cols, (tuple, list)):
@@ -230,20 +230,19 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
     if not isinstance(hue_cols, (tuple, list)):
         hue_cols = [hue_cols]
 
+    df = remove_almost_nan_columns(df)
     lrows_options = list_col_options(df, row_cols)
     lcols_options = list_col_options(df, col_cols)
     lhues_options = list_col_options(df, hue_cols)
 
     shape = (len(lrows_options), len(lcols_options))
     if ax is None:
-        import matplotlib.pyplot as plt
         figsize = (shape[1] * box_side, shape[0] * box_side)
         fig, ax = plt.subplots(shape[0], shape[1], figsize=figsize)
     elif ax.shape != shape:
         raise RuntimeError(
             "Shape mismatch ax.shape={} when expected values is {}".format(ax.shape, shape))
     else:
-        import matplotlib.pyplot as plt
         fig = plt.gcf()
     colors = plt_colors()
 
@@ -281,21 +280,28 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
                     a.plot([mi, ma], [p, p], style, color='black',
                            label="%1.1fx" % (1. / p))
 
+            ic = 0
             for color, hue_opt in zip(colors, lhues_options):
                 ds = filter_df_options(sub2, hue_opt).copy()
                 if ds.shape[0] == 0:
                     continue
                 legh = options2label(hue_opt)
 
-                for i, ly in enumerate(vals):
+                im = 0
+                for ly in vals:
                     if ly == cmp_col_values[1]:
                         continue
 
                     ds["xtime"] = ds[ly] / ds[cmp_col_values[1]]
                     if hue_opt is None:
-                        color = colors[i]
-                    style = '--' if ly == cmp_col_values[1] else '-'
-                    ds.plot(x=cmp_col_values[1], y=y_value, ax=a, style=style,
+                        color = colors[ic % len(colors)]
+                        ic += 1
+                    if ly == cmp_col_values[1]:
+                        marker = 'o'
+                    else:
+                        marker = '.x+'[im]
+                        im += 1
+                    ds.plot(x=cmp_col_values[1], y=y_value, ax=a, marker=marker,
                             logx=True, logy=True, c=color, lw=2,
                             label="{}-{}".format(ly, legh)
                                   if legh != '-' else ly,
@@ -308,17 +314,15 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
                          if col == 0 else "", fontsize='x-small')
 
             a.legend(loc=0, fontsize='x-small')
-            if row == 0:
-                a.set_title(legx, fontsize='x-small')
+            # if row == 0:
+            #    a.set_title(legx, fontsize='x-small')
             a.tick_params(labelsize=7)
             for tick in a.yaxis.get_majorticklabels():
                 tick.set_fontsize(7)
             for tick in a.xaxis.get_majorticklabels():
                 tick.set_fontsize(7)
-            for tick in a.xaxis.get_minorticklabels():
-                tick.text = ''
-            for tick in a.yaxis.get_minorticklabels():
-                tick.text = ''
+            plt.setp(a.get_xminorticklabels(), visible=False)
+            plt.setp(a.get_yminorticklabels(), visible=False)
 
     if title is not None:
         fig.suptitle(title, fontsize=10)
