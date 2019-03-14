@@ -47,21 +47,9 @@ To build :epkg:`onnxruntime`:
 
     git clone https://github.com/Microsoft/onnxruntime.git --recursive
 
-    export LD_LIBRARY_PATH=/usr/local/Python-3.6.8
-    export PYTHONPATH=export PYTHONPATH=~/onnxruntime/build/debian36/Release
-    python3.6 ./onnxruntime/tools/ci_build/build.py --build_dir ./onnxruntime/build/debian36 --config Release --enable_pybind --build_wheel --use_mkldnn --use_openmp --build_shared_lib --numpy_version= --skip-keras-test
-
     export LD_LIBRARY_PATH=/usr/local/Python-3.7.2
-    export PYTHONPATH=export PYTHONPATH=~/onnxruntime/build/debian37/Release
-    python3.7 ./onnxruntime/tools/ci_build/build.py --build_dir ./onnxruntime/build/debian37 --config Release --enable_pybind --build_wheel --use_mkldnn --use_openmp --build_shared_lib --numpy_version= --skip-keras-test
-
-If the wheel then, it is possible to just copy the files
-into the *python* distribution:
-
-::
-
-    cp -r ./onnxruntime/build/debian36/Release/onnxruntime /usr/local/lib/python3.6/site-packages/
-    cp -r ./onnxruntime/build/debian37/Release/onnxruntime /usr/local/lib/python3.7/site-packages/
+    export PYTHONPATH=/home/dupre/xadupre/onnxruntime/build/debian/Release
+    python3.7 ./onnxruntime/tools/ci_build/build.py --build_dir ./onnxruntime/build/debian --config Release --build_wheel --use_mkldnn --use_openmp --use_llvm --numpy_version= --skip-keras-test
 
 Build mkl-dnn
 =============
