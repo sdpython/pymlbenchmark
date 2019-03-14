@@ -3,8 +3,21 @@
 @brief Helpers which returns more information about the system.
 """
 import sys
+import io
 import platform
+import contextlib
 from datetime import datetime
+import numpy
+
+
+def get_numpy_info():
+    """
+    Retrieves information about numpy compilation.
+    """
+    s = io.StringIO()
+    with contextlib.redirect_stdout(s):
+        numpy.show_config()
+    return s.getvalue()
 
 
 def machine_information(pkgs=None):
@@ -44,8 +57,21 @@ def machine_information(pkgs=None):
         for name in sorted(pkgs):
             if name in sys.modules:
                 mod = sys.modules[name]
-                res.append(
-                    dict(name=name, version=getattr(mod, '__version__', 'not-found')))
+                obs = dict(name=name, version=getattr(mod, '__version__', 'not-found'))
+                if name == "onnxruntime":
+                    obs['value'] = mod.get_device()
+                elif name == 'numpy':
+                    sinfo = get_numpy_info()
+                    info = []
+                    for sub in ['mkl_lapack95_lp64', 'mkl_blas95_lp64', 'openblas',
+                                "language = c"]:
+                        if sub in sinfo:
+                            info.append(sub.replace(' ', ''))
+                    obs['value'] = ", ".join(sub)
+                elif name == "onnx":
+                    from onnx.defs import onnx_opset_version
+                    obs['value'] = "opset={}".format(onnx_opset_version())
+                res.append(obs)
             else:
                 res.append(dict(name=name, version='not-imported'))
     return res
