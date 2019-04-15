@@ -2,30 +2,14 @@
 """
 @brief      test log(time=2s)
 """
-import sys
 import os
 import unittest
 import pandas
 from pyquickhelper.pycode import ExtTestCase, get_temp_folder
 from pyquickhelper.texthelper import compare_module_version
-
-
-try:
-    import src
-except ImportError:
-    path = os.path.normpath(
-        os.path.abspath(
-            os.path.join(
-                os.path.split(__file__)[0],
-                "..",
-                "..")))
-    if path not in sys.path:
-        sys.path.append(path)
-    import src
-
-from src.pymlbenchmark.context import machine_information
-from src.pymlbenchmark.benchmark import BenchPerf
-from src.pymlbenchmark.external import onnxruntime_perf_binary_classifiers
+from pymlbenchmark.context import machine_information
+from pymlbenchmark.benchmark import BenchPerf
+from pymlbenchmark.external import onnxruntime_perf_binary_classifiers
 
 
 def has_onnxruntime(version):

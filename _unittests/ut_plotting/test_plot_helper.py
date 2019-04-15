@@ -2,29 +2,11 @@
 """
 @brief      test log(time=2s)
 """
-import sys
-import os
 import unittest
 import pandas
 from pyquickhelper.pycode import ExtTestCase
-
-
-try:
-    import src
-except ImportError:
-    path = os.path.normpath(
-        os.path.abspath(
-            os.path.join(
-                os.path.split(__file__)[0],
-                "..",
-                "..")))
-    if path not in sys.path:
-        sys.path.append(path)
-    import src
-
-
-from src.pymlbenchmark.plotting.plot_helper import list_col_options, filter_df_options
-from src.pymlbenchmark.plotting.plot_helper import options2label, ax_position, plt_colors, plt_styles
+from pymlbenchmark.plotting.plot_helper import list_col_options, filter_df_options
+from pymlbenchmark.plotting.plot_helper import options2label, ax_position, plt_colors, plt_styles
 
 
 class TestPlotHelper(ExtTestCase):

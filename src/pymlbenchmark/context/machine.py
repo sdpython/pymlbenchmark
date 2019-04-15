@@ -57,7 +57,8 @@ def machine_information(pkgs=None):
         for name in sorted(pkgs):
             if name in sys.modules:
                 mod = sys.modules[name]
-                obs = dict(name=name, version=getattr(mod, '__version__', 'not-found'))
+                obs = dict(name=name, version=getattr(
+                    mod, '__version__', 'not-found'))
                 if name == "onnxruntime":
                     obs['value'] = mod.get_device()
                 elif name == 'numpy':
