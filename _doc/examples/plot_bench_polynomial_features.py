@@ -36,7 +36,7 @@ class PolyBenchPerfTest(BenchPerfTest):
 
     def __init__(self, dim=None, degree=2, interaction_only=False,
                  order='C', **opts):
-        # Models are fitted here. Every not measured
+        # Models are fitted here. Every instruction not measured
         # should take place here.
         assert dim is not None
         BenchPerfTest.__init__(self, **opts)

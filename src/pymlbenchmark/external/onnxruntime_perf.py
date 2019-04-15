@@ -69,7 +69,7 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(BenchPerfTest):
         a decision tree.
         """
         self.skl_info = dict(
-            skl_nb_nase_estimators=get_nb_skl_base_estimators(self.skl, fitted=True))
+            skl_nb_base_estimators=get_nb_skl_base_estimators(self.skl, fitted=True))
         self.skl_info.update(kwargs)
         if isinstance(self.skl, BaseDecisionTree):
             self.skl_info["skl_dt_nodes"] = self.skl.tree_.node_count
@@ -185,3 +185,4 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(BenchPerfTest):
         @param      model       model to describe
         @return                 dictionary with additional descriptor
         """
+        return dict(type_name=model.__class__.__name__)
