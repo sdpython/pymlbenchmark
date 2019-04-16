@@ -68,7 +68,7 @@ def machine_information(pkgs=None):
                                 "language = c"]:
                         if sub in sinfo:
                             info.append(sub.replace(' ', ''))
-                    obs['value'] = ", ".join(sub)
+                    obs['value'] = ", ".join(info)
                 elif name == "onnx":
                     from onnx.defs import onnx_opset_version
                     obs['value'] = "opset={}".format(onnx_opset_version())
