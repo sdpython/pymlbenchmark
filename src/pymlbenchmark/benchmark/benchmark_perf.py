@@ -136,7 +136,8 @@ class BenchPerf:
             yield row
 
     def enumerate_run_benchs(self, repeat=10, verbose=False,
-                             stop_if_error=True, validate=True):
+                             stop_if_error=True, validate=True,
+                             number=1):
         """
         Runs the benchmark.
 
@@ -146,6 +147,8 @@ class BenchPerf:
         @param      stop_if_error   by default, it stops when method *validate*
                                     fails, if False, the function stores the exception
         @param      validate        compare the outputs against the baseline
+        @param      number          number of times to call the same function,
+                                    the method then measure this number calls
         @return                     yields dictionaries with all the metrics
         """
         all_opts = self.pbefore.copy()
@@ -180,6 +183,7 @@ class BenchPerf:
                     raise ValueError(
                         "Method *data* must return a list or a tuple.")
                 obs["repeat"] = len(data)
+                obs["number"] = number
                 results = []
                 stores = []
 
@@ -200,15 +204,27 @@ class BenchPerf:
                         f1, f2 = f
                         for dt in data:
                             dt2 = f1(*dt)
-                            st = time_perf()
-                            r = f2(*dt2)
-                            d = time_perf() - st
+                            if number == 1:
+                                st = time_perf()
+                                r = f2(*dt2)
+                                d = time_perf() - st
+                            else:
+                                st = time_perf()
+                                for _ in range(number):
+                                    r = f2(*dt2)
+                                d = time_perf() - st
                             times.append(d)
                     else:
                         for dt in data:
-                            st = time_perf()
-                            r = f(*dt)
-                            d = time_perf() - st
+                            if number == 1:
+                                st = time_perf()
+                                r = f(*dt)
+                                d = time_perf() - st
+                            else:
+                                st = time_perf()
+                                for _ in range(number):
+                                    r = f(*dt)
+                                d = time_perf() - st
                             times.append(d)
 
                     results.append((fct, r))

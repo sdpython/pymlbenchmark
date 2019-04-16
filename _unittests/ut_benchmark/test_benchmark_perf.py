@@ -4,30 +4,13 @@
 """
 import io
 import contextlib
-import sys
 import os
 import unittest
 import pickle
 import numpy
 from pyquickhelper.pycode import ExtTestCase, get_temp_folder
-
-
-try:
-    import src
-except ImportError:
-    path = os.path.normpath(
-        os.path.abspath(
-            os.path.join(
-                os.path.split(__file__)[0],
-                "..",
-                "..")))
-    if path not in sys.path:
-        sys.path.append(path)
-    import src
-
-
-from src.pymlbenchmark.benchmark import BenchPerf, BenchPerfTest
-from src.pymlbenchmark.datasets import random_binary_classification
+from pymlbenchmark.benchmark import BenchPerf, BenchPerfTest
+from pymlbenchmark.datasets import random_binary_classification
 
 
 class TestBenchPerf(ExtTestCase):
@@ -167,14 +150,15 @@ class TestBenchPerf(ExtTestCase):
         pafter = dict(method=["predict", "predict_proba"],
                       N=[1, 10])
         bp = BenchPerf(pbefore, pafter, myBenchPerfTest)
-        list(bp.enumerate_run_benchs())
-        name = os.path.join(temp, "BENCH-ERROR-myBenchPerfTest-0.pk")
-        with open(name, 'rb') as f:
-            content = pickle.load(f)
-        self.assertIsInstance(content, dict)
-        self.assertIn('msg', content)
-        self.assertIn('data', content)
-        self.assertIsInstance(content['data'], dict)
+        for number in [1, 2]:
+            list(bp.enumerate_run_benchs(repeat=5, number=number))
+            name = os.path.join(temp, "BENCH-ERROR-myBenchPerfTest-0.pk")
+            with open(name, 'rb') as f:
+                content = pickle.load(f)
+            self.assertIsInstance(content, dict)
+            self.assertIn('msg', content)
+            self.assertIn('data', content)
+            self.assertIsInstance(content['data'], dict)
 
 
 if __name__ == "__main__":
