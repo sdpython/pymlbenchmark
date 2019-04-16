@@ -186,7 +186,8 @@ class BenchPerf:
                 for fct in fcts:
                     if not isinstance(fct, dict) or 'fct' not in fct:
                         raise ValueError(
-                            "Method fcts must return a list of dictionaries (name, fct) not {}".format(fct))
+                            "Method fcts must return a list of dictionaries with keys "
+                            "('name', 'fct') not {}".format(fct))
                     f = fct['fct']
                     del fct['fct']
                     times = []
