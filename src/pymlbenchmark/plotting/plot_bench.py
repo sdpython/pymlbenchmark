@@ -11,7 +11,8 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,
                        cmp_col_values=('lib', 'skl'),
                        x_value='N', y_value='mean',
                        err_value=('lower', 'upper'),
-                       title=None, box_side=4, ax=None):
+                       title=None, box_side=4, labelsize=8,
+                       ax=None):
     """
     Plots benchmark results.
 
@@ -25,6 +26,7 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,
     @param      err_value       lower and upper bounds
     @param      title           graph title
     @param      box_side        graph side, the function adjusts the size of the graph
+    @param      labelsize       size of the labels
     @param      ax              existing axis
     @return                     fig, ax
 
@@ -176,11 +178,11 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,
                          if col == 0 else "", fontsize='x-small')
             if row == 0:
                 a.set_title(legx, fontsize='x-small')
-            a.tick_params(labelsize=7)
+            a.tick_params(labelsize=labelsize)
             for tick in a.yaxis.get_majorticklabels():
-                tick.set_fontsize(7)
+                tick.set_fontsize(labelsize)
             for tick in a.xaxis.get_majorticklabels():
-                tick.set_fontsize(7)
+                tick.set_fontsize(labelsize)
             plt.setp(a.get_xminorticklabels(), visible=False)
             plt.setp(a.get_yminorticklabels(), visible=False)
 
@@ -196,7 +198,7 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
                      cmp_col_values=('lib', 'skl'),
                      x_value='mean', y_value='xtime',
                      parallel=(1., 0.5), title=None,
-                     ax=None, box_side=4):
+                     box_side=4, labelsize=8, ax=None):
     """
     Plots benchmark acceleration.
 
@@ -210,6 +212,7 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
     @param      parallel        lower and upper bounds
     @param      title           graph title
     @param      box_side        graph side, the function adjusts the size of the graph
+    @param      labelsize       size of the labels
     @param      ax              existing axis
     @return                     fig, ax
 
@@ -328,13 +331,11 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
                          if col == 0 else "", fontsize='x-small')
 
             a.legend(loc=0, fontsize='x-small')
-            # if row == 0:
-            #    a.set_title(legx, fontsize='x-small')
-            a.tick_params(labelsize=7)
+            a.tick_params(labelsize=labelsize)
             for tick in a.yaxis.get_majorticklabels():
-                tick.set_fontsize(7)
+                tick.set_fontsize(labelsize)
             for tick in a.xaxis.get_majorticklabels():
-                tick.set_fontsize(7)
+                tick.set_fontsize(labelsize)
             plt.setp(a.get_xminorticklabels(), visible=False)
             plt.setp(a.get_yminorticklabels(), visible=False)
 
