@@ -84,7 +84,6 @@ def run_bench(repeat=100, verbose=False):
 # Runs the benchmark
 # ++++++++++++++++++
 
-
 df = run_bench(verbose=True)
 df.to_csv("bench_plot_onnxruntime_logistic_regression.perf.csv", index=False)
 print(df.head())

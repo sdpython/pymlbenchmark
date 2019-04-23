@@ -34,17 +34,6 @@ def onnxruntime_perf_binary_classifiers():
          'pbefore': dict(dim=dims, average=[False, True],
                          loss=['hinge', 'log', 'modified_huber', 'squared_hinge', 'perceptron']), 'pafter': dict(N=N),
          'name': 'SGDClassifier'},
-        # bayes
-        {'fct': lambda **opts: bincl(MultinomialNB, **opts),
-         'pbefore': dict(dim=dims, alpha=[0., 0.5, 1.], fit_prior=[True, False]),
-         'pafter': dict(N=N),
-         'name': 'MultinomialNB'},
-        {'fct': lambda **opts: bincl(BernoulliNB, **opts),
-         'pbefore': dict(dim=dims, alpha=[0., 0.5, 1.],
-                         binarize=[0., 0.5, 1.],
-                         fit_prior=[True, False]),
-         'pafter': dict(N=N),
-         'name': 'BernoulliNB'},
         # trees
         {'fct': lambda **opts: bincl(DecisionTreeClassifier, **opts),
          'pbefore': dict(dim=dims, max_depth=max_depths),
@@ -94,7 +83,7 @@ def run_onnxruntime_test(folder, name, repeat=100, verbose=True,
         results_df.to_csv(out, index=False)
 
     subset = {'sklearn', 'numpy', 'pandas', 'onnxruntime',
-              'skl2onnx'}
+              'skl2onnx', 'onnxconverters_common'}
 
     df2 = pandas.DataFrame(machine_information(subset))
     if folder:
