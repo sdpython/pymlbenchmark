@@ -5,7 +5,6 @@
 import os
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression, SGDClassifier
-from sklearn.naive_bayes import MultinomialNB, BernoulliNB
 from sklearn.tree import DecisionTreeClassifier
 from .onnxruntime_perf import OnnxRuntimeBenchPerfTestBinaryClassification
 from ..context import machine_information
