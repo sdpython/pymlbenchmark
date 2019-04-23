@@ -171,7 +171,7 @@ class TestBenchPerf(ExtTestCase):
         st = io.StringIO()
         prof.to_txt(st)
         content = st.getvalue()
-        self.assertIn("predict_skl_predict", content)
+        self.assertIn("benchmark_perf.py", content)
 
 
 if __name__ == "__main__":
