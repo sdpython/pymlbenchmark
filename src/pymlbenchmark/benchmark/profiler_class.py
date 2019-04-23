@@ -130,7 +130,7 @@ class ProfilerCall:
             f.write("profile %d\n" % i)
             if kw:
                 for a, b in sorted(kw.items()):
-                    f.write("%s=%s\n" % (a, str(b)))
+                    f.write("%s=%s\n" % (a, str(b).replace('\n', '\\n')))
                 f.write("--\n")
             if hasattr(prof, 'output_text'):
                 f.write(prof.output_text(unicode=False, color=False))
