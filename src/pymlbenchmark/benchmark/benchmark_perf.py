@@ -88,7 +88,8 @@ class BenchPerf:
     See example :ref:`l-bench-slk-poly`.
     """
 
-    def __init__(self, pbefore, pafter, btest, filter_test=None):
+    def __init__(self, pbefore, pafter, btest, filter_test=None,
+                 profilers=None):
         """
         @param      pbefore     parameters before calling *fct*,
                                 dictionary ``{name: [list of values]}``,
@@ -103,6 +104,7 @@ class BenchPerf:
         @param      filter_test function which tells if a configuration
                                 must be tested or not, None to test them
                                 all
+        @param      profilers   list of profilers to run
 
         Every parameter specifies a function is called through
         a method. The user can only overwrite it.
@@ -111,6 +113,7 @@ class BenchPerf:
         self.pafter = pafter
         self.btest = btest
         self.filter_test = filter_test
+        self.profilers = profilers
 
     def fct_filter_test(self, **conf):
         """
@@ -202,6 +205,9 @@ class BenchPerf:
                             raise RuntimeError(
                                 "If *f* is a tuple, it must return two function f1, f2.")
                         f1, f2 = f
+                        dt = data[0]
+                        dt2 = f1(*dt)
+                        self.profile(fct, lambda: f2(*dt2))
                         for dt in data:
                             dt2 = f1(*dt)
                             if number == 1:
@@ -215,6 +221,8 @@ class BenchPerf:
                                 d = time_perf() - st
                             times.append(d)
                     else:
+                        dt = data[0]
+                        self.profile(fct, lambda: f(*dt))
                         for dt in data:
                             if number == 1:
                                 st = time_perf()
@@ -262,3 +270,16 @@ class BenchPerf:
                 for fct in stores:
                     yield fct
                 next(loop)  # pylint: disable=R1708
+
+    def profile(self, kwargs, fct):
+        """
+        Checks if a profiler applies on this set
+        of parameters, then profiles function *fct*.
+
+        @param      kwargs      dictionary of parameters
+        @param      fct         function to measure
+        """
+        if self.profilers:
+            for prof in self.profilers:
+                if prof.match(**kwargs):
+                    prof.profile(fct, **kwargs)

@@ -11,6 +11,7 @@ import numpy
 from pyquickhelper.pycode import ExtTestCase, get_temp_folder
 from pymlbenchmark.benchmark import BenchPerf, BenchPerfTest
 from pymlbenchmark.datasets import random_binary_classification
+from pymlbenchmark.benchmark import ProfilerCall
 
 
 class TestBenchPerf(ExtTestCase):
@@ -149,7 +150,11 @@ class TestBenchPerf(ExtTestCase):
         pbefore = dict(alpha=[0, 1, 2], dim=[1, 10])
         pafter = dict(method=["predict", "predict_proba"],
                       N=[1, 10])
-        bp = BenchPerf(pbefore, pafter, myBenchPerfTest)
+        snap = dict(alpha=2, method="predict", N=1,
+                    dim=10, lib='skl', number=1)
+        profilers = [ProfilerCall(snap)]
+        bp = BenchPerf(pbefore, pafter, myBenchPerfTest,
+                       profilers=profilers)
         for number in [1, 2]:
             list(bp.enumerate_run_benchs(repeat=5, number=number))
             name = os.path.join(temp, "BENCH-ERROR-myBenchPerfTest-0.pk")
@@ -159,6 +164,14 @@ class TestBenchPerf(ExtTestCase):
             self.assertIn('msg', content)
             self.assertIn('data', content)
             self.assertIsInstance(content['data'], dict)
+
+        self.assertEqual(len(profilers), 1)
+        prof = profilers[0]
+        self.assertEqual(len(prof), 1)
+        st = io.StringIO()
+        prof.to_txt(st)
+        content = st.getvalue()
+        self.assertIn("predict_skl_predict", content)
 
 
 if __name__ == "__main__":

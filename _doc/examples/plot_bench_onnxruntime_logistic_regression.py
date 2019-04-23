@@ -57,7 +57,7 @@ class OnnxRuntimeBenchPerfTestBinaryClassification3(OnnxRuntimeBenchPerfTestBina
         res.extend([
             {'method': 'predict', 'lib': 'py', 'fct': predict_py_predict},
             {'method': 'predict_proba', 'lib': 'py',
-                'fct': predict_py_predict_proba},
+             'fct': predict_py_predict_proba},
         ])
         return res
 
@@ -81,8 +81,8 @@ def run_bench(repeat=100, verbose=False):
     return results_df
 
 #########################
-# Runs the benchmark
-# ++++++++++++++++++
+# Run the benchmark
+# +++++++++++++++++
 
 
 df = run_bench(verbose=True)

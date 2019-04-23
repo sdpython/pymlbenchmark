@@ -30,8 +30,9 @@ The project is used to avoid too much replications
 of code in projects :epkg:`Benchmarks about Machine Learning`.
 It produces the following figures.
 
-.. image:: sphx_glr_plot_bench_onnxruntime_logistic_regression_001.png
-    :width: 500
+.. html::
+
+    <img src="_images/sphx_glr_plot_bench_onnxruntime_logistic_regression_001.png" width="500" />
 
 **Links:** `github <https://github.com/sdpython/pymlbenchmark/>`_,
 `documentation <http://www.xavierdupre.fr/app/pymlbenchmark/helpsphinx/index.html>`_,
