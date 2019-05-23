@@ -3,7 +3,7 @@
 @brief Plotting for benchmarks.
 """
 from .plot_helper import list_col_options, filter_df_options, options2label
-from .plot_helper import ax_position, plt_colors, plt_styles
+from .plot_helper import ax_position, plt_colors, plt_styles, move_color, move_color_add
 from ..benchmark.bench_helper import remove_almost_nan_columns
 
 
@@ -39,7 +39,7 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
             from pymlbenchmark.plotting import plot_bench_results
             import matplotlib.pyplot as plt
 
-            df = experiment_results('onnxruntime_LogisticRegression')
+            df = experiment_results('nnxruntime_LogisticRegression')
 
             plot_bench_results(df, row_cols='N', col_cols='method',
                                x_value='dim', hue_cols='fit_intercept',
@@ -164,9 +164,11 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
                         color = colors[i]
                     lw = 4. if ly == cmp_col_values[1] else 1.5
                     ms = lw * 3
+                    nc_add = move_color_add(style[0])
+                    nc = move_color(color, nc_add)
                     piv.plot(x=x_value, y=ly, ax=a, marker=style[0],
                              style=style[1], logx=True, logy=True,
-                             c=color, lw=lw, ms=ms,
+                             c=nc, lw=lw, ms=ms,
                              label="{}-{}".format(ly, legh)
                                    if legh != '-' else ly)
 

@@ -142,7 +142,10 @@ def plt_colors():
         print(plt_colors())
     """
     import matplotlib.colors as mcolors
-    return [k.split(':')[-1] for k in mcolors.TABLEAU_COLORS]
+    colors = [k.split(':')[-1] for k in mcolors.TABLEAU_COLORS]
+    for k in sorted(mcolors.CSS4_COLORS):
+        colors.append(k)
+    return colors
 
 
 def plt_styles():
@@ -157,3 +160,31 @@ def plt_styles():
     """
     return [('o', '-'), ('x', '-'), ('*', '-'), ('^', '-'),
             ('o', '--'), ('x', '--'), ('*', '--'), ('^', '--')]
+
+
+def move_color_add(style):
+    """
+    Makes color lighter or darker
+    based on a style.
+    """
+    return {'o': 0, 'x': 80, '*': -80, '^': 120}[style]
+
+
+def move_color(color, add=2):
+    """
+    Returns a different colors, lighter or darker.
+
+    @param      color       name of something starting with ``#``
+    @param      add         what to add to each color,
+                            positive to make it lighter
+    @return                 lighter column
+    """
+    if not color.startswith("#"):
+        import matplotlib.colors as mcolors
+        color = mcolors.CSS4_COLORS[color]
+    rgb = tuple(int(color[1 + i * 2: 3 + i * 2], base=16) for i in range(0, 3))
+    if add > 0:
+        rgb = tuple(min(255, i + add) for i in rgb)
+    else:
+        rgb = tuple(max(0, i + add) for i in rgb)
+    return "#%02X%02X%02X" % rgb

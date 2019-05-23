@@ -23,6 +23,7 @@ class TestCodeStyle(ExtTestCase):
                          "gactions.py:225: R1711",
                          "gactions.py:238: E1128",
                          "R1720",
+                         "R0914",
                          ])
 
     def test_style_test(self):
@@ -33,6 +34,7 @@ class TestCodeStyle(ExtTestCase):
                                   'C0111', 'W0107'),
                    skip=["Instance of 'tuple' has no ",
                          "R1720",
+                         "R0914",
                          ])
 
 

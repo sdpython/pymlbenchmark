@@ -28,6 +28,25 @@ class TestPlotBenchScatter(ExtTestCase):
         plt.close('all')
         self.assertExists(img)
 
+    def test_plot_logreg_xtime_bug(self):
+        from matplotlib import pyplot as plt
+        temp = get_temp_folder(__file__, "temp_plot_logreg_xtime_bug")
+        img = os.path.join(temp, "plot_cache.png")
+        data = os.path.join(temp, "..", "data",
+                            "bench_plot_gridsearch_cache.csv")
+        df = pandas.read_csv(data)
+        ax = plot_bench_xtime(df, row_cols=['n_jobs'],
+                              x_value='mean',
+                              hue_cols=['N'],
+                              cmp_col_values='test',
+                              title="unittest")
+        fig = ax[0].get_figure()
+        fig.savefig(img)
+        if __name__ == "__main__":
+            plt.show()
+        plt.close('all')
+        self.assertExists(img)
+
 
 if __name__ == "__main__":
     unittest.main()

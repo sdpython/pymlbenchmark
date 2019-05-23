@@ -3,7 +3,7 @@
 @brief Plotting for benchmarks.
 """
 from .plot_helper import list_col_options, filter_df_options, options2label
-from .plot_helper import ax_position, plt_colors
+from .plot_helper import ax_position, plt_colors, move_color
 from ..benchmark.bench_helper import remove_almost_nan_columns
 
 
@@ -19,7 +19,7 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
     @param      row_cols        dataframe columns for graph rows
     @param      col_cols        dataframe columns for graph columns
     @param      hue_cols        dataframe columns for other options
-    @param      cmp_col_values  if can be one column or one tuple
+    @param      cmp_col_values  it can be one column or one tuple
                                 ``(column, baseline name)``
     @param      x_value         value for x-axis
     @param      y_value         value to plot on y-axis (such as *mean*, *min*, ...)
@@ -71,8 +71,16 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
         fig = plt.gcf()
     colors = plt_colors()
 
+    if isinstance(cmp_col_values, str):
+        values = tuple(sorted(set(df[cmp_col_values].dropna())))
+        baseline = [v for v in values if v in {
+            'no', 'base', 'baseline', 'skl'}]
+        bl = baseline[0] if len(baseline) > 0 else values[0]
+        cmp_col_values = (cmp_col_values, bl)
+
     dropc = "lower,max,max3,mean,median,min,min3,repeat,upper".split(',')
-    dropc = [c for c in dropc if c not in [x_value, y_value]]
+    dropc = [c for c in dropc if c not in [
+        x_value, y_value] and c in df.columns]
     df = df.drop(dropc, axis=1)
     index = [c for c in df.columns if c not in [
         x_value, y_value, cmp_col_values[0]]]
@@ -128,13 +136,16 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
                     if hue_opt is None:
                         color = colors[ic % len(colors)]
                         ic += 1
+                        nc = color
                     if ly == cmp_col_values[1]:
                         marker = 'o'
+                        nc = move_color(color, -80)
                     else:
                         marker = '.x+'[im]
                         im += 1
+                        nc = move_color(color, 80 * (im - 1))
                     ds.plot(x=cmp_col_values[1], y=y_value, ax=a, marker=marker,
-                            logx=True, logy=True, c=color, lw=2,
+                            logx=True, logy=True, c=nc, lw=2,
                             label="{}-{}".format(ly, legh)
                                   if legh != '-' else ly,
                             kind="scatter")

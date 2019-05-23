@@ -7,6 +7,7 @@ import pandas
 from pyquickhelper.pycode import ExtTestCase
 from pymlbenchmark.plotting.plot_helper import list_col_options, filter_df_options
 from pymlbenchmark.plotting.plot_helper import options2label, ax_position, plt_colors, plt_styles
+from pymlbenchmark.plotting.plot_helper import move_color
 
 
 class TestPlotHelper(ExtTestCase):
@@ -54,6 +55,18 @@ class TestPlotHelper(ExtTestCase):
     def test_plt_styles(self):
         r = plt_styles()
         self.assertEqual(r[0], ('o', '-'))
+
+    def test_move_colors(self):
+        color = "olive"
+        c1 = move_color(color, 2)
+        c2 = move_color(color, -2)
+        self.assertEqual(c1, "#828202")
+        self.assertEqual(c2, "#7E7E00")
+        color = "blue"
+        c1 = move_color(color, 2)
+        c2 = move_color(color, -2)
+        self.assertEqual(c1, "#0202FF")
+        self.assertEqual(c2, "#0000FD")
 
 
 if __name__ == "__main__":
