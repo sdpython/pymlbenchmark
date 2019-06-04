@@ -94,17 +94,42 @@ class PolyBenchPerfTest(BenchPerfTest):
         the same results for both :epkg:`scikit-learn` and
         :epkg:`onnxruntime`.
         """
-        res = results
-        if len(res) > 0 and res[0][1].shape[0] <= 10000:
-            for i in range(1, len(res)):
-                p1, p2 = res[0][1], res[i][1]
-                if len(p1.shape) == 1 and len(p2.shape) == 2:
-                    p2 = p2.ravel()
-                try:
-                    assert_almost_equal(p1, p2, decimal=4)
-                except AssertionError as e:
-                    raise AssertionError("Dim {} - discrepencies between\n{} and\n{}.".format(
-                        p1.shape, res[0][0], res[i][0])) from e
+        res = {}
+        baseline = None
+        for idt, fct, vals in results:
+            key = idt, fct.get('method', '')
+            if key not in res:
+                res[key] = {}
+            if isinstance(vals, list):
+                vals = pandas.DataFrame(vals).values
+            lib = fct['test']
+            res[key][lib] = vals
+            if lib == 'PF-0.20.2':
+                baseline = lib
+
+        if len(res) == 0:
+            raise RuntimeError("No results to compare.")
+        if baseline is None:
+            raise RuntimeError(
+                "Unable to guess the baseline in {}.".format(list(res.pop())))
+
+        for key, exp in res.items():
+            vbase = exp[baseline]
+            if vbase.shape[0] <= 10000:
+                for name, vals in exp.items():
+                    if name == baseline:
+                        continue
+                    p1, p2 = vbase, vals
+                    if len(p1.shape) == 1 and len(p2.shape) == 2:
+                        p2 = p2.ravel()
+                    try:
+                        assert_almost_equal(p1, p2, decimal=4)
+                    except AssertionError as e:
+                        msg = "ERROR: Dim {} - discrepencies between\n{} and\n{} for {}.".format(
+                            p1.shape, baseline, name, key)
+                        self.dump_error(msg, skl=self.skl, ort=self.ort,
+                                        results=results, **kwargs)
+                        raise AssertionError(msg) from e
 
 
 ##############################
