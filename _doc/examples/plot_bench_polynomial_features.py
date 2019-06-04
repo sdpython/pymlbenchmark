@@ -162,7 +162,7 @@ def allow_configuration(N=None, dim=None, degree=None,
 
 @ignore_warnings(category=FutureWarning)
 def run_bench(repeat=10, verbose=False):
-    pbefore = dict(dim=[2, 5, 10, 20, 50], degree=[2, 3],
+    pbefore = dict(dim=[2, 5, 10, 20, 30], degree=[2, 3],
                    interaction_only=[False, True])
     pafter = dict(N=[1, 10, 100, 1000], order=['C', 'F'])
 
