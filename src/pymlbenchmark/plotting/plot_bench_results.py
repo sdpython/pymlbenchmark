@@ -12,7 +12,7 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
                        x_value='N', y_value='mean',
                        err_value=('lower', 'upper'),
                        title=None, box_side=4, labelsize=8,
-                       ax=None):
+                       fontsize="small", ax=None):
     """
     Plots benchmark results.
 
@@ -27,6 +27,8 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
     @param      title           graph title
     @param      box_side        graph side, the function adjusts the size of the graph
     @param      labelsize       size of the labels
+    @param      fontsize        font size see `Text properties
+                                <https://matplotlib.org/api/text_api.html#matplotlib.text.Text>`_
     @param      ax              existing axis
     @return                     fig, ax
 
@@ -172,14 +174,14 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
                              label="{}-{}".format(ly, legh)
                                    if legh != '-' else ly)
 
-            a.legend(loc=0, fontsize='x-small')
+            a.legend(loc=0, fontsize=fontsize)
             a.set_xlabel("{}\n{}".format(x_value, legx)
                          if row == shape[0] - 1 else "",
-                         fontsize='x-small')
+                         fontsize=fontsize)
             a.set_ylabel("{}\n{}".format(legy, y_value)
-                         if col == 0 else "", fontsize='x-small')
+                         if col == 0 else "", fontsize=fontsize)
             if row == 0:
-                a.set_title(legx, fontsize='x-small')
+                a.set_title(legx, fontsize=fontsize)
             a.tick_params(labelsize=labelsize)
             for tick in a.yaxis.get_majorticklabels():
                 tick.set_fontsize(labelsize)
@@ -193,5 +195,5 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
                            "\ncol_cols={},\nhue_cols={},\ncolumns={}".format(
                                row_cols, col_cols, hue_cols, df.columns))
     if title is not None:
-        fig.suptitle(title, fontsize=10)
+        fig.suptitle(title, fontsize=labelsize)
     return ax
