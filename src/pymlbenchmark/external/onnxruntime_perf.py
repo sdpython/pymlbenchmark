@@ -53,12 +53,18 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(BenchPerfTest):
 
     def _init(self, onx):
         "Finalizes the init."
-        from onnxruntime import InferenceSession  # pylint: disable=E0401
+        from onnxruntime import InferenceSession, SessionOptions  # pylint: disable=E0401
         f = BytesIO()
         f.write(onx.SerializeToString())
         self.ort_onnx = onx
         content = f.getvalue()
-        self.ort = InferenceSession(content)
+        try:
+            # if PR https://github.com/microsoft/onnxruntime/pull/800
+            session = SessionOptions()
+            session.clean_initializers = False
+            self.ort = InferenceSession(content, session)
+        except AttributeError:
+            self.ort = InferenceSession(content)
         self.outputs = [o.name for o in self.ort.get_outputs()]
         self.extract_model_info_skl()
         self.extract_model_info_ort(ort_size=len(content))
