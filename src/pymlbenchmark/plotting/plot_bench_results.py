@@ -39,7 +39,7 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
             from pymlbenchmark.plotting import plot_bench_results
             import matplotlib.pyplot as plt
 
-            df = experiment_results('nnxruntime_LogisticRegression')
+            df = experiment_results('onnxruntime_LogisticRegression')
 
             plot_bench_results(df, row_cols='N', col_cols='method',
                                x_value='dim', hue_cols='fit_intercept',
