@@ -208,7 +208,7 @@ class BenchPerf:
                         dt = data[0]
                         dt2 = f1(*dt)
                         self.profile(fct, lambda: f2(*dt2))
-                        for dt in data:
+                        for idt, dt in enumerate(data):
                             dt2 = f1(*dt)
                             if number == 1:
                                 st = time_perf()
@@ -220,10 +220,11 @@ class BenchPerf:
                                     r = f2(*dt2)
                                 d = time_perf() - st
                             times.append(d)
+                            results.append((idt, fct, r))
                     else:
                         dt = data[0]
                         self.profile(fct, lambda: f(*dt))
-                        for dt in data:
+                        for idt, dt in enumerate(data):
                             if number == 1:
                                 st = time_perf()
                                 r = f(*dt)
@@ -234,8 +235,7 @@ class BenchPerf:
                                     r = f(*dt)
                                 d = time_perf() - st
                             times.append(d)
-
-                    results.append((fct, r))
+                            results.append((idt, fct, r))
                     times.sort()
                     fct['min'] = times[0]
                     fct['max'] = times[-1]
@@ -259,14 +259,16 @@ class BenchPerf:
 
                 if validate:
                     if stop_if_error:
-                        inst.validate(results, data=data)
+                        up = inst.validate(results, data=data)
                     else:
                         try:
-                            inst.validate(results, data=data)
+                            up = inst.validate(results, data=data)
                         except Exception as e:  # pylint: disable=W0703
                             msg = str(e).replace("\n", " ").replace(",", " ")
-                            for fct in stores:
-                                fct['error'] = msg
+                            up = {'error': msg}
+                    if up is not None:
+                        for fct in stores:
+                            fct.update(up)
                 for fct in stores:
                     yield fct
                 next(loop)  # pylint: disable=R1708

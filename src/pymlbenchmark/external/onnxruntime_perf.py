@@ -6,6 +6,7 @@ import contextlib
 from io import BytesIO, StringIO
 import numpy
 from numpy.testing import assert_almost_equal
+import pandas
 from sklearn.ensemble.forest import BaseForest
 from sklearn.tree.tree import BaseDecisionTree
 from ..benchmark import BenchPerfTest
@@ -160,20 +161,39 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(BenchPerfTest):
         the same results for both :epkg:`scikit-learn` and
         :epkg:`onnxruntime`.
         """
-        for method in {'predict', 'predict_proba'}:
-            res = [row[1] for row in results if row[0]['method'] == method]
-            if len(res) > 0 and res[0].shape[0] <= 10000:
-                for i in range(1, len(res)):
-                    p1, p2 = res[0], res[i]
+        res = {}
+        baseline = None
+        for idt, fct, vals in results:
+            key = idt, fct.get('method', '')
+            if key not in res:
+                res[key] = {}
+            if isinstance(vals, list):
+                vals = pandas.DataFrame(vals).values
+            lib = fct['lib']
+            res[key][lib] = vals
+            if lib == 'skl':
+                baseline = lib
+
+        if len(res) == 0:
+            raise RuntimeError("No results to compare.")
+        if baseline is None:
+            raise RuntimeError(
+                "Unable to guess the baseline in {}.".format(list(res.pop())))
+
+        for key, exp in res.items():
+            vbase = exp[baseline]
+            if vbase.shape[0] <= 10000:
+                for name, vals in exp.items():
+                    if name == baseline:
+                        continue
+                    p1, p2 = vbase, vals
                     if len(p1.shape) == 1 and len(p2.shape) == 2:
                         p2 = p2.ravel()
                     try:
                         assert_almost_equal(p1, p2, decimal=4)
                     except AssertionError as e:
-                        rows = [row[0]
-                                for row in results if row[0]['method'] == method]
-                        msg = "ERROR: Dim {} - discrepencies between\n{} and\n{}.".format(
-                            p1.shape, rows[0], rows[i])
+                        msg = "ERROR: Dim {} - discrepencies between\n{} and\n{} for {}.".format(
+                            p1.shape, baseline, name, key)
                         self.dump_error(msg, skl=self.skl, ort=self.ort,
                                         results=results, **kwargs)
                         raise AssertionError(msg) from e
