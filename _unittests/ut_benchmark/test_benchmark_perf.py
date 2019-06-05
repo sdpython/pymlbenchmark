@@ -157,7 +157,7 @@ class TestBenchPerf(ExtTestCase):
                        profilers=profilers)
         for number in [1, 2]:
             list(bp.enumerate_run_benchs(repeat=5, number=number))
-            name = os.path.join(temp, "BENCH-ERROR-myBenchPerfTest-0.pk")
+            name = os.path.join(temp, "BENCH-ERROR-myBenchPerfTest-0.pkl")
             with open(name, 'rb') as f:
                 content = pickle.load(f)
             self.assertIsInstance(content, dict)
