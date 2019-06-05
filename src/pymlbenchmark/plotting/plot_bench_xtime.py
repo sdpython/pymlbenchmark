@@ -3,7 +3,7 @@
 @brief Plotting for benchmarks.
 """
 from .plot_helper import list_col_options, filter_df_options, options2label
-from .plot_helper import ax_position, plt_colors, move_color
+from .plot_helper import ax_position, plt_colors, move_color, remove_common_prefix
 from ..benchmark.bench_helper import remove_almost_nan_columns
 
 
@@ -147,7 +147,8 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
                         marker = '.x+'[im]
                         im += 1
                         nc = move_color(color, 80 * (im - 1))
-                    ds.plot(x=cmp_col_values[1], y=y_value, ax=a, marker=marker,
+                    ds.plot(x=remove_common_prefix(cmp_col_values[1]),
+                            y=y_value, ax=a, marker=marker,
                             logx=True, logy=True, c=nc, lw=2,
                             label="{}-{}".format(ly, legh)
                                   if legh != '-' else ly,

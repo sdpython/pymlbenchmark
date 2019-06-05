@@ -3,11 +3,12 @@
 @brief      test log(time=2s)
 """
 import unittest
+import numpy
 import pandas
 from pyquickhelper.pycode import ExtTestCase
 from pymlbenchmark.plotting.plot_helper import list_col_options, filter_df_options
 from pymlbenchmark.plotting.plot_helper import options2label, ax_position, plt_colors, plt_styles
-from pymlbenchmark.plotting.plot_helper import move_color
+from pymlbenchmark.plotting.plot_helper import move_color, remove_common_prefix
 
 
 class TestPlotHelper(ExtTestCase):
@@ -67,6 +68,18 @@ class TestPlotHelper(ExtTestCase):
         c2 = move_color(color, -2)
         self.assertEqual(c1, "#0202FF")
         self.assertEqual(c2, "#0000FD")
+
+    def test_remove_common_prefix(self):
+        la = ["x=a", "x=b"]
+        res = remove_common_prefix(la)
+        self.assertEqual(res, ["a", "b"])
+        res = remove_common_prefix(res)
+        self.assertEqual(res, ["a", "b"])
+        res = remove_common_prefix(["aa", "ba"])
+        self.assertEqual(res, ["aa", "ba"])
+        la = ["x=a", numpy.nan, "x=b"]
+        res = remove_common_prefix(la)
+        self.assertEqual(res, ["a", numpy.nan, "b"])
 
 
 if __name__ == "__main__":

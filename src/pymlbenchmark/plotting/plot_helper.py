@@ -188,3 +188,37 @@ def move_color(color, add=2):
     else:
         rgb = tuple(max(0, i + add) for i in rgb)
     return "#%02X%02X%02X" % rgb
+
+
+def remove_common_prefix(labels):
+    """
+    Removes the common prefix of a series of labels.
+
+    @param  labels      labels
+    @return             stripped labels
+
+    .. runpython::
+        :showcode:
+
+        from pymlbenchmark.plotting.plot_helper import remove_common_prefix
+        labels = ["x=a", "x=b"]
+        print(remove_common_prefix(labels))
+    """
+    prefix = None
+    for label in labels:
+        if not isinstance(label, str):
+            if isinstance(label, float) and numpy.isnan(label):
+                continue
+            return labels
+        if prefix is None:
+            prefix = label
+        elif not label.startswith(prefix):
+            begin = min(len(prefix), len(label))
+            for i in range(begin, -1, -1):
+                prefix = prefix[:i]  # pylint: disable=E1136
+                if label.startswith(prefix):
+                    break
+            if prefix == "":
+                return labels
+    last = len(prefix)
+    return [(label[last:] if isinstance(label, str) else label) for label in labels]
