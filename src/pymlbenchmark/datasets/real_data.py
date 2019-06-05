@@ -11,7 +11,7 @@ def experiment_results(name):
     Returns some real results mostly used in the documentation
     to produce graph to illustrate a function.
 
-    @param      name    name of the datasets.
+    @param      name    name of the dataset
     @return             dataframe
 
     List of available datasets:

@@ -72,7 +72,8 @@ class BenchPerfTest:
         if not os.path.exists(dump_folder):
             os.makedirs(dump_folder)
         pattern = os.path.join(
-            dump_folder, "BENCH-ERROR-{0}-%d.pk".format(self.__class__.__name__))
+            dump_folder, "BENCH-ERROR-{0}-%d.pkl".format(
+                self.__class__.__name__))
         err = 0
         name = pattern % err
         while os.path.exists(name):

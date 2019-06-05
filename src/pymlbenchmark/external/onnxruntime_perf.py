@@ -201,6 +201,8 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(BenchPerfTest):
                         msg = "ERROR: Dim {} - discrepencies between\n{} and\n{} for {}.".format(
                             p1.shape, baseline, name, key)
                         self.dump_error(msg, skl=self.skl, ort=self.ort,
+                                        baseline=vbase, discrepencies=vals,
+                                        onnx_bytes=self.ort_onnx.SerializeToString(),
                                         results=results, **kwargs)
                         raise AssertionError(msg) from e
 
