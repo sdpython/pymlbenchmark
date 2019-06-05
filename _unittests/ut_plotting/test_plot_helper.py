@@ -80,6 +80,9 @@ class TestPlotHelper(ExtTestCase):
         la = ["x=a", numpy.nan, "x=b"]
         res = remove_common_prefix(la)
         self.assertEqual(res, ["a", numpy.nan, "b"])
+        la = ["x=a", "x=b", "1x"]
+        res = remove_common_prefix(la, ["1x"])
+        self.assertEqual(res, ["a", "b", "1x"])
 
 
 if __name__ == "__main__":

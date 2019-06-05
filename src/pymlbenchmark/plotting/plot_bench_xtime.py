@@ -114,14 +114,16 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
 
             pos = ax_position(shape, (row, col))
             a = ax[pos] if pos else ax
+            drop_rename = []
 
             if parallel is not None:
                 mi, ma = sub2[cmp_col_values[1]].min(
                 ), sub2[cmp_col_values[1]].max()
                 for p in parallel:
                     style = '-' if p == 1 else "--"
-                    a.plot([mi, ma], [p, p], style, color='black',
-                           label="%1.1fx" % (1. / p))
+                    la = "%1.1fx" % (1. / p)
+                    drop_rename.append(la)
+                    a.plot([mi, ma], [p, p], style, color='black', label=la)
 
             ic = 0
             for color, hue_opt in zip(colors, lhues_options):
@@ -160,7 +162,16 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
             a.set_ylabel("{}\n{}".format(legy, y_value)
                          if col == 0 else "", fontsize=fontsize)
 
-            a.legend(loc=0, fontsize=fontsize)
+            leg = a.legend(loc=0, fontsize=fontsize)
+
+            # shortens the legend labels
+            texts = leg.get_texts()
+            leg_labels = remove_common_prefix([t.get_text() for t in texts],
+                                              drop_rename)
+            for t, la in zip(texts, leg_labels):
+                t.set_text(la)
+
+            # changes label size
             a.tick_params(labelsize=labelsize)
             for tick in a.yaxis.get_majorticklabels():
                 tick.set_fontsize(labelsize)

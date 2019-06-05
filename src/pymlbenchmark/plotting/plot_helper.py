@@ -190,12 +190,13 @@ def move_color(color, add=2):
     return "#%02X%02X%02X" % rgb
 
 
-def remove_common_prefix(labels):
+def remove_common_prefix(labels, drop_rename=None):
     """
     Removes the common prefix of a series of labels.
 
-    @param  labels      labels
-    @return             stripped labels
+    @param  labels          labels
+    @param  drop_rename     skips those labels
+    @return                 stripped labels
 
     .. runpython::
         :showcode:
@@ -204,8 +205,11 @@ def remove_common_prefix(labels):
         labels = ["x=a", "x=b"]
         print(remove_common_prefix(labels))
     """
+    drop_rename = set(drop_rename) if drop_rename else []
     prefix = None
     for label in labels:
+        if label in drop_rename:
+            continue
         if not isinstance(label, str):
             if isinstance(label, float) and numpy.isnan(label):
                 continue
@@ -221,4 +225,7 @@ def remove_common_prefix(labels):
             if prefix == "":
                 return labels
     last = len(prefix)
-    return [(label[last:] if isinstance(label, str) else label) for label in labels]
+    res = [(label[last:] if (isinstance(label, str) and
+                             label not in drop_rename) else label)
+           for label in labels]
+    return res
