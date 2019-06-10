@@ -19,14 +19,14 @@ class TestPlotHelper(ExtTestCase):
             dict(i=2, t='bb', x=0.5),
             dict(i=2, t='aa', x=0.5),
         ])
-
         res = list_col_options(df, ['i', 't'])
         self.assertEqual(res, [{'i': 1, 't': 'aa'},
                                {'i': 1, 't': 'bb'},
                                {'i': 2, 't': 'aa'},
                                {'i': 2, 't': 'bb'}])
-
         self.assertEqual(list_col_options(df, None), [None])
+        res = list_col_options(df, 'i')
+        self.assertEqual(res, [{'i': 1}, {'i': 2}])
 
     def test_filter_df_options(self):
         df = pandas.DataFrame([
@@ -34,7 +34,6 @@ class TestPlotHelper(ExtTestCase):
             dict(i=2, t='bb', x=0.5),
             dict(i=2, t='aa', x=0.5),
         ])
-
         sub = filter_df_options(df, list_col_options(df, ['i', 't'])[0])
         self.assertEqual(sub.shape, (1, 3))
         sub = filter_df_options(df, list_col_options(df, None))

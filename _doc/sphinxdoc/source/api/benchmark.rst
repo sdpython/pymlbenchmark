@@ -9,7 +9,6 @@ Benchmark factorisation
 
 .. autosignature:: pymlbenchmark.benchmark.benchmark_perf.BenchPerf
 
-
 Graphs
 ++++++
 

@@ -28,6 +28,23 @@ class TestPlotBenchScatter(ExtTestCase):
         plt.close('all')
         self.assertExists(img)
 
+    def test_plot_logreg_xtime_none(self):
+        from matplotlib import pyplot as plt
+        temp = get_temp_folder(__file__, "temp_plot_logreg_xtime")
+        img = os.path.join(temp, "plot_logreg.png")
+        data = os.path.join(temp, "..", "data",
+                            "onnxruntime_LogisticRegression.perf.csv")
+        df = pandas.read_csv(data)
+        ax = plot_bench_xtime(df, row_cols='N', col_cols='method',
+                              hue_cols=None,
+                              title="unittest")
+        fig = ax[0, 0].get_figure()
+        fig.savefig(img)
+        if __name__ == "__main__":
+            plt.show()
+        plt.close('all')
+        self.assertExists(img)
+
     def test_plot_logreg_xtime_bug(self):
         from matplotlib import pyplot as plt
         temp = get_temp_folder(__file__, "temp_plot_logreg_xtime_bug")
