@@ -18,7 +18,7 @@ def has_onnxruntime():
 
 class TestBENCHonnxruntime_ensemble(ExtTestCase):
 
-    def run_onnxruntime_test(self, name, repeat=100, verbose=True, stop_if_error=True):
+    def run_onnxruntime_test(self, name, repeat=2, verbose=True, stop_if_error=True):
         fLOG(
             __file__,
             self._testMethodName,
