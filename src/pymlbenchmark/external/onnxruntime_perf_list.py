@@ -50,7 +50,8 @@ def onnxruntime_perf_binary_classifiers(bincl=None):
 
 
 def run_onnxruntime_test(folder, name, repeat=100, verbose=True,
-                         stop_if_error=True, validate=True, fLOG=None):
+                         stop_if_error=True, validate=True,
+                         N=None, dim=None, fLOG=None):
     """
     Runs a benchmark for :epkg:`onnxruntime`.
 
@@ -62,6 +63,8 @@ def run_onnxruntime_test(folder, name, repeat=100, verbose=True,
     @param      stop_if_error   by default, it stops when method *validate*
                                 fails, if False, the function stores the exception
     @param      validate        validate the outputs against the baseline
+    @param      N               overwrites *N* parameter
+    @param      dim             overwrites *dims* parameter
     @param      fLOG            logging function
     @return                     two dataframes, one for the results,
                                 the other one for the context (see @see fn machine_information)
@@ -75,6 +78,11 @@ def run_onnxruntime_test(folder, name, repeat=100, verbose=True,
     if len(sel) != 1:
         raise ValueError("Unable to find one test for '%s'." % name)
     res = sel[0]
+    res = res.copy()
+    if N is not None:
+        res["pafter"]['N'] = N
+    if dim is not None:
+        res["pbefore"]['dim'] = dim
 
     bp = BenchPerf(res['pbefore'], res['pafter'], res['fct'])
     results = list(bp.enumerate_run_benchs(repeat=repeat, verbose=verbose,
