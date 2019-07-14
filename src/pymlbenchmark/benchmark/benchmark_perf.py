@@ -187,7 +187,8 @@ class BenchPerf:
                 fcts = inst.fcts(**obs)
                 if not isinstance(fcts, list):
                     raise TypeError(
-                        "Method fcts must return a list of dictionaries (name, fct) not {}".format(fcts))
+                        "Method fcts must return a list of dictionaries (name, fct) "
+                        "not {}".format(fcts))
 
                 data = [inst.data(**obs) for r in range(repeat)]
                 if not isinstance(data, (list, tuple)):
@@ -277,6 +278,8 @@ class BenchPerf:
                     if up is not None:
                         for fct in stores:
                             fct.update(up)
+                    else:
+                        fct['error_in'] = 0
                 for fct in stores:
                     yield fct
                 next(loop)  # pylint: disable=R1708
