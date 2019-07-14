@@ -279,7 +279,8 @@ class BenchPerf:
                         for fct in stores:
                             fct.update(up)
                     else:
-                        fct['error_in'] = 0
+                        for fct in stores:
+                            fct['error_in'] = 0
                 for fct in stores:
                     yield fct
                 next(loop)  # pylint: disable=R1708
