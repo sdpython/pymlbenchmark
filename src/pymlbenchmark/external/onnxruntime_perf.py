@@ -198,8 +198,8 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(BenchPerfTest):
                     try:
                         assert_almost_equal(p1, p2, decimal=4)
                     except AssertionError as e:
-                        msg = "ERROR: Dim {} - discrepencies between\n{} and\n{} for {}.".format(
-                            p1.shape, baseline, name, key)
+                        msg = "ERROR: Dim {}-{} - discrepencies between '{}' and '{}' for '{}'.".format(
+                            vbase.shape, vals.shape, baseline, name, key)
                         self.dump_error(msg, skl=self.skl, ort=self.ort,
                                         baseline=vbase, discrepencies=vals,
                                         onnx_bytes=self.ort_onnx.SerializeToString(),

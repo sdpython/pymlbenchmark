@@ -35,7 +35,8 @@ class TestBENCHonnxruntime_ensemble(ExtTestCase):
     @unittest.skipIf(not has_onnxruntime(), reason="onnxruntime is not installed")
     def test_bench_perf_onnxruntime_RandomForestClassifier(self):
         self.run_onnxruntime_test(
-            self._testMethodName.split('_')[-1], verbose=False)
+            self._testMethodName.split('_')[-1], verbose=False,
+            stop_if_error=False)
 
 
 if __name__ == "__main__":
