@@ -273,7 +273,7 @@ class BenchPerf:
                             up = inst.validate(results, data=data)
                         except Exception as e:  # pylint: disable=W0703
                             msg = str(e).replace("\n", " ").replace(",", " ")
-                            up = {'error': msg, 'nberror': 1}
+                            up = {'error': msg, 'error_int': 1}
                     if up is not None:
                         for fct in stores:
                             fct.update(up)

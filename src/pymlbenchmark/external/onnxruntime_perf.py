@@ -161,6 +161,15 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(BenchPerfTest):
                 fct.update(self.ort_info)
         return fcts
 
+    def model_info(self, model):
+        """
+        Returns additional informations about a model.
+
+        @param      model       model to describe
+        @return                 dictionary with additional descriptor
+        """
+        return dict(type_name=model.__class__.__name__)
+
     def validate(self, results, **kwargs):
         """
         Checks that methods *predict* and *predict_proba* returns
@@ -205,12 +214,3 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(BenchPerfTest):
                                         onnx_bytes=self.ort_onnx.SerializeToString(),
                                         results=results, **kwargs)
                         raise AssertionError(msg) from e
-
-    def model_info(self, model):
-        """
-        Returns additional informations about a model.
-
-        @param      model       model to describe
-        @return                 dictionary with additional descriptor
-        """
-        return dict(type_name=model.__class__.__name__)

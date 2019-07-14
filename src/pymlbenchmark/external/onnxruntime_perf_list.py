@@ -11,17 +11,21 @@ from ..context import machine_information
 from ..benchmark import BenchPerf
 
 
-def onnxruntime_perf_binary_classifiers():
+def onnxruntime_perf_binary_classifiers(bincl=None):
     """
     Returns a list of benchmarks for binary classifier.
     It compares :epkg:`onnxruntime` predictions
     against :epkg:`scikit-learn`.
+
+    @param      bincl       test to chenge, by default, it is
+                            @see cl OnnxRuntimeBenchPerfTestBinaryClassification
     """
     dims = [1, 5, 10, 20, 50, 100, 150]
     N = [1, 10]
     max_depths = [2, 5, 10, 15, 20]
 
-    bincl = OnnxRuntimeBenchPerfTestBinaryClassification
+    if bincl is None:
+        bincl = OnnxRuntimeBenchPerfTestBinaryClassification
 
     return [
         {'fct': lambda **opts: bincl(LogisticRegression, **opts),
