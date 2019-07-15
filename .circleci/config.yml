@@ -84,13 +84,6 @@ jobs:
             pip install -r requirements_conda.txt
 
       - run:
-          name: Install skl2onnx
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install git+https://github.com/onnx/sklearn-onnx
-
-      - run:
           name: install dependencies (2)
           command: |
             python3 -m venv venv

@@ -139,7 +139,8 @@ def plt_colors():
         :showcode:
 
         from pymlbenchmark.plotting.plot_helper import plt_colors
-        print(plt_colors())
+        from pprint import pprint
+        pprint(plt_colors())
     """
     import matplotlib.colors as mcolors
     colors = [k.split(':')[-1] for k in mcolors.TABLEAU_COLORS]
@@ -156,7 +157,8 @@ def plt_styles():
         :showcode:
 
         from pymlbenchmark.plotting.plot_helper import plt_styles
-        print(plt_styles())
+        from pprint import pprint
+        pprint(plt_styles())
     """
     return [('o', '-'), ('x', '-'), ('*', '-'), ('^', '-'),
             ('o', '--'), ('x', '--'), ('*', '--'), ('^', '--')]

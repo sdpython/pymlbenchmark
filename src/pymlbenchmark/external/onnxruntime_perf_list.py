@@ -4,10 +4,11 @@
 """
 import os
 import sklearn
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression, SGDClassifier
-from sklearn.tree import DecisionTreeClassifier
-from .onnxruntime_perf import OnnxRuntimeBenchPerfTestBinaryClassification
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.linear_model import LogisticRegression, SGDClassifier, LinearRegression
+from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
+from .onnxruntime_perf_binclass import OnnxRuntimeBenchPerfTestBinaryClassification
+from .onnxruntime_perf_regression import OnnxRuntimeBenchPerfTestRegression
 from ..context import machine_information
 from ..benchmark import BenchPerf
 
@@ -18,7 +19,7 @@ def onnxruntime_perf_binary_classifiers(bincl=None):
     It compares :epkg:`onnxruntime` predictions
     against :epkg:`scikit-learn`.
 
-    @param      bincl       test to chenge, by default, it is
+    @param      bincl       test class to use, by default, it is
                             @see cl OnnxRuntimeBenchPerfTestBinaryClassification
     """
     dims = [1, 5, 10, 20, 50, 100, 150]
@@ -47,6 +48,39 @@ def onnxruntime_perf_binary_classifiers(bincl=None):
          'pbefore': dict(dim=dims, max_depth=max_depths, n_estimators=[1, 10, 100]),
          'pafter': dict(N=N),
          'name': 'RandomForestClassifier'},
+    ]
+
+
+def onnxruntime_perf_regressors(regcl=None):
+    """
+    Returns a list of benchmarks for binary classifier.
+    It compares :epkg:`onnxruntime` predictions
+    against :epkg:`scikit-learn`.
+
+    @param      regcl       test class to use, by default, it is
+                            @see cl OnnxRuntimeBenchPerfTestRegression
+    """
+    dims = [1, 5, 10, 20, 50, 100, 150]
+    N = [1, 10]
+    max_depths = [2, 5, 10, 15, 20]
+
+    if regcl is None:
+        regcl = OnnxRuntimeBenchPerfTestRegression
+
+    return [
+        {'fct': lambda **opts: regcl(LinearRegression, **opts),
+         'pbefore': dict(dim=dims, fit_intercept=[True, False]),
+         'pafter': dict(N=N),
+         'name': 'LinarRegression'},
+        # trees
+        {'fct': lambda **opts: regcl(DecisionTreeRegressor, **opts),
+         'pbefore': dict(dim=dims, max_depth=max_depths),
+         'pafter': dict(N=N),
+         'name': 'DecisionTreeRegressor'},
+        {'fct': lambda **opts: regcl(RandomForestRegressor, **opts),
+         'pbefore': dict(dim=dims, max_depth=max_depths, n_estimators=[1, 10, 100]),
+         'pafter': dict(N=N),
+         'name': 'RandomForestRegressor'},
     ]
 
 
@@ -96,7 +130,7 @@ def run_onnxruntime_test(folder, name, repeat=100, verbose=True,
         results_df.to_csv(out, index=False)
 
     subset = {'sklearn', 'numpy', 'pandas', 'onnxruntime',
-              'skl2onnx', 'onnxconverters_common'}
+              'skl2onnx', 'onnxconverters_common', 'mlprodict'}
 
     df2 = pandas.DataFrame(machine_information(subset))
     if folder:

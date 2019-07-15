@@ -207,5 +207,6 @@ plot_bench_results(df, row_cols=['N', 'order'],
                    col_cols=['degree'], x_value='dim',
                    hue_cols=['interaction_only'],
                    cmp_col_values='test',
-                   title="PolynomialFeatures\nBenchmark scikit-learn PR13290")
+                   title="PolynomialFeatures\nBenchmark scikit-learn PR13290",
+                   label_fct=lambda la: la.replace("interaction_only", "ily"))
 plt.show()

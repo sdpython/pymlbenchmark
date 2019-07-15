@@ -12,7 +12,8 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
                      x_value='mean', y_value='xtime',
                      parallel=(1., 0.5), title=None,
                      box_side=4, labelsize=10,
-                     fontsize="small", ax=None):
+                     fontsize="small", label_fct=None,
+                     color_fct=None, ax=None):
     """
     Plots benchmark acceleration.
 
@@ -32,6 +33,10 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
     @param      fontsize        font size see `Text properties
                                 <https://matplotlib.org/api/text_api.html#matplotlib.text.Text>`_
     @param      ax              existing axis
+    @param      label_fct       if not None, it is a function which
+                                modifies the label before printing it on the graph
+    @param      color_fct       if not None, it is a function which modifies
+                                a color based on the label and the previous color
     @return                     fig, ax
 
     .. exref::
@@ -50,6 +55,16 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
                              title="LogisticRegression\\nAcceleration scikit-learn / onnxruntime")
             plt.show()
     """
+    if label_fct is None:
+        def label_fct_(x):
+            return x
+        label_fct = label_fct_
+
+    if color_fct is None:
+        def color_fct_(la, col):
+            return col
+        color_fct = color_fct_
+
     import matplotlib.pyplot as plt
     if not isinstance(row_cols, (tuple, list)):
         row_cols = [row_cols]
@@ -123,7 +138,8 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
                     style = '-' if p == 1 else "--"
                     la = "%1.1fx" % (1. / p)
                     drop_rename.append(la)
-                    a.plot([mi, ma], [p, p], style, color='black', label=la)
+                    a.plot([mi, ma], [p, p], style, color='black',
+                           label=label_fct(la))
 
             ic = 0
             for color, hue_opt in zip(colors, lhues_options):
@@ -142,19 +158,19 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
                         color = colors[ic % len(colors)]
                         ic += 1
                         nc = color
+                    la = "{}-{}".format(ly, legh) if legh != '-' else ly
+                    color_ = color_fct(la, color)
                     if ly == cmp_col_values[1]:
                         marker = 'o'
-                        nc = move_color(color, -80)
+                        nc = move_color(color_, -80)
                     else:
                         marker = '.x+'[im]
                         im += 1
-                        nc = move_color(color, 80 * (im - 1))
+                        nc = move_color(color_, 80 * (im - 1))
                     ds.plot(x=remove_common_prefix(cmp_col_values[1]),
                             y=y_value, ax=a, marker=marker,
                             logx=True, logy=True, c=nc, lw=2,
-                            label="{}-{}".format(ly, legh)
-                                  if legh != '-' else ly,
-                            kind="scatter")
+                            label=label_fct(la), kind="scatter")
 
             a.set_xlabel("{}\n{}".format(x_value, legx)
                          if row == shape[0] - 1 else "",

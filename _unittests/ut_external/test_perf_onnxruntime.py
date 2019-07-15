@@ -11,6 +11,7 @@ from pymlbenchmark.context import machine_information
 from pymlbenchmark.benchmark import BenchPerf
 from pymlbenchmark.external import (
     onnxruntime_perf_binary_classifiers,
+    onnxruntime_perf_regressors,
     OnnxRuntimeBenchPerfTestBinaryClassification
 )
 
@@ -77,6 +78,20 @@ class TestPerfOnnxRuntime(ExtTestCase):
 
     @unittest.skipIf(not has_onnxruntime('0.3.0'),
                      reason="onnxruntime is not installed")
+    def test_perf_onnxruntime_logreg_fails(self):
+        res = onnxruntime_perf_binary_classifiers(MyBenchTest)[0]
+
+        bp = BenchPerf(res['pbefore'], res['pafter'], res['fct'])
+        results = list(bp.enumerate_run_benchs(
+            repeat=10, verbose=True, stop_if_error=False))
+        results_df = pandas.DataFrame(results)
+        su = results_df['error_c'].sum()
+        self.assertEqual(su, results_df.shape[0])
+        temp = get_temp_folder(__file__, "temp_perf_onnxruntime_logreg_fails")
+        out = os.path.join(temp, "onnxruntime_logreg.perf.csv")
+        results_df.to_csv(out, index=False)
+        self.assertExists(out)
+
     def test_perf_onnxruntime_logreg(self):
         res = onnxruntime_perf_binary_classifiers()[0]
 
@@ -89,34 +104,29 @@ class TestPerfOnnxRuntime(ExtTestCase):
         self.assertExists(out)
 
         subset = {'sklearn', 'numpy', 'pandas', 'onnxruntime',
-                  'skl2onnx'}
+                  'skl2onnx', 'mlprodict'}
 
         df = pandas.DataFrame(machine_information(subset))
         out = os.path.join(temp, "onnxruntime_logreg.time.csv")
         df.to_csv(out, index=False)
         self.assertExists(out)
 
-    @unittest.skipIf(not has_onnxruntime('0.3.0'),
-                     reason="onnxruntime is not installed")
-    def test_perf_onnxruntime_logreg_fails(self):
-        res = onnxruntime_perf_binary_classifiers(MyBenchTest)[0]
+    def test_perf_onnxruntime_linreg(self):
+        res = onnxruntime_perf_regressors()[0]
 
         bp = BenchPerf(res['pbefore'], res['pafter'], res['fct'])
-        results = list(bp.enumerate_run_benchs(
-            repeat=10, verbose=True, stop_if_error=False))
+        results = list(bp.enumerate_run_benchs(repeat=10, verbose=True))
         results_df = pandas.DataFrame(results)
-        su = results_df['error_int'].sum()
-        self.assertEqual(su, results_df.shape[0])
-        temp = get_temp_folder(__file__, "temp_perf_onnxruntime_logreg_fails")
-        out = os.path.join(temp, "onnxruntime_logreg.perf.csv")
+        temp = get_temp_folder(__file__, "temp_perf_onnxruntime_linreg")
+        out = os.path.join(temp, "onnxruntime_linreg.perf.csv")
         results_df.to_csv(out, index=False)
         self.assertExists(out)
 
         subset = {'sklearn', 'numpy', 'pandas', 'onnxruntime',
-                  'skl2onnx'}
+                  'skl2onnx', 'mlprodict'}
 
         df = pandas.DataFrame(machine_information(subset))
-        out = os.path.join(temp, "onnxruntime_logreg.time.csv")
+        out = os.path.join(temp, "onnxruntime_linreg.time.csv")
         df.to_csv(out, index=False)
         self.assertExists(out)
 

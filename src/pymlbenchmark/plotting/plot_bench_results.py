@@ -12,7 +12,8 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
                        x_value='N', y_value='mean',
                        err_value=('lower', 'upper'),
                        title=None, box_side=4, labelsize=8,
-                       fontsize="small", ax=None):
+                       fontsize="small", label_fct=None,
+                       color_fct=None, ax=None):
     """
     Plots benchmark results.
 
@@ -29,6 +30,10 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
     @param      labelsize       size of the labels
     @param      fontsize        font size see `Text properties
                                 <https://matplotlib.org/api/text_api.html#matplotlib.text.Text>`_
+    @param      label_fct       if not None, it is a function which
+                                modifies the label before printing it on the graph
+    @param      color_fct       if not None, it is a function which modifies
+                                a color based on the label and the previous color
     @param      ax              existing axis
     @return                     fig, ax
 
@@ -48,6 +53,16 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
                                title="LogisticRegression\\nBenchmark scikit-learn / onnxruntime")
             plt.show()
     """
+    if label_fct is None:
+        def label_fct_(x):
+            return x
+        label_fct = label_fct_
+
+    if color_fct is None:
+        def color_fct_(la, col):
+            return col
+        color_fct = color_fct_
+
     import matplotlib.pyplot as plt
     if not isinstance(row_cols, (tuple, list)):
         row_cols = [row_cols]
@@ -151,28 +166,31 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
                 for i, ly in enumerate(ys):
                     if hue_opt is None:
                         color = colors[i]
+                    la = "{}-{}".format(ly, legh) if legh != '-' else ly
+                    color_ = color_fct(la, color)
                     if upper_piv is not None and lower_piv is not None:
                         a.fill_between(piv[x_value], lower_piv[ly], upper_piv[ly],
-                                       color=color, alpha=0.1)
+                                       color=color_, alpha=0.1)
                     elif upper_piv is not None:
                         a.fill_between(piv[x_value], piv[ly], upper_piv[ly],
-                                       color=color, alpha=0.1)
+                                       color=color_, alpha=0.1)
                     elif lower_piv is not None:
                         a.fill_between(piv[x_value], lower_piv[ly], piv[ly],
-                                       color=color, alpha=0.1)
+                                       color=color_, alpha=0.1)
 
                 for i, (ly, style) in enumerate(zip(ys, styles)):
                     if hue_opt is None:
                         color = colors[i]
+                    la = "{}-{}".format(ly, legh) if legh != '-' else ly
+                    color_ = color_fct(la, color)
                     lw = 4. if ly == cmp_col_values[1] else 1.5
                     ms = lw * 3
                     nc_add = move_color_add(style[0])
-                    nc = move_color(color, nc_add)
+                    nc = move_color(color_, nc_add)
                     piv.plot(x=x_value, y=ly, ax=a, marker=style[0],
                              style=style[1], logx=True, logy=True,
                              c=nc, lw=lw, ms=ms,
-                             label="{}-{}".format(ly, legh)
-                                   if legh != '-' else ly)
+                             label=label_fct(la))
 
             a.legend(loc=0, fontsize=fontsize)
             a.set_xlabel("{}\n{}".format(x_value, legx)

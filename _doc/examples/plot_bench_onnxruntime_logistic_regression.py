@@ -95,7 +95,8 @@ print(df.head())
 # Extract information about the machine used
 # ++++++++++++++++++++++++++++++++++++++++++
 
-pkgs = ['numpy', 'pandas', 'sklearn', 'skl2onnx', 'onnxruntime', 'onnx']
+pkgs = ['numpy', 'pandas', 'sklearn', 'skl2onnx',
+        'onnxruntime', 'onnx', 'mlprodict']
 dfi = pandas.DataFrame(machine_information(pkgs))
 dfi.to_csv("bench_plot_onnxruntime_logistic_regression.time.csv", index=False)
 print(dfi)
@@ -104,7 +105,24 @@ print(dfi)
 # Plot the results
 # ++++++++++++++++
 
+
+def label_fct(la):
+    la = la.replace("onxpython", "opy")
+    la = la.replace("onxonnxruntime1", "ort")
+    la = la.replace("fit_intercept", "fi")
+    la = la.replace("True", "1")
+    la = la.replace("False", "0")
+    return la
+
+
+def color_fct(la, col):
+    if "onxpython" in la:
+        return "red"
+    return col
+
+
 plot_bench_results(df, row_cols='N', col_cols='method',
                    x_value='dim', hue_cols='fit_intercept',
-                   title="LogisticRegression\nBenchmark scikit-learn / onnxruntime")
+                   title="LogisticRegression\nBenchmark scikit-learn / onnxruntime",
+                   label_fct=label_fct, color_fct=color_fct)
 plt.show()
