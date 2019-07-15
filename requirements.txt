@@ -3,7 +3,7 @@ jupyter_sphinx==0.1.4
 jyquickhelper
 git+https://github.com/sdpython/nbconvert.git@fixes
 mlinsights>=0.1.199
-mlprodict>=0.2.268
+mlprodict>=0.2.269
 pyinstrument
 pylint
 pyquickhelper>=1.8
