@@ -15,7 +15,7 @@ class TestArtificial(ExtTestCase):
         self.assertEqual(X.shape, (40, 4))
         self.assertEqual(y.shape, (40, ))
         self.assertEqual(len(set(y)), 2)
-        self.assertEqual(y.dtype, numpy.int32)
+        self.assertIn(y.dtype, (numpy.int32, numpy.int64))
 
     def test_random_regression(self):
         X, y = random_regression(40, 4)
