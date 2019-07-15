@@ -35,6 +35,7 @@ import numpy as np
 from numpy.random import rand
 import matplotlib.pyplot as plt
 import pandas
+import sklearn
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import SGDClassifier
@@ -207,9 +208,10 @@ def run_bench(repeat=100, verbose=False):
     n_obs = [10, 100, 1000]
     n_features = [5, 10, 50]
 
-    start = time()
-    results = bench(n_obs, n_features, repeat=repeat, verbose=verbose)
-    end = time()
+    with sklearn.config_context(assume_finite=True):
+        start = time()
+        results = bench(n_obs, n_features, repeat=repeat, verbose=verbose)
+        end = time()
 
     results_df = pandas.DataFrame(results)
     print("Total time = %0.3f sec\n" % (end - start))

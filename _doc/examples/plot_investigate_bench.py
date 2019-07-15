@@ -18,6 +18,7 @@ from numpy.testing import assert_almost_equal
 import matplotlib.pyplot as plt
 import pandas
 from scipy.special import expit
+import sklearn
 from sklearn.utils.testing import ignore_warnings
 from sklearn.linear_model import LogisticRegression
 from pymlbenchmark.benchmark import BenchPerf
@@ -86,9 +87,10 @@ def run_bench(repeat=10, verbose=False):
         LogisticRegression, dim=dim, **opts)
     bp = BenchPerf(pbefore, pafter, test)
 
-    start = time()
-    results = list(bp.enumerate_run_benchs(repeat=repeat, verbose=verbose))
-    end = time()
+    with sklearn.config_context(assume_finite=True):
+        start = time()
+        results = list(bp.enumerate_run_benchs(repeat=repeat, verbose=verbose))
+        end = time()
 
     results_df = pandas.DataFrame(results)
     print("Total time = %0.3f sec\n" % (end - start))

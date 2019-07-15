@@ -1,0 +1,17 @@
+
+.. blogpost::
+    :title: Reduce scikit-learn verifications
+    :keywords: scikit-learn, config, assume_finite
+    :date: 2019-07-15
+    :categories: benchmark
+
+    The function `config_context
+    <https://scikit-learn.org/stable/modules/generated/sklearn.config_context.html>`_
+    offers the user to disable some of the checkings done by
+    :epkg:`scikit-learn` at every call of methods *fit* or *predict*.
+    It should used for every benchmark involving :epkg:`scikit-learn`.
+
+    ::
+
+        with sklearn.config_context(assume_finite=True):
+            # ...

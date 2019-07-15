@@ -3,6 +3,7 @@
 @brief Returns predefined tests.
 """
 import os
+import sklearn
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression, SGDClassifier
 from sklearn.tree import DecisionTreeClassifier
@@ -85,9 +86,10 @@ def run_onnxruntime_test(folder, name, repeat=100, verbose=True,
         res["pbefore"]['dim'] = dim
 
     bp = BenchPerf(res['pbefore'], res['pafter'], res['fct'])
-    results = list(bp.enumerate_run_benchs(repeat=repeat, verbose=verbose,
-                                           stop_if_error=stop_if_error,
-                                           validate=validate))
+    with sklearn.config_context(assume_finite=True):
+        results = list(bp.enumerate_run_benchs(repeat=repeat, verbose=verbose,
+                                               stop_if_error=stop_if_error,
+                                               validate=validate))
     results_df = pandas.DataFrame(results)
     if folder:
         out = os.path.join(folder, "onnxruntime_%s.perf.csv" % name)
