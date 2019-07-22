@@ -1,12 +1,12 @@
 coverage
-jupyter_sphinx==0.1.4
+jupyter_sphinx>=0.2
 jyquickhelper
 git+https://github.com/sdpython/nbconvert.git@fixes
 mlinsights>=0.1.199
 mlprodict>=0.2.272
 pyinstrument
 pylint
-pyquickhelper>=1.8
+pyquickhelper>=1.9.3179
 git+https://github.com/xadupre/sklearn-onnx.git@jenkins
 sphinx_bootstrap_theme
 wheel
