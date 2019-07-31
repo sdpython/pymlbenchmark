@@ -79,12 +79,14 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
     lhues_options = list_col_options(df, hue_cols)
 
     shape = (len(lrows_options), len(lcols_options))
+    shape2 = shape if shape[0] > 1 else shape[1:]
     if ax is None:
         figsize = (shape[1] * box_side, shape[0] * box_side)
         fig, ax = plt.subplots(shape[0], shape[1], figsize=figsize)
-    elif ax.shape != shape:
+    elif not hasattr(ax, 'shape') or ax.shape not in (shape, shape2):
         raise RuntimeError(
-            "Shape mismatch ax.shape={} when expected values is {}".format(ax.shape, shape))
+            "Shape mismatch ax.shape={} when expected values is {} or {}".format(
+                getattr(ax, 'shape', None), shape, shape2))
     else:
         fig = plt.gcf()
     colors = plt_colors()
