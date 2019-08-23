@@ -1,4 +1,12 @@
 
+.. image:: https://github.com/sdpython/pymlbenchmark/blob/master/_doc/sphinxdoc/source/phdoc_static/project_ico.png?raw=true
+    :target: https://github.com/sdpython/pymlbenchmark/
+
+.. _l-README:
+
+pymlbenchmark: benchmark around machine learning
+================================================
+
 .. image:: https://travis-ci.org/sdpython/pymlbenchmark.svg?branch=master
     :target: https://travis-ci.org/sdpython/pymlbenchmark
     :alt: Build status
@@ -35,11 +43,6 @@
 .. image:: http://www.xavierdupre.fr/app/pymlbenchmark/helpsphinx/_images/nbcov.png
     :target: http://www.xavierdupre.fr/app/pymlbenchmark/helpsphinx/all_notebooks_coverage.html
     :alt: Notebook Coverage
-
-.. _l-README:
-
-pymlbenchmark
-=============
 
 This project started with my first attempt
 to bring a modification to
