@@ -44,6 +44,18 @@ pymlbenchmark: benchmark around machine learning
     :target: http://www.xavierdupre.fr/app/pymlbenchmark/helpsphinx/all_notebooks_coverage.html
     :alt: Notebook Coverage
 
+.. image:: https://pepy.tech/badge/pymlbenchmark/month
+    :target: https://pepy.tech/project/pymlbenchmark/month
+    :alt: Downloads
+
+.. image:: https://img.shields.io/github/forks/sdpython/pymlbenchmark.svg
+    :target: https://github.com/sdpython/pymlbenchmark/
+    :alt: Forks
+
+.. image:: https://img.shields.io/github/stars/sdpython/pymlbenchmark.svg
+    :target: https://github.com/sdpython/pymlbenchmark/
+    :alt: Stars
+
 This project started with my first attempt
 to bring a modification to
 `scikit-learn <https://scikit-learn.org/stable/>`_
