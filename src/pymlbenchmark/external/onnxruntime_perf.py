@@ -10,7 +10,7 @@ import pandas
 from sklearn.ensemble.forest import BaseForest
 from sklearn.tree.tree import BaseDecisionTree
 from mlprodict.onnxrt import OnnxInference
-from mlprodict.onnxrt.validate_helper import get_opset_number_from_onnx
+from mlprodict.onnxrt.validate.validate_helper import get_opset_number_from_onnx
 from ..benchmark import BenchPerfTest
 from ..benchmark.sklearn_helper import get_nb_skl_base_estimators
 
