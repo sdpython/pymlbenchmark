@@ -36,10 +36,6 @@ pymlbenchmark: benchmark around machine learning
     :alt: GitHub Issues
     :target: https://github.com/sdpython/pymlbenchmark/issues
 
-.. image:: https://badge.waffle.io/sdpython/pymlbenchmark.png?label=to%20do&title=to%20do
-    :alt: Waffle
-    :target: https://waffle.io/sdpython/pymlbenchmark
-
 .. image:: http://www.xavierdupre.fr/app/pymlbenchmark/helpsphinx/_images/nbcov.png
     :target: http://www.xavierdupre.fr/app/pymlbenchmark/helpsphinx/all_notebooks_coverage.html
     :alt: Notebook Coverage
