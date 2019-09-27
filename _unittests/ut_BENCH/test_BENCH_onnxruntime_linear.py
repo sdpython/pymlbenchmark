@@ -10,7 +10,7 @@ from pymlbenchmark.external import run_onnxruntime_test
 
 def has_onnxruntime():
     try:
-        import onnxruntime
+        import onnxruntime  # pylint: disable=C0415
         return onnxruntime is not None
     except ImportError:
         return False

@@ -54,5 +54,5 @@ def random_regression(N, dim):
     eps = (randn(N, dim) - 0.5) / 4
     X_train_eps = X_train + eps
     y_train = X_train_eps.sum(
-        axis=1) + numpy.power(X_train_eps / 3, 2).sum(axis=1)
+        axis=1) + numpy.power(X_train_eps / 3, 2).sum(axis=1)  # pylint: disable=E1101
     return X_train, y_train

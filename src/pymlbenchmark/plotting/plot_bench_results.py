@@ -63,7 +63,7 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
             return col
         color_fct = color_fct_
 
-    import matplotlib.pyplot as plt
+    import matplotlib.pyplot as plt  # pylint: disable=C0415
     if not isinstance(row_cols, (tuple, list)):
         row_cols = [row_cols]
     if not isinstance(col_cols, (tuple, list)):

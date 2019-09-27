@@ -18,7 +18,7 @@ from pymlbenchmark.external import (
 
 def has_onnxruntime(version):
     try:
-        import onnxruntime
+        import onnxruntime  # pylint: disable=C0415
         return compare_module_version(onnxruntime.__version__, version) >= 0
     except ImportError:
         return None

@@ -104,7 +104,7 @@ def run_onnxruntime_test(folder, name, repeat=100, verbose=True,
     @return                     two dataframes, one for the results,
                                 the other one for the context (see @see fn machine_information)
     """
-    import pandas
+    import pandas  # pylint: disable=C0415
     if fLOG:
         fLOG("Start '%s'" % name)
 
