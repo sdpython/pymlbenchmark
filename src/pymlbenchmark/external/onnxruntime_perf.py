@@ -48,7 +48,7 @@ class OnnxRuntimeBenchPerfTest(BenchPerfTest):
         X, y = self._get_random_dataset(N_fit, dim)
         self.skl.fit(X, y)
 
-        initial_types = [('X', FloatTensorType([1, X.shape[1]]))]
+        initial_types = [('X', FloatTensorType([None, X.shape[1]]))]
         self.logconvert = StringIO()
         with contextlib.redirect_stdout(self.logconvert):
             with contextlib.redirect_stderr(self.logconvert):
