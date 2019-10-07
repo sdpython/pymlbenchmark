@@ -48,19 +48,6 @@ jobs:
           command: |
                     sudo apt-get install -y cmake
 
-      #~ - run:
-          #~ name: Install onnx
-          #~ command: |
-            #~ python3 -m venv venv
-            #~ . venv/bin/activate
-            #~ sudo apt-get install protobuf-compiler libprotoc-dev
-            #~ pip install protobuf
-            #~ git clone https://github.com/onnx/onnx.git --recursive
-            #~ export ONNX_ML=1
-            #~ cd onnx
-            #~ python setup.py install
-            #~ cd ..
-
       - run:
           name: Install onnx
           command: |
@@ -74,7 +61,7 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            pip install http://www.xavierdupre.fr/enseignement/setup/onnxruntime-0.3.0-cp37-cp37m-linux_x86_64.whl
+            pip install http://www.xavierdupre.fr/enseignement/setup/onnxruntime-0.5.9993-cp37-cp37m-linux_x86_64.whl
 
       - run:
           name: install dependencies (1)
