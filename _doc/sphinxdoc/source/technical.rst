@@ -51,6 +51,19 @@ To build :epkg:`onnxruntime`:
     export PYTHONPATH=/home/dupre/xadupre/onnxruntime/build/debian/Release
     python3.7 ./onnxruntime/tools/ci_build/build.py --build_dir ./onnxruntime/build/debian --config Release --build_wheel --use_mkldnn --use_openmp --use_llvm --numpy_version= --skip-keras-test
 
+.. faqref::
+    :title: cannot import name 'get_all_providers'
+
+    The following error usually indicates than *onnxruntime* was
+    compiled on one machine and used on another one with different
+    dynamic libraries. Missing libraries needs to be installed
+    or *onnxruntime* must be compiled on the machine it needs
+    to be used.
+
+    ::
+
+        ImportError: cannot import name 'get_all_providers' from 'onnxruntime.capi._pybind_state'
+
 Build mkl-dnn
 =============
 
