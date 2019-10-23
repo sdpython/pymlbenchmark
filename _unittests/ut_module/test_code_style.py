@@ -24,6 +24,7 @@ class TestCodeStyle(ExtTestCase):
                          "gactions.py:238: E1128",
                          "R1720",
                          "R0914",
+                         "C0415",
                          ])
 
     def test_style_test(self):
