@@ -10,4 +10,5 @@ pylint
 pyquickhelper>=1.9.3227
 git+https://github.com/xadupre/sklearn-onnx.git@jenkins
 sphinx_bootstrap_theme
+tqdm
 wheel
