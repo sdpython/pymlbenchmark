@@ -70,7 +70,7 @@ def machine_information(pkgs=None):
                             info.append(sub.replace(' ', ''))
                     obs['value'] = ", ".join(info)
                 elif name == "onnx":
-                    from onnx.defs import onnx_opset_version
+                    from onnx.defs import onnx_opset_version  # pylint: verbose=C0415
                     obs['value'] = "opset={}".format(onnx_opset_version())
                 res.append(obs)
             else:

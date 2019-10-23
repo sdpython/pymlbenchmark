@@ -35,8 +35,8 @@ class OnnxRuntimeBenchPerfTest(BenchPerfTest):
         @param      opts        training settings
         """
         # These libraries are optional.
-        from skl2onnx import convert_sklearn  # pylint: disable=E0401
-        from skl2onnx.common.data_types import FloatTensorType  # pylint: disable=E0401
+        from skl2onnx import convert_sklearn  # pylint: disable=E0401,C0415
+        from skl2onnx.common.data_types import FloatTensorType  # pylint: disable=E0401,C0415
 
         if dim is None:
             raise RuntimeError("dim must be defined.")

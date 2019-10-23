@@ -16,7 +16,7 @@ class TestCodeStyle(ExtTestCase):
         check_pep8(src_, fLOG=fLOG,
                    pylint_ignore=('C0103', 'C1801', 'R0201', 'R1705', 'W0108', 'W0613',
                                   'R1702', 'W0212', 'W0640', 'W0223', 'W0201',
-                                  'W0622', 'C0123', 'W0107'),
+                                  'W0622', 'C0123', 'W0107', 'C0415'),
                    skip=["Instance of 'tuple' has no ",
                          "do not compare types, use 'isinstance()'",
                          "Instance of 'AutoAction' has no 'children' member",
