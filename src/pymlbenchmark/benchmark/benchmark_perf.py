@@ -167,7 +167,7 @@ class BenchPerf:
         all_tests = list(self.enumerate_tests(all_opts))
 
         if verbose:
-            from tqdm import tqdm  # pylint: verbose=C0415
+            from tqdm import tqdm  # pylint: disable=C0415
             loop = iter(tqdm(range(len(all_tests))))
         else:
             loop = iter(all_tests)
