@@ -40,7 +40,10 @@ import sklearn
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import SGDClassifier
-from sklearn.utils.testing import ignore_warnings
+try:
+    from sklearn.utils._testing import ignore_warnings
+except ImportError:
+    from sklearn.utils.testing import ignore_warnings
 from mlinsights.mlmodel import ExtendedFeatures
 
 
@@ -112,7 +115,7 @@ class PolyBenchPerfTest(BenchPerfTest):
 # Benchmark function
 # ++++++++++++++++++
 
-@ignore_warnings(category=FutureWarning)
+@ignore_warnings(category=(FutureWarning, DeprecationWarning))
 def run_bench(repeat=100, verbose=False):
     pbefore = dict(dim=[5, 10, 50])
     pafter = dict(N=[10, 100, 1000])

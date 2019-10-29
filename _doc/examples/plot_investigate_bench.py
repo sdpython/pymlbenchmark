@@ -19,7 +19,10 @@ import matplotlib.pyplot as plt
 import pandas
 from scipy.special import expit
 import sklearn
-from sklearn.utils.testing import ignore_warnings
+try:
+    from sklearn.utils._testing import ignore_warnings
+except ImportError:
+    from sklearn.utils.testing import ignore_warnings
 from sklearn.linear_model import LogisticRegression
 from pymlbenchmark.benchmark import BenchPerf
 from pymlbenchmark.external import OnnxRuntimeBenchPerfTestBinaryClassification

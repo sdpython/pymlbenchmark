@@ -39,7 +39,10 @@ import sklearn
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import SGDClassifier
-from sklearn.utils.testing import ignore_warnings
+try:
+    from sklearn.utils._testing import ignore_warnings
+except ImportError:
+    from sklearn.utils.testing import ignore_warnings
 from mlinsights.mlmodel import ExtendedFeatures
 
 
@@ -91,7 +94,7 @@ def build_x_y(ntrain, nfeat):
     return X_train, y_train
 
 
-@ignore_warnings(category=FutureWarning)
+@ignore_warnings(category=(FutureWarning, DeprecationWarning))
 def bench(n_obs, n_features, repeat=1000, verbose=False):
     res = []
     for n in n_obs:

@@ -7,8 +7,14 @@ from collections import OrderedDict
 from io import BytesIO, StringIO
 from numpy.testing import assert_almost_equal
 import pandas
-from sklearn.ensemble.forest import BaseForest
-from sklearn.tree.tree import BaseDecisionTree
+try:
+    from sklearn.ensemble._forest import BaseForest
+except ImportError:
+    from sklearn.ensemble.forest import BaseForest
+try:
+    from sklearn.tree._classes import BaseDecisionTree
+except ImportError:
+    from sklearn.tree.tree import BaseDecisionTree
 from mlprodict.onnxrt import OnnxInference
 from mlprodict.onnxrt.validate.validate_helper import get_opset_number_from_onnx
 from ..benchmark import BenchPerfTest
