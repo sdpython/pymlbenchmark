@@ -1,7 +1,6 @@
 coverage
 jupyter_sphinx>=0.2
 jyquickhelper
-git+https://github.com/sdpython/nbconvert.git@fixes
 onnx>=1.6
 mlinsights>=0.1.199
 mlprodict>=0.2.452
