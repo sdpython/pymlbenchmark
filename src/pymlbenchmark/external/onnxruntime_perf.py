@@ -32,7 +32,7 @@ class OnnxRuntimeBenchPerfTest(BenchPerfTest):
     """
 
     def __init__(self, estimator, dim=None, N_fit=100000,
-                 runtimes=('python', 'onnxruntime1'), **opts):
+                 runtimes=('python_compiled', 'onnxruntime1'), **opts):
         """
         @param      estimator   estimator class
         @param      dim         number of features

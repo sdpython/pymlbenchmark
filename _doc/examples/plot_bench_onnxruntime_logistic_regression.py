@@ -110,7 +110,7 @@ print(dfi)
 
 
 def label_fct(la):
-    la = la.replace("onxpython", "opy")
+    la = la.replace("onxpython_compiled", "opy")
     la = la.replace("onxonnxruntime1", "ort")
     la = la.replace("fit_intercept", "fi")
     la = la.replace("True", "1")
@@ -119,7 +119,7 @@ def label_fct(la):
 
 
 def color_fct(la, col):
-    if "onxpython" in la:
+    if "onxpython_compiled" in la:
         return "red"
     return col
 
