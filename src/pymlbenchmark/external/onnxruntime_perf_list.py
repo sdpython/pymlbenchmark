@@ -31,7 +31,8 @@ def onnxruntime_perf_binary_classifiers(bincl=None):
 
     return [
         {'fct': lambda **opts: bincl(LogisticRegression, **opts),
-         'pbefore': dict(dim=dims, fit_intercept=[True, False]),
+         'pbefore': dict(dim=dims, fit_intercept=[True, False],
+                         onnx_options=[{}, {LogisticRegression: {'zipmap': False}}]),
          'pafter': dict(N=N),
          'name': 'LogisticRegression'},
         # linear

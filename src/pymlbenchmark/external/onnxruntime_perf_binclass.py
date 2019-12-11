@@ -45,10 +45,13 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(OnnxRuntimeBenchPerfTest):
             res = sess.run({'X': X.astype(numpy.float32)})[output]
             # do not use DataFrame to convert the output into array,
             # it takes too much time
-            out = numpy.empty((len(res), len(res[0])), dtype=numpy.float32)
-            for i, row in enumerate(res):
-                for k, v in row.items():
-                    out[i, k] = v
+            if hasattr(res, 'items'):
+                out = numpy.empty((len(res), len(res[0])), dtype=numpy.float32)
+                for i, row in enumerate(res):
+                    for k, v in row.items():
+                        out[i, k] = v
+            else:
+                out = res
             return out
 
         fcts = [{'method': 'predict', 'lib': 'skl', 'fct': predict_skl_predict}]

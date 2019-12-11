@@ -32,13 +32,15 @@ class OnnxRuntimeBenchPerfTest(BenchPerfTest):
     """
 
     def __init__(self, estimator, dim=None, N_fit=100000,
-                 runtimes=('python_compiled', 'onnxruntime1'), **opts):
+                 runtimes=('python_compiled', 'onnxruntime1'),
+                 onnx_options=None, **opts):
         """
-        @param      estimator   estimator class
-        @param      dim         number of features
-        @param      N_fit       number of observations to fit an estimator
-        @param      runtimes    runtimes to test for class :epkg:`OnnxInference`
-        @param      opts        training settings
+        @param      estimator       estimator class
+        @param      dim             number of features
+        @param      N_fit           number of observations to fit an estimator
+        @param      runtimes        runtimes to test for class :epkg:`OnnxInference`
+        @param      opts            training settings
+        @param      onnx_options    ONNX conversion options
         """
         # These libraries are optional.
         from skl2onnx import convert_sklearn  # pylint: disable=E0401,C0415
@@ -58,7 +60,8 @@ class OnnxRuntimeBenchPerfTest(BenchPerfTest):
         self.logconvert = StringIO()
         with contextlib.redirect_stdout(self.logconvert):
             with contextlib.redirect_stderr(self.logconvert):
-                onx = convert_sklearn(self.skl, initial_types=initial_types)
+                onx = convert_sklearn(self.skl, initial_types=initial_types,
+                                      options=onnx_options)
 
         self._init(onx, runtimes)
 
