@@ -71,7 +71,8 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
     if not isinstance(hue_cols, (tuple, list)):
         hue_cols = [hue_cols]
 
-    all_cols = set(row_cols + col_cols + hue_cols)
+    all_cols = set(_ for _ in (
+        row_cols + col_cols + hue_cols) if _ is not None)
     df = remove_almost_nan_columns(df, keep=all_cols)
     lrows_options = list_col_options(df, row_cols)
     lcols_options = list_col_options(df, col_cols)
