@@ -116,25 +116,33 @@ except AssertionError as e:
 from pickle import load
 from onnxruntime import InferenceSession
 filename = "BENCH-ERROR-OnnxRuntimeBenchPerfTestBinaryClassification3-0.pkl"
-with open(filename, "rb") as f:
-    data = load(f)
+try:
+    with open(filename, "rb") as f:
+        data = load(f)
+    good = True
+except Exception as e:
+    print(e)
+    good = False
 
-print(list(sorted(data)))
-print("msg:", data["msg"])
-print(list(sorted(data["data"])))
-print(data["data"]['skl'])
+if good:
+    print(list(sorted(data)))
+    print("msg:", data["msg"])
+    print(list(sorted(data["data"])))
+    print(data["data"]['skl'])
 
 ##################################
 # The input data is the following:
 
-print(data['data']['data'])
+if good:
+    print(data['data']['data'])
 
 ########################################
 # Let's compare predictions.
 
-model_skl = data["data"]['skl']
-model_onnx = InferenceSession(data["data"]['ort_onnx'].SerializeToString())
-input_name = model_onnx.get_inputs()[0].name
+if good:
+    model_skl = data["data"]['skl']
+    model_onnx = InferenceSession(data["data"]['ort_onnx'].SerializeToString())
+    input_name = model_onnx.get_inputs()[0].name
 
 
 def ort_predict_proba(sess, input, input_name):
@@ -142,32 +150,34 @@ def ort_predict_proba(sess, input, input_name):
     return pandas.DataFrame(res).values
 
 
-pred_skl = [model_skl.predict_proba(input[0])
-            for input in data['data']['data']]
-pred_onnx = [ort_predict_proba(model_onnx, input[0], input_name)
-             for input in data['data']['data']]
+if good:
+    pred_skl = [model_skl.predict_proba(input[0])
+                for input in data['data']['data']]
+    pred_onnx = [ort_predict_proba(model_onnx, input[0], input_name)
+                 for input in data['data']['data']]
 
-print(pred_skl)
-print(pred_onnx)
+    print(pred_skl)
+    print(pred_onnx)
 
 ##############################
 # They look the same. Let's check...
 
-for a, b in zip(pred_skl, pred_onnx):
-    assert_almost_equal(a, b)
+if good:
+    for a, b in zip(pred_skl, pred_onnx):
+        assert_almost_equal(a, b)
 
 ###################################
 # Computing differences.
 
 
-def diff(a, b):
-    return numpy.max(numpy.abs(a.ravel() - b.ravel()))
+if good:
+    def diff(a, b):
+        return numpy.max(numpy.abs(a.ravel() - b.ravel()))
 
+    diffs = list(sorted(diff(a, b) for a, b in zip(pred_skl, pred_onnx)))
 
-diffs = list(sorted(diff(a, b) for a, b in zip(pred_skl, pred_onnx)))
-
-import matplotlib.pyplot as plt
-plt.plot(diffs)
-plt.title("Differences between prediction with\nscikit-learn and onnxruntime"
-          "\nfor Logistic Regression")
-plt.show()
+    import matplotlib.pyplot as plt
+    plt.plot(diffs)
+    plt.title("Differences between prediction with\nscikit-learn and onnxruntime"
+              "\nfor Logistic Regression")
+    plt.show()
