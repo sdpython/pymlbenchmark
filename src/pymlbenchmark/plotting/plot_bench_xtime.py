@@ -73,7 +73,8 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
     if not isinstance(hue_cols, (tuple, list)):
         hue_cols = [hue_cols]
 
-    df = remove_almost_nan_columns(df)
+    all_cols = set(row_cols + col_cols + hue_cols)
+    df = remove_almost_nan_columns(df, keep=all_cols)
     lrows_options = list_col_options(df, row_cols)
     lcols_options = list_col_options(df, col_cols)
     lhues_options = list_col_options(df, hue_cols)
