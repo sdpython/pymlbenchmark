@@ -3,6 +3,7 @@
 @brief Implements a benchmark about performance.
 """
 import pandas
+from pandas.api.types import is_numeric_dtype
 
 
 def enumerate_options(options, filter_fct=None):
@@ -72,6 +73,20 @@ def bench_pivot(data, experiment='lib', value='mean', index=None):
     if index is None:
         metrics = ['lower', 'max', 'max3', 'mean',
                    'median', 'min', 'min3', 'repeat', 'upper']
+        data = data.copy()
+        nonan = []
+        for c in data.columns:
+            nn = sum(data[c].isnull())
+            if nn == data.shape[0]:
+                continue
+            if nn == 0:
+                nonan.append(c)
+                continue
+            if is_numeric_dtype(data[c]):
+                data[c].fillna(-1, inplace=True)
+            else:
+                data[c].fillna("", inplace=True)
+            nonan.append(c)
         nonan = [c for c in data.columns if sum(data[c].isnull()) == 0]
         index = [i for i in nonan if i not in metrics and i not in experiment]
     keep = list(index)
@@ -88,8 +103,10 @@ def bench_pivot(data, experiment='lib', value='mean', index=None):
     gr = data_short.groupby(index + experiment).count()
     if gr[value].max() >= 2:
         gr = gr[gr[value] > 1]
-        raise ValueError("The set of parameters does not identify an experiment.\nindex: {}\nexperiment: {}\nvalue: {}\ncolumns: {}".format(
-            index, experiment, value, data.columns))
+        raise ValueError(
+            "The set of parameters does not identify an experiment."
+            "\nindex: {}\nexperiment: {}\nvalue: {}\ncolumns: {}\n--\n{}".format(
+                index, experiment, value, data.columns, gr[gr[value] >= 2]))
     piv = pandas.pivot_table(data_short, values=value, index=index, columns=experiment,
                              aggfunc='mean', dropna=False)
     return piv
