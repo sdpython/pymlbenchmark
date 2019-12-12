@@ -76,6 +76,10 @@ def bench_pivot(data, experiment='lib', value='mean', index=None):
         data = data.copy()
         nonan = []
         for c in data.columns:
+            if c in metrics or c in experiment:
+                continue
+            if c.endswith('_nodes') or c.endswith('_size'):
+                continue
             nn = sum(data[c].isnull())
             if nn == data.shape[0]:
                 continue
@@ -86,9 +90,9 @@ def bench_pivot(data, experiment='lib', value='mean', index=None):
                 data[c].fillna(-1, inplace=True)
             else:
                 data[c].fillna("", inplace=True)
+            print(c, len(set(c)), is_numeric_dtype(data[c]))
             nonan.append(c)
-        nonan = [c for c in data.columns if sum(data[c].isnull()) == 0]
-        index = [i for i in nonan if i not in metrics and i not in experiment]
+        index = nonan
     keep = list(index)
     if isinstance(value, str):
         keep.append(value)
