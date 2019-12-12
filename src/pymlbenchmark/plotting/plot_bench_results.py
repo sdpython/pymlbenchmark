@@ -195,10 +195,10 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
                              label=label_fct(la))
 
             a.legend(loc=0, fontsize=fontsize)
-            a.set_xlabel("{}\n{}".format(x_value, legx)
+            a.set_xlabel(label_fct("{}\n{}".format(x_value, legx))
                          if row == shape[0] - 1 else "",
                          fontsize=fontsize)
-            a.set_ylabel("{}\n{}".format(legy, y_value)
+            a.set_ylabel(label_fct("{}\n{}".format(legy, y_value))
                          if col == 0 else "", fontsize=fontsize)
             if row == 0:
                 a.set_title(legx, fontsize=fontsize)

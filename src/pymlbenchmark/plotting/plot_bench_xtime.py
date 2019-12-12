@@ -176,10 +176,10 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
                             logx=True, logy=True, c=nc, lw=2,
                             label=label_fct(la), kind="scatter")
 
-            a.set_xlabel("{}\n{}".format(x_value, legx)
+            a.set_xlabel(label_fct("{}\n{}".format(x_value, legx))
                          if row == shape[0] - 1 else "",
                          fontsize=fontsize)
-            a.set_ylabel("{}\n{}".format(legy, y_value)
+            a.set_ylabel(label_fct("{}\n{}".format(legy, y_value))
                          if col == 0 else "", fontsize=fontsize)
 
             leg = a.legend(loc=0, fontsize=fontsize)
