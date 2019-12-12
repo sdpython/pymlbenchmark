@@ -130,7 +130,7 @@ def remove_almost_nan_columns(df, keep=None, fill_keep=True):
     if keep and fill_keep:
         df = df.copy()
         for c in keep:
-            if is_numeric_dtype(data[c]):
+            if is_numeric_dtype(df[c]):
                 df[c].fillna(-1, inplace=True)
             else:
                 df[c] = df[c].astype(str)
