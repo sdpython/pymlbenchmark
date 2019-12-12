@@ -11,7 +11,7 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
                      cmp_col_values=('lib', 'skl'),
                      x_value='mean', y_value='xtime',
                      parallel=(1., 0.5), title=None,
-                     box_side=4, labelsize=10,
+                     box_side=6, labelsize=10,
                      fontsize="small", label_fct=None,
                      color_fct=None, ax=None):
     """

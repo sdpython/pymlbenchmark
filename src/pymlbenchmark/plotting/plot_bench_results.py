@@ -11,7 +11,7 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
                        cmp_col_values=('lib', 'skl'),
                        x_value='N', y_value='mean',
                        err_value=('lower', 'upper'),
-                       title=None, box_side=4, labelsize=8,
+                       title=None, box_side=6, labelsize=8,
                        fontsize="small", label_fct=None,
                        color_fct=None, ax=None):
     """
