@@ -112,14 +112,14 @@ def bench_pivot(data, experiment='lib', value='mean', index=None):
     return piv
 
 
-def remove_almost_nan_columns(df, keep=None, fill_keep="-"):
+def remove_almost_nan_columns(df, keep=None, fill_keep=True):
     """
     Automatically removes columns with more than 1/3
     nan values.
 
     @param      df          dataframe
     @param      keep        columns to skip
-    @param      fill_keep   if not None, fill nan value *fill_keep*
+    @param      fill_keep   if not None, fill nan value
     @return                 clean dataframe
     """
     if keep is None:
@@ -130,7 +130,11 @@ def remove_almost_nan_columns(df, keep=None, fill_keep="-"):
     if keep and fill_keep:
         df = df.copy()
         for c in keep:
-            df[c].fillna(fill_keep, inplace=True)
+            if is_numeric_dtype(data[c]):
+                df[c].fillna(-1, inplace=True)
+            else:
+                df[c] = df[c].astype(str)
+                df[c].fillna("", inplace=True)
     if nanc:
         return df.drop(nanc, axis=1)
     return df
