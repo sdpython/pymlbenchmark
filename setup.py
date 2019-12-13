@@ -153,10 +153,6 @@ if not r:
     from pymlbenchmark import __version__ as sversion
     long_description = clean_readme(long_description)
     root = os.path.abspath(os.path.dirname(__file__))
-    if sys.platform.startswith("win"):
-        extra_compile_args = None
-    else:
-        extra_compile_args = ['-std=c++11']
     setup(
         name=project_var_name,
         version='%s%s' % (sversion, subversion),
