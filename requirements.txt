@@ -3,10 +3,10 @@ jupyter_sphinx>=0.2
 jyquickhelper
 onnx>=1.6
 mlinsights>=0.1.199
-mlprodict>=0.2.452
+mlprodict>=0.3.853
 pyinstrument
 pylint
-pyquickhelper>=1.9.3227
+pyquickhelper>=1.9.3280
 git+https://github.com/xadupre/sklearn-onnx.git@jenkins
 sphinx_bootstrap_theme
 tqdm
