@@ -121,11 +121,13 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
                     if err_value is not None:
                         lower_cols = [x_value, cmp_col_values[0], err_value[0]]
                         upper_cols = [x_value, cmp_col_values[0], err_value[1]]
-                else:
+                elif cmp_col_values is not None:
                     y_cols = [x_value, cmp_col_values, y_value]
                     if err_value is not None:
                         lower_cols = [x_value, cmp_col_values, err_value[0]]
                         upper_cols = [x_value, cmp_col_values, err_value[1]]
+                else:
+                    raise ValueError("cmp_col_values cannot be None.")
 
                 try:
                     piv = ds.pivot(*y_cols)
