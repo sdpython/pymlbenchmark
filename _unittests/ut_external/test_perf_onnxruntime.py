@@ -5,7 +5,7 @@
 import os
 import unittest
 import pandas
-from pyquickhelper.pycode import ExtTestCase, get_temp_folder
+from pyquickhelper.pycode import ExtTestCase, get_temp_folder, skipif_circleci
 from pyquickhelper.texthelper import compare_module_version
 from pymlbenchmark.context import machine_information
 from pymlbenchmark.benchmark import BenchPerf
@@ -92,6 +92,7 @@ class TestPerfOnnxRuntime(ExtTestCase):
         results_df.to_csv(out, index=False)
         self.assertExists(out)
 
+    @skipif_circleci('onnxruntime not available')
     def test_perf_onnxruntime_logreg(self):
         res = onnxruntime_perf_binary_classifiers()[0]
 
@@ -111,6 +112,7 @@ class TestPerfOnnxRuntime(ExtTestCase):
         df.to_csv(out, index=False)
         self.assertExists(out)
 
+    @skipif_circleci('onnxruntime not available')
     def test_perf_onnxruntime_linreg(self):
         res = onnxruntime_perf_regressors()[0]
 
