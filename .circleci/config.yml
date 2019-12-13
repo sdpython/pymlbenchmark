@@ -107,12 +107,12 @@ jobs:
             mkdir -p test-reports/src
             cp -r  src/pymlbenchmark test-reports/src
 
-      - run:
-          name: documentation
-          command: |
-            . venv/bin/activate
-            export PYTHONPATH=src
-            python setup.py build_sphinx
+#      - run:
+#          name: documentation
+#          command: |
+#            . venv/bin/activate
+#            export PYTHONPATH=src
+#            python setup.py build_sphinx
             
       - run:
           name: copy documentation
