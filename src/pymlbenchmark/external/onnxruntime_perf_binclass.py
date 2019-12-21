@@ -36,13 +36,13 @@ class OnnxRuntimeBenchPerfTestBinaryClassification(OnnxRuntimeBenchPerfTest):
             return model.predict(X)
 
         def predict_skl_predict_proba(X, model=self.skl):
-            return model.predict_proba(X)
+            return model.predict_proba(X.astype(self.dtype))
 
         def predict_onnxrt_predict(X, sess, output):
-            return numpy.array(sess.run({'X': X.astype(numpy.float32)})[output])
+            return numpy.array(sess.run({'X': X.astype(self.dtype)})[output])
 
         def predict_onnxrt_predict_proba(X, sess, output):
-            res = sess.run({'X': X.astype(numpy.float32)})[output]
+            res = sess.run({'X': X.astype(self.dtype)})[output]
             # do not use DataFrame to convert the output into array,
             # it takes too much time
             if hasattr(res, 'items'):

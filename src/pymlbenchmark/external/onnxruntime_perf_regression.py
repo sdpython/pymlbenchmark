@@ -33,10 +33,10 @@ class OnnxRuntimeBenchPerfTestRegression(OnnxRuntimeBenchPerfTest):
         multiplied by the number of runtime to test.
         """
         def predict_skl_predict(X, model=self.skl):
-            return model.predict(X)
+            return model.predict(X.astype(self.dtype))
 
         def predict_onnxrt_predict(X, sess, output):
-            return numpy.array(sess.run({'X': X.astype(numpy.float32)})[output])
+            return numpy.array(sess.run({'X': X.astype(self.dtype)})[output])
 
         fcts = [{'method': 'predict', 'lib': 'skl', 'fct': predict_skl_predict}]
         for runtime in self.ort:
@@ -44,7 +44,8 @@ class OnnxRuntimeBenchPerfTestRegression(OnnxRuntimeBenchPerfTest):
             output = self.outputs[runtime][0]
             fcts.append({'method': 'predict', 'lib': 'onx' + runtime,
                          'fct': lambda X, sess=inst, output=output:
-                         predict_onnxrt_predict(X, sess, output)})
+                         predict_onnxrt_predict(X.astype(self.dtype),
+                                                sess, output)})
 
         for fct in fcts:
             if fct['lib'] == 'skl':

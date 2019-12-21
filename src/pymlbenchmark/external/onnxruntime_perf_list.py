@@ -3,8 +3,10 @@
 @brief Returns predefined tests.
 """
 import os
+import numpy
 import sklearn
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.linear_model import LogisticRegression, SGDClassifier, LinearRegression
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 from .onnxruntime_perf_binclass import OnnxRuntimeBenchPerfTestBinaryClassification
@@ -80,6 +82,11 @@ def onnxruntime_perf_regressors(regcl=None):
          'name': 'DecisionTreeRegressor'},
         {'fct': lambda **opts: regcl(RandomForestRegressor, **opts),
          'pbefore': dict(dim=dims, max_depth=max_depths, n_estimators=[1, 10, 100]),
+         'pafter': dict(N=N),
+         'name': 'RandomForestRegressor'},
+        {'fct': lambda **opts: regcl(GaussianProcessRegressor, N_fit=100, **opts),
+         'pbefore': dict(dim=dims[:4], alpha=[0.1, 1.]),
+         'dtype': [numpy.float32, numpy.float64],
          'pafter': dict(N=N),
          'name': 'RandomForestRegressor'},
     ]

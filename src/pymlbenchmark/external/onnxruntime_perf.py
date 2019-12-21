@@ -5,6 +5,7 @@
 import contextlib
 from collections import OrderedDict
 from io import BytesIO, StringIO
+import numpy
 from numpy.testing import assert_almost_equal
 import pandas
 try:
@@ -33,7 +34,8 @@ class OnnxRuntimeBenchPerfTest(BenchPerfTest):
 
     def __init__(self, estimator, dim=None, N_fit=100000,
                  runtimes=('python_compiled', 'onnxruntime1'),
-                 onnx_options=None, **opts):
+                 onnx_options=None, dtype=numpy.float32,
+                 **opts):
         """
         @param      estimator       estimator class
         @param      dim             number of features
@@ -41,10 +43,11 @@ class OnnxRuntimeBenchPerfTest(BenchPerfTest):
         @param      runtimes        runtimes to test for class :epkg:`OnnxInference`
         @param      opts            training settings
         @param      onnx_options    ONNX conversion options
+        @param      dtype           dtype (float32 or float64)
         """
         # These libraries are optional.
         from skl2onnx import convert_sklearn  # pylint: disable=E0401,C0415
-        from skl2onnx.common.data_types import FloatTensorType  # pylint: disable=E0401,C0415
+        from skl2onnx.common.data_types import FloatTensorType, DoubleTensorType  # pylint: disable=E0401,C0415
 
         if dim is None:
             raise RuntimeError("dim must be defined.")
@@ -52,16 +55,27 @@ class OnnxRuntimeBenchPerfTest(BenchPerfTest):
 
         allowed = {"max_depth"}
         opts = {k: v for k, v in opts.items() if k in allowed}
+        self.dtype = dtype
         self.skl = estimator(**opts)
         X, y = self._get_random_dataset(N_fit, dim)
-        self.skl.fit(X, y)
+        try:
+            self.skl.fit(X, y)
+        except Exception as e:
+            raise RuntimeError("X.shape={}\nopts={}\nTraining failed for {}".format(
+                X.shape, opts, self.skl)) from e
 
-        initial_types = [('X', FloatTensorType([None, X.shape[1]]))]
+        if dtype == numpy.float64:
+            initial_types = [('X', DoubleTensorType([None, X.shape[1]]))]
+        elif dtype == numpy.float32:
+            initial_types = [('X', FloatTensorType([None, X.shape[1]]))]
+        else:
+            raise ValueError(
+                "Unable to convert the model into ONNX, unsupported dtype {}.".format(dtype))
         self.logconvert = StringIO()
         with contextlib.redirect_stdout(self.logconvert):
             with contextlib.redirect_stderr(self.logconvert):
                 onx = convert_sklearn(self.skl, initial_types=initial_types,
-                                      options=onnx_options)
+                                      options=onnx_options, dtype=dtype)
 
         self._init(onx, runtimes)
 

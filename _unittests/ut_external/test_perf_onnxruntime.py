@@ -132,6 +132,27 @@ class TestPerfOnnxRuntime(ExtTestCase):
         df.to_csv(out, index=False)
         self.assertExists(out)
 
+    @skipif_circleci('onnxruntime not available')
+    def test_perf_onnxruntime_gpr64(self):
+        res = onnxruntime_perf_regressors()[3]
+
+        bp = BenchPerf(res['pbefore'], res['pafter'], res['fct'])
+        results = list(bp.enumerate_run_benchs(
+            repeat=10, verbose=True, stop_if_error=False))
+        results_df = pandas.DataFrame(results)
+        temp = get_temp_folder(__file__, "temp_perf_onnxruntime_gpr")
+        out = os.path.join(temp, "onnxruntime_gpr.perf.csv")
+        results_df.to_csv(out, index=False)
+        self.assertExists(out)
+
+        subset = {'sklearn', 'numpy', 'pandas', 'onnxruntime',
+                  'skl2onnx', 'mlprodict'}
+
+        df = pandas.DataFrame(machine_information(subset))
+        out = os.path.join(temp, "onnxruntime_linreg.time.csv")
+        df.to_csv(out, index=False)
+        self.assertExists(out)
+
 
 if __name__ == "__main__":
     unittest.main()
