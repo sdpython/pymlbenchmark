@@ -17,7 +17,7 @@ try:
 except ImportError:
     from sklearn.tree.tree import BaseDecisionTree
 from mlprodict.onnxrt import OnnxInference
-from mlprodict.onnxrt.validate.validate_helper import get_opset_number_from_onnx
+from mlprodict.tools.asv_options_helper import benchmark_version
 from ..benchmark import BenchPerfTest
 from ..benchmark.sklearn_helper import get_nb_skl_base_estimators
 
@@ -121,7 +121,7 @@ class OnnxRuntimeBenchPerfTest(BenchPerfTest):
         """
         self.onnx_info = {
             'onnx_nodes': len(self.ort_onnx.graph.node),  # pylint: disable=E1101
-            'onnx_opset': get_opset_number_from_onnx(),
+            'onnx_opset': benchmark_version()[-1],
         }
         self.onnx_info.update(kwargs)
 
