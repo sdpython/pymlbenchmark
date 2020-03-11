@@ -2,7 +2,6 @@ coverage
 jupyter_sphinx>=0.2
 jyquickhelper
 onnx>=1.6
-onnxruntime>=1.1.1
 mlinsights>=0.1.199
 mlprodict>=0.3.853
 pyinstrument
