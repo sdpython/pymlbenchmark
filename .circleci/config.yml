@@ -61,7 +61,7 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            pip install http://195.154.200.30:8067/packages/onnxruntime_dnnl-1.1.997-cp37-cp37m-linux_x86_64.whl
+            pip install onnxruntime
 
       - run:
           name: install dependencies (1)
