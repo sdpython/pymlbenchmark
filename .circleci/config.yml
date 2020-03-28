@@ -54,14 +54,16 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             sudo apt-get install protobuf-compiler libprotoc-dev
-            pip install http://195.154.200.30:8067/packages/onnx-1.7.41-cp37-cp37m-linux_x86_64.whl
+            # pip install http://195.154.200.30:8067/packages/onnx-1.7.41-cp37-cp37m-linux_x86_64.whl
+            pip install onnx
 
       - run:
           name: Install onnxruntime
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            pip install http://195.154.200.30:8067/packages/onnxruntime_dnnl-1.2.996-cp37-cp37m-linux_x86_64.whl
+            # pip install http://195.154.200.30:8067/packages/onnxruntime_dnnl-1.2.996-cp37-cp37m-linux_x86_64.whl
+            pip install onnxruntime
 
       - run:
           name: install dependencies (1)
