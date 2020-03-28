@@ -155,7 +155,7 @@ if not r:
     root = os.path.abspath(os.path.dirname(__file__))
     setup(
         name=project_var_name,
-        version='%s%s' % (sversion, subversion),
+        version=sversion,
         author='Xavier Dupré',
         author_email='xavier.dupre@gmail.com',
         license="MIT",

@@ -48,7 +48,7 @@ class OnnxRuntimeBenchPerfTest(BenchPerfTest):
         @param      dtype           dtype (float32 or float64)
         """
         # These libraries are optional.
-        from skl2onnx import convert_sklearn  # pylint: disable=E0401,C0415
+        from skl2onnx import to_onnx  # pylint: disable=E0401,C0415
         from skl2onnx.common.data_types import FloatTensorType, DoubleTensorType  # pylint: disable=E0401,C0415
 
         if dim is None:
@@ -76,9 +76,9 @@ class OnnxRuntimeBenchPerfTest(BenchPerfTest):
         self.logconvert = StringIO()
         with contextlib.redirect_stdout(self.logconvert):
             with contextlib.redirect_stderr(self.logconvert):
-                onx = convert_sklearn(self.skl, initial_types=initial_types,
-                                      options=onnx_options, dtype=dtype,
-                                      target_opset=get_opset_number_from_onnx())
+                onx = to_onnx(self.skl, initial_types=initial_types,
+                              options=onnx_options, dtype=dtype,
+                              target_opset=11)
                 onx.ir_version = get_ir_version_from_onnx()
 
         self._init(onx, runtimes)
