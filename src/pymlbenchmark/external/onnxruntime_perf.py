@@ -78,7 +78,7 @@ class OnnxRuntimeBenchPerfTest(BenchPerfTest):
             with contextlib.redirect_stderr(self.logconvert):
                 onx = to_onnx(self.skl, initial_types=initial_types,
                               options=onnx_options, dtype=dtype,
-                              target_opset=11)
+                              target_opset=get_opset_number_from_onnx())
                 onx.ir_version = get_ir_version_from_onnx()
 
         self._init(onx, runtimes)
