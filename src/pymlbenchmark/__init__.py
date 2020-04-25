@@ -4,7 +4,7 @@
 @brief Benchmarks about Machine Learning in Python.
 """
 
-__version__ = "0.2"
+__version__ = "0.2.164"
 __author__ = "Xavier Dupré"
 
 

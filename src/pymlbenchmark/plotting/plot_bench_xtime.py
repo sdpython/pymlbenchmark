@@ -109,9 +109,10 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
     piv = df.pivot_table(index=index, values=x_value,
                          columns=cmp_col_values[0])
     piv = piv.reset_index(drop=False)
-    if piv.shape[0] == 0:
-        raise RuntimeError("pivot table is empty,\nindex={},\nx_value={},\ncolumns={},\ndf.columns={}".format(
-            index, x_value, cmp_col_values[0], df.columns))
+    if piv.shape[0] == 0:  # pragma no cover
+        raise RuntimeError(
+            "pivot table is empty,\nindex={},\nx_value={},\ncolumns={},"
+            "\ndf.columns={}".format(index, x_value, cmp_col_values[0], df.columns))
     vals = list(sorted(set(df[cmp_col_values[0]])))
 
     nb_empty = 0
@@ -200,9 +201,11 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
             plt.setp(a.get_xminorticklabels(), visible=False)
             plt.setp(a.get_yminorticklabels(), visible=False)
 
-    if nb_empty == nb_total:
-        raise RuntimeError("All graphs are empty for dataframe,\nrow_cols={},\ncol_cols={},\nhue_cols={},\ncolumns={}".format(
-            row_cols, col_cols, hue_cols, df.columns))
+    if nb_empty == nb_total:  # pragma no cover
+        raise RuntimeError(
+            "All graphs are empty for dataframe,\nrow_cols={},\ncol_cols={},"
+            "\nhue_cols={},\ncolumns={}".format(
+                row_cols, col_cols, hue_cols, df.columns))
     if title is not None:
         fig.suptitle(title, fontsize=labelsize)
     return ax

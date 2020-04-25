@@ -131,19 +131,19 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
 
                 try:
                     piv = ds.pivot(*y_cols)
-                except ValueError as e:
+                except ValueError as e:  # pragma no cover
                     raise ValueError("Unable to compute a pivot on columns {}\nAvailable: {}\n{}".format(
                         y_cols, list(df.columns), ds[y_cols].head(n=10))) from e
-                except KeyError as e:
+                except KeyError as e:  # pragma no cover
                     raise ValueError(
                         "Unable to find columns {} in {}".format(y_cols, ds.columns))
                 if lower_cols is not None:
                     try:
                         lower_piv = ds.pivot(*lower_cols)
-                    except ValueError as e:
+                    except ValueError as e:  # pragma no cover
                         raise ValueError("Unable to compute a pivot on columns {}\n{}".format(
                             lower_cols, ds[lower_cols].head())) from e
-                    except KeyError as e:
+                    except KeyError as e:  # pragma no cover
                         raise ValueError("Unable to find columns {} in {}".format(
                             lower_cols, ds.columns))
                 else:
@@ -151,10 +151,10 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
                 if upper_cols is not None:
                     try:
                         upper_piv = ds.pivot(*upper_cols)
-                    except ValueError as e:
+                    except ValueError as e:  # pragma no cover
                         raise ValueError("Unable to compute a pivot on columns {}\n{}".format(
                             upper_cols, ds[upper_cols].head())) from e
-                    except KeyError as e:
+                    except KeyError as e:  # pragma no cover
                         raise ValueError("Unable to find columns {} in {}".format(
                             upper_cols, ds.columns))
                 else:
@@ -212,7 +212,7 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
             plt.setp(a.get_xminorticklabels(), visible=False)
             plt.setp(a.get_yminorticklabels(), visible=False)
 
-    if nb_empty == nb_total:
+    if nb_empty == nb_total:  # pragma no cover
         raise RuntimeError("All graphs are empty for dataframe,\nrow_cols={},"
                            "\ncol_cols={},\nhue_cols={},\ncolumns={}".format(
                                row_cols, col_cols, hue_cols, df.columns))
