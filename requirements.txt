@@ -1,9 +1,11 @@
+autopep8
 coverage
-jupyter_sphinx>=0.2
+jupyter_sphinx
 jyquickhelper
 onnx>=1.6
 mlinsights>=0.1.199
 mlprodict>=0.3.853
+pycodestyle
 pyinstrument
 pylint
 pyquickhelper>=1.9.3280
