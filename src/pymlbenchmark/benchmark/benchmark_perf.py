@@ -70,7 +70,7 @@ class BenchPerfTest:
         """
         dump_folder = getattr(self, "dump_folder", '.')
         if not os.path.exists(dump_folder):
-            os.makedirs(dump_folder)
+            os.makedirs(dump_folder)  # pragma: no cover
         pattern = os.path.join(
             dump_folder, "BENCH-ERROR-{0}-%d.pkl".format(
                 self.__class__.__name__))
@@ -186,13 +186,13 @@ class BenchPerf:
 
                 fcts = inst.fcts(**obs)
                 if not isinstance(fcts, list):
-                    raise TypeError(
+                    raise TypeError(  # pragma: no cover
                         "Method fcts must return a list of dictionaries (name, fct) "
                         "not {}".format(fcts))
 
                 data = [inst.data(**obs) for r in range(repeat)]
                 if not isinstance(data, (list, tuple)):
-                    raise ValueError(
+                    raise ValueError(  # pragma: no cover
                         "Method *data* must return a list or a tuple.")
                 obs["repeat"] = len(data)
                 obs["number"] = number
@@ -201,7 +201,7 @@ class BenchPerf:
 
                 for fct in fcts:
                     if not isinstance(fct, dict) or 'fct' not in fct:
-                        raise ValueError(
+                        raise ValueError(  # pragma: no cover
                             "Method fcts must return a list of dictionaries with keys "
                             "('name', 'fct') not {}".format(fct))
                     f = fct['fct']
@@ -211,7 +211,7 @@ class BenchPerf:
 
                     if isinstance(f, tuple):
                         if len(f) != 2:
-                            raise RuntimeError(
+                            raise RuntimeError(  # pragma: no cover
                                 "If *f* is a tuple, it must return two function f1, f2.")
                         f1, f2 = f
                         dt = data[0]

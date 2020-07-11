@@ -31,8 +31,9 @@ def enumerate_options(options, filter_fct=None):
     keys = list(sorted(options))
     mx = [len(options[k]) for k in keys]
     if min(mx) == 0:
-        mi = min(zip(mx, keys))
-        raise ValueError("Parameter '{0}' has no values.".format(mi[1]))
+        mi = min(zip(mx, keys))  # pragma: no cover
+        raise ValueError(  # pragma: no cover
+            "Parameter '{0}' has no values.".format(mi[1]))
     pos = [0 for _ in keys]
     while pos[0] < mx[0]:
         opts = {k: options[k][pos[i]] for i, k in enumerate(keys)}
@@ -90,7 +91,6 @@ def bench_pivot(data, experiment='lib', value='mean', index=None):
                 data[c].fillna(-1, inplace=True)
             else:
                 data[c].fillna("", inplace=True)
-            print(c, len(set(c)), is_numeric_dtype(data[c]))
             nonan.append(c)
         index = nonan
     keep = list(index)
@@ -101,13 +101,13 @@ def bench_pivot(data, experiment='lib', value='mean', index=None):
     keep.extend(experiment)
     for c in keep:
         if c not in data.columns:
-            raise ValueError(
+            raise ValueError(  # pragma: no cover
                 "Unable to find '{}' in {}.".format(c, data.columns))
     data_short = data[keep]
     gr = data_short.groupby(index + experiment).count()
     if gr[value].max() >= 2:
         gr = gr[gr[value] > 1]
-        raise ValueError(
+        raise ValueError(  # pragma: no cover
             "The set of parameters does not identify an experiment."
             "\nindex: {}\nexperiment: {}\nvalue: {}\ncolumns: {}\n--\n{}".format(
                 index, experiment, value, data.columns, gr[gr[value] >= 2]))

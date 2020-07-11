@@ -10,16 +10,15 @@ from numpy.testing import assert_almost_equal
 import pandas
 try:
     from sklearn.ensemble._forest import BaseForest
-except ImportError:
+except ImportError:  # pragma: no cover
     from sklearn.ensemble.forest import BaseForest
 try:
     from sklearn.tree._classes import BaseDecisionTree
-except ImportError:
+except ImportError:  # pragma: no cover
     from sklearn.tree.tree import BaseDecisionTree
 from mlprodict.onnxrt import OnnxInference
 from mlprodict.tools.asv_options_helper import (
-    get_opset_number_from_onnx, get_ir_version_from_onnx
-)
+    get_opset_number_from_onnx, get_ir_version_from_onnx)
 from ..benchmark import BenchPerfTest
 from ..benchmark.sklearn_helper import get_nb_skl_base_estimators
 
@@ -52,7 +51,8 @@ class OnnxRuntimeBenchPerfTest(BenchPerfTest):
         from skl2onnx.common.data_types import FloatTensorType, DoubleTensorType  # pylint: disable=E0401,C0415
 
         if dim is None:
-            raise RuntimeError("dim must be defined.")
+            raise RuntimeError(  # pragma: no cover
+                "dim must be defined.")
         BenchPerfTest.__init__(self, **opts)
 
         allowed = {"max_depth"}
@@ -62,7 +62,7 @@ class OnnxRuntimeBenchPerfTest(BenchPerfTest):
         X, y = self._get_random_dataset(N_fit, dim)
         try:
             self.skl.fit(X, y)
-        except Exception as e:
+        except Exception as e:  # pragma: no cover
             raise RuntimeError("X.shape={}\nopts={}\nTraining failed for {}".format(
                 X.shape, opts, self.skl)) from e
 
@@ -71,7 +71,7 @@ class OnnxRuntimeBenchPerfTest(BenchPerfTest):
         elif dtype == numpy.float32:
             initial_types = [('X', FloatTensorType([None, X.shape[1]]))]
         else:
-            raise ValueError(
+            raise ValueError(  # pragma: no cover
                 "Unable to convert the model into ONNX, unsupported dtype {}.".format(dtype))
         self.logconvert = StringIO()
         with contextlib.redirect_stdout(self.logconvert):
@@ -87,7 +87,8 @@ class OnnxRuntimeBenchPerfTest(BenchPerfTest):
         """
         Returns a random datasets.
         """
-        raise NotImplementedError("This method must be overloaded.")
+        raise NotImplementedError(  # pragma: no cover
+            "This method must be overloaded.")
 
     def _init(self, onx, runtimes):
         "Finalizes the init."
@@ -137,9 +138,11 @@ class OnnxRuntimeBenchPerfTest(BenchPerfTest):
         @param      dim     number of features
         """
         if dim is None:
-            raise RuntimeError("dim must be defined.")
+            raise RuntimeError(  # pragma: no cover
+                "dim must be defined.")
         if N is None:
-            raise RuntimeError("N must be defined.")
+            raise RuntimeError(  # pragma: no cover
+                "N must be defined.")
         return self._get_random_dataset(N, dim)[:1]
 
     def model_info(self, model):
@@ -172,10 +175,12 @@ class OnnxRuntimeBenchPerfTest(BenchPerfTest):
                 baseline = lib
 
         if len(res) == 0:
-            raise RuntimeError("No results to compare.")
+            raise RuntimeError(  # pragma: no cover
+                "No results to compare.")
         if baseline is None:
-            raise RuntimeError(
-                "Unable to guess the baseline in {}.".format(list(res.pop())))
+            raise RuntimeError(  # pragma: no cover
+                "Unable to guess the baseline in {}.".format(
+                    list(res.pop())))
 
         for key, exp in res.items():
             vbase = exp[baseline]

@@ -34,5 +34,6 @@ def experiment_results(name):
     this = os.path.dirname(__file__)
     data = os.path.join(this, 'data', name + '.csv')
     if not os.path.exists(data):
-        raise FileNotFoundError("Unable to find dataset '{}'.".format(name))
+        raise FileNotFoundError(  # pragma: no cover
+            "Unable to find dataset '{}'.".format(name))
     return pandas.read_csv(data)

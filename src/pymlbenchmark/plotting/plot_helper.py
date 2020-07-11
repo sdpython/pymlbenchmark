@@ -74,7 +74,7 @@ def filter_df_options(df, options):
         if options[0] is None:
             return df
         else:
-            raise RuntimeError(
+            raise RuntimeError(  # pragma: no cover
                 "options must be dictionary or [None] not {}".format(options))
     for k, v in options.items():
         df = df[df[k] == v]

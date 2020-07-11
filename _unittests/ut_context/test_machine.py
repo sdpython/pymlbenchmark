@@ -18,7 +18,7 @@ class TestContextMachine(ExtTestCase):
         self.assertEqual(res[0]['name'], 'date')
 
     def test_machine_information_pack(self):
-        res = machine_information({'numpy'})
+        res = machine_information({'numpy', 'onnx'})
         self.assertIsInstance(res, list)
         self.assertGreater(len(res), 3)
         nb = 0

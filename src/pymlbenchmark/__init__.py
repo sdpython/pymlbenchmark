@@ -4,7 +4,7 @@
 @brief Benchmarks about Machine Learning in Python.
 """
 
-__version__ = "0.2.164"
+__version__ = "0.2.172"
 __author__ = "Xavier Dupré"
 
 
@@ -27,4 +27,4 @@ def _setup_hook(use_print=False):
     anything goes on as an initialization step.
     """
     if use_print:
-        print("Success: _setup_hook")
+        print("Success: _setup_hook")  # pragma: no cover

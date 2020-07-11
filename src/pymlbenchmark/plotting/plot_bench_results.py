@@ -83,8 +83,9 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
         figsize = (shape[1] * box_side, shape[0] * box_side)
         fig, ax = plt.subplots(shape[0], shape[1], figsize=figsize)
     elif ax.shape != shape:
-        raise RuntimeError(
-            "Shape mismatch ax.shape={} when expected values is {}".format(ax.shape, shape))
+        raise RuntimeError(  # pragma: no cover
+            "Shape mismatch ax.shape={} when expected values is {}".format(
+                ax.shape, shape))
     else:
         fig = plt.gcf()
     colors = plt_colors()
@@ -127,7 +128,8 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
                         lower_cols = [x_value, cmp_col_values, err_value[0]]
                         upper_cols = [x_value, cmp_col_values, err_value[1]]
                 else:
-                    raise ValueError("cmp_col_values cannot be None.")
+                    raise ValueError(  # pragma: no cover
+                        "cmp_col_values cannot be None.")
 
                 try:
                     piv = ds.pivot(*y_cols)

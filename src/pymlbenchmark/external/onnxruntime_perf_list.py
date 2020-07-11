@@ -114,12 +114,13 @@ def run_onnxruntime_test(folder, name, repeat=100, verbose=True,
     """
     import pandas  # pylint: disable=C0415
     if fLOG:
-        fLOG("Start '%s'" % name)
+        fLOG("Start '%s'" % name)  # pragma: no cover
 
     res = onnxruntime_perf_binary_classifiers()
     sel = [r for r in res if r['name'] == name]
     if len(sel) != 1:
-        raise ValueError("Unable to find one test for '%s'." % name)
+        raise ValueError(  # pragma: no cover
+            "Unable to find one test for '%s'." % name)
     res = sel[0]
     res = res.copy()
     if N is not None:
@@ -145,5 +146,5 @@ def run_onnxruntime_test(folder, name, repeat=100, verbose=True,
         out = os.path.join(folder, "onnxruntime_%s.time.csv" % name)
         df2.to_csv(out, index=False)
     if fLOG:
-        fLOG("Done '%s'" % name)
+        fLOG("Done '%s'" % name)  # pragma: no cover
     return results_df, df2

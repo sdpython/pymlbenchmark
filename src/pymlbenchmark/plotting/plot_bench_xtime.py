@@ -31,7 +31,8 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
                                 size of the graph
     @param      labelsize       size of the labels
     @param      fontsize        font size see `Text properties
-                                <https://matplotlib.org/api/text_api.html#matplotlib.text.Text>`_
+                                <https://matplotlib.org/api/
+                                text_api.html#matplotlib.text.Text>`_
     @param      ax              existing axis
     @param      label_fct       if not None, it is a function which
                                 modifies the label before printing it on the graph
@@ -86,7 +87,7 @@ def plot_bench_xtime(df, row_cols=None, col_cols=None, hue_cols=None,
         figsize = (shape[1] * box_side, shape[0] * box_side)
         fig, ax = plt.subplots(shape[0], shape[1], figsize=figsize)
     elif not hasattr(ax, 'shape') or ax.shape not in (shape, shape2):
-        raise RuntimeError(
+        raise RuntimeError(  # pragma: no cover
             "Shape mismatch ax.shape={} when expected values is {} or {}".format(
                 getattr(ax, 'shape', None), shape, shape2))
     else:

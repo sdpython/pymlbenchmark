@@ -29,7 +29,8 @@ class ProfilerCall:
         @param      repeat          number of times to repeat the function
                                     to profile
         @param      name            name of the profile
-        @param      interval        see `interval <https://github.com/joerick/pyinstrument/blob/master/pyinstrument/profiler.py#L22>`_
+        @param      interval        see `interval <https://github.com/joerick/
+                                    pyinstrument/blob/master/pyinstrument/profiler.py#L22>`_
         @param      module          ``'pyinstrument'`` by default, ``'cProfile'`` or
                                     ``'profile'`` works too
         """
@@ -91,7 +92,8 @@ class ProfilerCall:
                     fct()
             profiler.runcall(lf)
         else:
-            raise ValueError("Unknown profiler '{}'.".format(self.module))
+            raise ValueError(  # pragma: no cover
+                "Unknown profiler '{}'.".format(self.module))
         self.profiled.append(profiler)
         self.kwargs.append(kwargs)
 
@@ -117,7 +119,8 @@ class ProfilerCall:
                                     can be a stream
         """
         if len(self) == 0:
-            raise ValueError("No profile was done.")
+            raise ValueError(  # pragma: no cover
+                "No profile was done.")
         if isinstance(filename, str):
             with open(filename, "w") as f:
                 self.to_txt(f)
