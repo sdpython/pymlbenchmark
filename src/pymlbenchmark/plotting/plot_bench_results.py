@@ -138,7 +138,8 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
                         y_cols, list(df.columns), ds[y_cols].head(n=10))) from e
                 except KeyError as e:  # pragma no cover
                     raise ValueError(
-                        "Unable to find columns {} in {}".format(y_cols, ds.columns))
+                        "Unable to find columns {} in {}".format(
+                            y_cols, ds.columns)) from e
                 if lower_cols is not None:
                     try:
                         lower_piv = ds.pivot(*lower_cols)
@@ -147,7 +148,7 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
                             lower_cols, ds[lower_cols].head())) from e
                     except KeyError as e:  # pragma no cover
                         raise ValueError("Unable to find columns {} in {}".format(
-                            lower_cols, ds.columns))
+                            lower_cols, ds.columns)) from e
                 else:
                     lower_piv = None
                 if upper_cols is not None:
@@ -158,7 +159,7 @@ def plot_bench_results(df, row_cols=None, col_cols=None, hue_cols=None,  # pylin
                             upper_cols, ds[upper_cols].head())) from e
                     except KeyError as e:  # pragma no cover
                         raise ValueError("Unable to find columns {} in {}".format(
-                            upper_cols, ds.columns))
+                            upper_cols, ds.columns)) from e
                 else:
                     upper_piv = None
                 ys = list(piv.columns)
