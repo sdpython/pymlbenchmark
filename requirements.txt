@@ -2,7 +2,8 @@ autopep8
 coverage
 jupyter_sphinx
 jyquickhelper
-onnx>=1.6
+onnx>=1.7
+git+https://github.com/xadupre/onnxconverter-common.git@jenkins
 mlinsights>=0.1.199
 mlprodict>=0.3.853
 pycodestyle
