@@ -73,7 +73,7 @@ def run_bench(repeat=100, verbose=False):
 
     pbefore = dict(dim=[1, 5, 10, 20, 50, 100, 150],
                    fit_intercept=[True, False])
-    pafter = dict(N=[1, 10])
+    pafter = dict(N=[1, 10, 100, 1000, 10000])
     test = lambda dim=None, **opts: OnnxRuntimeBenchPerfTestBinaryClassification3(
         LogisticRegression, dim=dim, **opts)
     bp = BenchPerf(pbefore, pafter, test)
@@ -94,7 +94,7 @@ def run_bench(repeat=100, verbose=False):
 
 df = run_bench(verbose=True)
 df.to_csv("bench_plot_onnxruntime_logistic_regression.perf.csv", index=False)
-print(df.head())
+print(df.head(n=4).T)
 
 #########################
 # Extract information about the machine used
@@ -129,8 +129,8 @@ def color_fct(la, col):
     return col
 
 
-plot_bench_results(df, row_cols='N', col_cols='method',
-                   x_value='dim', hue_cols='fit_intercept',
+plot_bench_results(df, row_cols=['N', 'fit_intercept'], col_cols='method',
+                   x_value='dim',
                    title="LogisticRegression\nBenchmark scikit-learn / onnxruntime",
                    label_fct=label_fct, color_fct=color_fct)
 plt.show()
