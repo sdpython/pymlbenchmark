@@ -6,7 +6,9 @@ Benchmark of onnxruntime on LogisticRegression
 ==============================================
 
 The example uses what :epkg:`pymlbenchmark` implements, in particular
-class :class:`OnnxRuntimeBenchPerfTestBinaryClassification <pymlbenchmark.external.onnxruntime_perf.OnnxRuntimeBenchPerfTestBinaryClassification>`
+class :class:`OnnxRuntimeBenchPerfTestBinaryClassification
+<pymlbenchmark.external.onnxruntime_perf_binclass.
+OnnxRuntimeBenchPerfTestBinaryClassification>`
 which defines a side-by-side benchmark to compare the prediction
 function between :epkg:`scikit-learn`, :epkg:`onnxruntime` and
 a simple :epkg:`numpy` implementation.
