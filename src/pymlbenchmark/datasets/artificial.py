@@ -29,7 +29,7 @@ def random_binary_classification(N, dim):
     eps = rand(N) - 0.5
     X_trainsum_ = X_trainsum + eps
     y_train = (X_trainsum_ >= X_trainsum).ravel().astype(int)
-    return X_train, y_train
+    return X_train.astype(numpy.float32), y_train.astype(numpy.int64)
 
 
 def random_regression(N, dim):
@@ -55,4 +55,4 @@ def random_regression(N, dim):
     X_train_eps = X_train + eps
     y_train = X_train_eps.sum(
         axis=1) + numpy.power(X_train_eps / 3, 2).sum(axis=1)  # pylint: disable=E1101
-    return X_train, y_train
+    return X_train.astype(numpy.float32), y_train.astype(numpy.float32)

@@ -194,8 +194,16 @@ class OnnxRuntimeBenchPerfTest(BenchPerfTest):
                     try:
                         assert_almost_equal(p1, p2, decimal=4)
                     except AssertionError as e:
-                        msg = "ERROR: Dim {}-{} - discrepencies between '{}' and '{}' for '{}'.".format(
-                            vbase.shape, vals.shape, baseline, name, key)
+                        if p1.dtype == numpy.int64 and p2.dtype == numpy.int64:
+                            delta = numpy.sum(numpy.abs(p1 - p2) != 0)
+                            if delta <= 2:
+                                # scikit-learn does double computation not float,
+                                # discrepencies between scikit-learn is likely to happen
+                                continue
+                        msg = "ERROR: Dim {}-{} ({}-{}) - discrepencies between '{}' and '{}' for '{}'.".format(
+                            vbase.shape, vals.shape, getattr(
+                                p1, 'dtype', None),
+                            getattr(p2, 'dtype', None), baseline, name, key)
                         self.dump_error(msg, skl=self.skl, ort=self.ort,
                                         baseline=vbase, discrepencies=vals,
                                         onnx_bytes=self.ort_onnx.SerializeToString(),
