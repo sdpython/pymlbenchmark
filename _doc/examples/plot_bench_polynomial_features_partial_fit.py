@@ -6,15 +6,19 @@ Benchmark of PolynomialFeatures + partialfit of SGDClassifier
 =============================================================
 
 This benchmark looks into a new implementation of
-`PolynomialFeatures <https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html>`_
-proposed in `PR13290 <https://github.com/scikit-learn/scikit-learn/pull/13290>`_.
+`PolynomialFeatures <https://scikit-learn.org/stable/
+modules/generated/sklearn.preprocessing.PolynomialFeatures.html>`_
+proposed in `PR13290 <https://github.com/
+scikit-learn/scikit-learn/pull/13290>`_.
 It tests the following configurations:
 
 * **SGD-ONLY**: :epkg:`sklearn:linear_model:SGDClassifier` only
 * **SGD-SKL**: :epkg:`sklearn:preprocessing:PolynomialFeature`
   from :epkg:`scikit-learn` (no matter what it is)
-* **SGD-FAST**: new implementation copy-pasted in the benchmark source file
-* **SGD-SLOW**: implementation of 0.20.2 copy-pasted in the benchmark source file
+* **SGD-FAST**: new implementation copy-pasted in the
+  benchmark source file
+* **SGD-SLOW**: implementation of 0.20.2 copy-pasted
+  in the benchmark source file
 
 This example takes the example :ref:`l-bench-slk-poly-standalone`
 and rewrites it with module :epkg:`pymlbenchmark`.
@@ -22,18 +26,10 @@ and rewrites it with module :epkg:`pymlbenchmark`.
 .. contents::
     :local:
 """
-from io import BytesIO
+from pymlbenchmark.plotting import plot_bench_results
+from pymlbenchmark.context import machine_information
 from time import perf_counter as time
-from itertools import combinations, chain
-from itertools import combinations_with_replacement as combinations_w_r
-import io
-import os
-import sys
 
-import numpy as np
-from numpy.random import rand
-from numpy.testing import assert_almost_equal
-import matplotlib
 import matplotlib.pyplot as plt
 import pandas
 import sklearn
@@ -143,7 +139,6 @@ print(df.head())
 # Extract information about the machine used
 # ++++++++++++++++++++++++++++++++++++++++++
 
-from pymlbenchmark.context import machine_information
 pkgs = ['numpy', 'pandas', 'sklearn']
 dfi = pandas.DataFrame(machine_information(pkgs))
 dfi.to_csv("plot_bench_polynomial_features_partial_fit.time.csv", index=False)
@@ -153,10 +148,10 @@ print(dfi)
 # Plot the results
 # ++++++++++++++++
 
-from pymlbenchmark.plotting import plot_bench_results
 print(df.columns)
 plot_bench_results(df, row_cols='N', col_cols=None,
                    x_value='dim', hue_cols=None,
                    cmp_col_values='test',
-                   title="PolynomialFeatures + partial_fit\nBenchmark scikit-learn PR13290")
+                   title="PolynomialFeatures + partial_fit\n"
+                   "Benchmark scikit-learn PR13290")
 plt.show()

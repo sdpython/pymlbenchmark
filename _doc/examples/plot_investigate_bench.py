@@ -11,9 +11,10 @@ The following script shows how to investigate.
 .. contents::
     :local:
 """
+from onnxruntime import InferenceSession
+from pickle import load
 from time import time
 import numpy
-from numpy.random import rand
 from numpy.testing import assert_almost_equal
 import matplotlib.pyplot as plt
 import pandas
@@ -30,7 +31,8 @@ from pymlbenchmark.external import OnnxRuntimeBenchPerfTestBinaryClassification
 # +++++++++++++++++++++++++++++++++
 
 
-class OnnxRuntimeBenchPerfTestBinaryClassification3(OnnxRuntimeBenchPerfTestBinaryClassification):
+class OnnxRuntimeBenchPerfTestBinaryClassification3(
+        OnnxRuntimeBenchPerfTestBinaryClassification):
     """
     Overwrites the class to add a pure python implementation
     of the logistic regression.
@@ -83,8 +85,9 @@ def run_bench(repeat=10, verbose=False):
 
     pbefore = dict(dim=[1, 5], fit_intercept=[True])
     pafter = dict(N=[1, 10, 100])
-    test = lambda dim=None, **opts: OnnxRuntimeBenchPerfTestBinaryClassification3(
-        LogisticRegression, dim=dim, **opts)
+    test = lambda dim=None, **opts: (
+        OnnxRuntimeBenchPerfTestBinaryClassification3(
+            LogisticRegression, dim=dim, **opts))
     bp = BenchPerf(pbefore, pafter, test)
 
     with sklearn.config_context(assume_finite=True):
@@ -110,8 +113,6 @@ except AssertionError as e:
 #
 # Let's retrieve what was dumped.
 
-from pickle import load
-from onnxruntime import InferenceSession
 filename = "BENCH-ERROR-OnnxRuntimeBenchPerfTestBinaryClassification3-0.pkl"
 try:
     with open(filename, "rb") as f:
@@ -173,8 +174,8 @@ if good:
 
     diffs = list(sorted(diff(a, b) for a, b in zip(pred_skl, pred_onnx)))
 
-    import matplotlib.pyplot as plt
     plt.plot(diffs)
-    plt.title("Differences between prediction with\nscikit-learn and onnxruntime"
-              "\nfor Logistic Regression")
+    plt.title(
+        "Differences between prediction with\nscikit-learn and onnxruntime"
+        "\nfor Logistic Regression")
     plt.show()

@@ -29,7 +29,6 @@ try:
     from sklearn.utils._testing import ignore_warnings
 except ImportError:
     from sklearn.utils.testing import ignore_warnings
-from sklearn.utils.extmath import softmax
 from scipy.special import expit
 from pymlbenchmark.context import machine_information
 from pymlbenchmark.benchmark import BenchPerf
@@ -37,7 +36,8 @@ from pymlbenchmark.external import OnnxRuntimeBenchPerfTestBinaryClassification
 from pymlbenchmark.plotting import plot_bench_results
 
 
-class OnnxRuntimeBenchPerfTestBinaryClassification3(OnnxRuntimeBenchPerfTestBinaryClassification):
+class OnnxRuntimeBenchPerfTestBinaryClassification3(
+        OnnxRuntimeBenchPerfTestBinaryClassification):
     """
     Overwrites the class to add a pure python implementation
     of the logistic regression.
@@ -74,8 +74,9 @@ def run_bench(repeat=100, verbose=False):
     pbefore = dict(dim=[1, 5, 10, 20, 50, 100, 150],
                    fit_intercept=[True, False])
     pafter = dict(N=[1, 10, 100, 1000, 10000])
-    test = lambda dim=None, **opts: OnnxRuntimeBenchPerfTestBinaryClassification3(
-        LogisticRegression, dim=dim, **opts)
+    test = lambda dim=None, **opts: (
+        OnnxRuntimeBenchPerfTestBinaryClassification3(
+            LogisticRegression, dim=dim, **opts))
     bp = BenchPerf(pbefore, pafter, test)
 
     with sklearn.config_context(assume_finite=True):
@@ -129,8 +130,8 @@ def color_fct(la, col):
     return col
 
 
-plot_bench_results(df, row_cols=['N', 'fit_intercept'], col_cols='method',
-                   x_value='dim',
-                   title="LogisticRegression\nBenchmark scikit-learn / onnxruntime",
-                   label_fct=label_fct, color_fct=color_fct)
+plot_bench_results(
+    df, row_cols=['N', 'fit_intercept'], col_cols='method', x_value='dim',
+    title="LogisticRegression\nBenchmark scikit-learn / onnxruntime",
+    label_fct=label_fct, color_fct=color_fct)
 plt.show()

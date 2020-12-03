@@ -6,14 +6,19 @@ Benchmark of PolynomialFeatures + partialfit of SGDClassifier (standalone)
 ==========================================================================
 
 This benchmark looks into a new implementation of
-`PolynomialFeatures <https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html>`_
-proposed in `PR13290 <https://github.com/scikit-learn/scikit-learn/pull/13290>`_.
+`PolynomialFeatures <https://scikit-learn.org/stable/modules/
+generated/sklearn.preprocessing.PolynomialFeatures.html>`_
+proposed in `PR13290 <https://github.com/
+scikit-learn/scikit-learn/pull/13290>`_.
 It tests the following configurations:
 
 * **SGD**: :epkg:`sklearn:linear_model:SGDClassifier` only
-* **SGD-SKL**: :epkg:`sklearn:preprocessing:PolynomialFeatures` from scikit-learn (no matter what it is)
-* **SGD-FAST**: new implementation copy-pasted in the benchmark source file
-* **SGD-SLOW**: implementation of 0.20.2 copy-pasted in the benchmark source file
+* **SGD-SKL**: :epkg:`sklearn:preprocessing:PolynomialFeatures`
+  from scikit-learn (no matter what it is)
+* **SGD-FAST**: new implementation copy-pasted in the
+  benchmark source file
+* **SGD-SLOW**: implementation of 0.20.2 copy-pasted in the
+  benchmark source file
 
 This script is standalone and does not require
 :epkg:`pymlbenchmark` as opposed to :ref:`l-bench-slk-poly`
@@ -22,15 +27,8 @@ which reuse functions implemented in :epkg:`pymlbenchmark`.
 .. contents::
     :local:
 """
-import matplotlib
-from io import BytesIO
 from time import perf_counter as time
-from itertools import combinations, chain
-from itertools import combinations_with_replacement as combinations_w_r
-import io
-import os
-import sys
-
+import numpy
 import numpy as np
 from numpy.random import rand
 import matplotlib.pyplot as plt
@@ -77,7 +75,8 @@ def fcts_model(X, y):
         X2 = model.steps[0][1].transform(X)
         return model.steps[1][1].partial_fit(X2, y)
 
-    return partial_fit_model1, partial_fit_model2, partial_fit_model3, partial_fit_model4
+    return (partial_fit_model1, partial_fit_model2,
+            partial_fit_model3, partial_fit_model4)
 
 ##############################
 # Benchmarks
@@ -228,8 +227,6 @@ def run_bench(repeat=100, verbose=False):
 # +++++++++++++++++
 
 
-import sklearn
-import numpy
 print("numpy:", numpy.__version__)
 print("scikit-learn:", sklearn.__version__)
 df = run_bench(verbose=True)
