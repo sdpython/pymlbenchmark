@@ -27,12 +27,10 @@ class TestBENCHonnxruntime_linear(ExtTestCase):
         run_onnxruntime_test(temp, name, repeat=repeat, verbose=verbose,
                              stop_if_error=stop_if_error)
 
-    @unittest.skipIf(not has_onnxruntime(), reason="onnxruntime is not installed")
     def test_bench_perf_onnxruntime_LogisticRegression(self):
         self.run_onnxruntime_test(
             self._testMethodName.split('_')[-1], verbose=False)
 
-    @unittest.skipIf(not has_onnxruntime(), reason="onnxruntime is not installed")
     def test_bench_perf_onnxruntime_SGDClassifier(self):
         self.run_onnxruntime_test(
             self._testMethodName.split('_')[-1], verbose=False)

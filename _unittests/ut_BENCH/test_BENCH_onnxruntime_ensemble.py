@@ -28,12 +28,10 @@ class TestBENCHonnxruntime_ensemble(ExtTestCase):
                              N=[1, 10], dim=[1, 10],
                              stop_if_error=stop_if_error)
 
-    @unittest.skipIf(not has_onnxruntime(), reason="onnxruntime is not installed")
     def test_bench_perf_onnxruntime_DecisionTreeClassifier(self):
         self.run_onnxruntime_test(
             self._testMethodName.split('_')[-1], verbose=False)
 
-    @unittest.skipIf(not has_onnxruntime(), reason="onnxruntime is not installed")
     def test_bench_perf_onnxruntime_RandomForestClassifier(self):
         self.run_onnxruntime_test(
             self._testMethodName.split('_')[-1], verbose=False,

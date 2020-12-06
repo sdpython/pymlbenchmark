@@ -12,8 +12,7 @@ from pymlbenchmark.benchmark import BenchPerf
 from pymlbenchmark.external import (
     onnxruntime_perf_binary_classifiers,
     onnxruntime_perf_regressors,
-    OnnxRuntimeBenchPerfTestBinaryClassification
-)
+    OnnxRuntimeBenchPerfTestBinaryClassification)
 
 
 def has_onnxruntime(version):
@@ -76,8 +75,6 @@ class TestPerfOnnxRuntime(ExtTestCase):
         res = onnxruntime_perf_binary_classifiers()
         self.assertGreater(len(res), 1)
 
-    @unittest.skipIf(not has_onnxruntime('0.3.0'),
-                     reason="onnxruntime is not installed")
     def test_perf_onnxruntime_logreg_fails(self):
         res = onnxruntime_perf_binary_classifiers(MyBenchTest)[0]
 
@@ -92,7 +89,6 @@ class TestPerfOnnxRuntime(ExtTestCase):
         results_df.to_csv(out, index=False)
         self.assertExists(out)
 
-    @skipif_circleci('onnxruntime not available')
     def test_perf_onnxruntime_logreg(self):
         res = onnxruntime_perf_binary_classifiers()[0]
 
@@ -112,7 +108,6 @@ class TestPerfOnnxRuntime(ExtTestCase):
         df.to_csv(out, index=False)
         self.assertExists(out)
 
-    @skipif_circleci('onnxruntime not available')
     def test_perf_onnxruntime_linreg(self):
         res = onnxruntime_perf_regressors()[0]
 
@@ -132,7 +127,6 @@ class TestPerfOnnxRuntime(ExtTestCase):
         df.to_csv(out, index=False)
         self.assertExists(out)
 
-    @skipif_circleci('onnxruntime not available')
     def test_perf_onnxruntime_gpr64(self):
         res = onnxruntime_perf_regressors()[3]
 
