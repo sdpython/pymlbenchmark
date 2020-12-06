@@ -5,7 +5,7 @@
 import os
 import unittest
 import pandas
-from pyquickhelper.pycode import ExtTestCase, get_temp_folder, skipif_circleci
+from pyquickhelper.pycode import ExtTestCase, get_temp_folder
 from pyquickhelper.texthelper import compare_module_version
 from pymlbenchmark.context import machine_information
 from pymlbenchmark.benchmark import BenchPerf
