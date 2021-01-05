@@ -26,6 +26,7 @@ install:
   #- python setup.py install
   #- cd ..
   # other dependencies
+  - "%PYTHON%\\Scripts\\pip install -i https://test.pypi.org/simple/ ort-nightly"
   - "%PYTHON%\\Scripts\\pip install -r requirements.txt --no-deps"
   - set PYTHONPATH=src
 build: off
