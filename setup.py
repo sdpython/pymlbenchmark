@@ -169,7 +169,7 @@ if not r:
         package_dir=package_dir,
         package_data=package_data,
         install_requires=[
-            "pyquickhelper>=1.9.3280", "mlinsights>=0.1.199",
-            "pyinstrument", "mlprodict>=0.3.853"
+            "pyquickhelper>=1.10", "mlinsights>=0.3",
+            "pyinstrument", "mlprodict>=0.5"
         ],
     )
