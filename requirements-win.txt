@@ -16,6 +16,8 @@ pandas
 psutil
 pybind11
 pycodestyle
+pyinstrument
+pyinstrument_cext
 pylint
 pymyinstall
 pyquickhelper
