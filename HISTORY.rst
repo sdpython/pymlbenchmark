@@ -5,7 +5,12 @@
 History
 =======
 
-current - 2019-12-13 - 0.00Mb
+current - 2021-01-05 - 0.00Mb
+=============================
+
+* `12`: Support double when converting to onnx (2019-12-21)
+
+0.2.141 - 2019-12-13 - 0.04Mb
 =============================
 
 * `11`: Fix dimension when calling convert_sklearn (2019-10-07)
