@@ -170,6 +170,6 @@ if not r:
         package_data=package_data,
         install_requires=[
             "pyquickhelper>=1.10", "mlinsights>=0.3",
-            "pyinstrument", "mlprodict>=0.5"
+            "pyinstrument", "mlprodict>=0.5", "py-cpuinfo"
         ],
     )

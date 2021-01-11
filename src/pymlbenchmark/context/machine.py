@@ -8,6 +8,7 @@ import platform
 import contextlib
 from datetime import datetime
 import numpy
+from cpuinfo import get_cpu_info  # pylint: disable=E0401
 
 
 def get_numpy_info():
@@ -53,6 +54,17 @@ def machine_information(pkgs=None):
         {"name": "release", "value": platform.release()},
         {"name": "architecture", "value": platform.architecture()},
     ]
+    info = get_cpu_info()
+    for k, v in sorted(info.items()):
+        if k in {'brand_raw', 'count', 'arch', 'processor_type',
+                 'hz_advertised', 'stepping',
+                 'l1_cache_size', 'l2_cache_size',
+                 'l3_cache_size', 'l1_data_cache_size',
+                 'l1_instruction_cache_size', 'l2_cache_line_size',
+                 'l2_cache_associativity'}:
+            res.append(dict(name=k, value=v))
+        if k == 'flags':
+            res.append(dict(name=k, value=' '.join(v)))
     if pkgs is not None:
         for name in sorted(pkgs):
             if name in sys.modules:

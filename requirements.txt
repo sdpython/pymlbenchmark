@@ -16,6 +16,7 @@ coverage
 jupyter_sphinx
 jyquickhelper
 pycodestyle
+py-cpuinfo
 pyinstrument
 pylint
 sphinx_bootstrap_theme
