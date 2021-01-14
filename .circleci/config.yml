@@ -119,7 +119,7 @@ jobs:
           command: |
             . venv/bin/activate
             export PYTHONPATH=src
-            python setup.py unittests -g ".*BENCH.*"
+            python setup.py unittests
 
       - run:
           name: wheel

@@ -5,6 +5,7 @@
 import os
 import pickle
 from time import perf_counter as time_perf
+import textwrap
 import numpy
 from .bench_helper import enumerate_options
 
@@ -122,6 +123,14 @@ class BenchPerf:
         self.btest = btest
         self.filter_test = filter_test
         self.profilers = profilers
+
+    def __repr__(self):
+        "usual"
+        return '\n'.join(textwrap.wrap(
+            "%s(pbefore=%r, pafter=%r, btest=%r, filter_test=%r, profilers=%r)" % (
+                self.__class__.__name__, self.pbefore, self.pafter, self.btest,
+                self.filter_test, self.profilers),
+            subsequent_indent='   '))
 
     def fct_filter_test(self, **conf):
         """

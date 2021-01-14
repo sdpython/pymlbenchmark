@@ -36,4 +36,4 @@ before_script:
   - python setup.py build_ext --inplace
 
 script:
-  - python setup.py unittests -g ".*BENCH.*"
+  - python setup.py unittests
