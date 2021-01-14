@@ -8,14 +8,8 @@ from io import BytesIO, StringIO
 import numpy
 from numpy.testing import assert_almost_equal
 import pandas
-try:
-    from sklearn.ensemble._forest import BaseForest
-except ImportError:  # pragma: no cover
-    from sklearn.ensemble.forest import BaseForest
-try:
-    from sklearn.tree._classes import BaseDecisionTree
-except ImportError:  # pragma: no cover
-    from sklearn.tree.tree import BaseDecisionTree
+from sklearn.ensemble._forest import BaseForest
+from sklearn.tree._classes import BaseDecisionTree
 from mlprodict.onnxrt import OnnxInference
 from mlprodict.tools.asv_options_helper import (
     get_opset_number_from_onnx, get_ir_version_from_onnx)

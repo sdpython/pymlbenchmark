@@ -8,5 +8,4 @@ from .onnxruntime_perf_regression import OnnxRuntimeBenchPerfTestRegression
 from .onnxruntime_perf_list import (
     onnxruntime_perf_binary_classifiers,
     onnxruntime_perf_regressors,
-    run_onnxruntime_test
-)
+    run_onnxruntime_test)

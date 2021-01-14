@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-@brief      test log(time=200s)
+@brief      test log(time=10s)
 """
 import unittest
 from pyquickhelper.loghelper import fLOG
@@ -25,7 +25,8 @@ class TestBENCHonnxruntime_linear(ExtTestCase):
             OutputPrint=__name__ == "__main__")
         temp = get_temp_folder(__file__, "temp_perf_onnxrt_%s" % name)
         run_onnxruntime_test(temp, name, repeat=repeat, verbose=verbose,
-                             stop_if_error=stop_if_error)
+                             stop_if_error=stop_if_error, N_fit=1000,
+                             dim=[1, 5])
 
     def test_bench_perf_onnxruntime_LogisticRegression(self):
         self.run_onnxruntime_test(
