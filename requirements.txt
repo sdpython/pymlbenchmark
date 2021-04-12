@@ -27,6 +27,7 @@ wheel
 mlinsights>=0.3
 mlprodict>=0.5
 pyquickhelper>=1.10
+pyquicksetup
 
 
 # onnx

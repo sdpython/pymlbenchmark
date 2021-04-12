@@ -25,7 +25,7 @@ before_script:
   - $PYINT -u setup.py build_ext --inplace
 
 script:
-  - { CMD: "$PYINT -u setup.py unittests", NAME: "UT" }
+  - { CMD: "$PYINT -u setup.py unittests --covtoken=add92ff0-d57a-46f5-872b-9ac527c94917", NAME: "UT" }
 
 after_script:
   - $PYINT -u setup.py bdist_wheel
