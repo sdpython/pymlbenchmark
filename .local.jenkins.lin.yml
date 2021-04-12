@@ -22,6 +22,7 @@ install:
   - $PYINT -m pip freeze
 
 before_script:
+  - $PYINT -u setup.py write_version
   - $PYINT -u setup.py build_ext --inplace
 
 script:
@@ -32,5 +33,5 @@ after_script:
   - if [ ${NAME} == "UT" ] then cp dist/*.whl {{root_path}}/../local_pypi/local_pypi_server fi
 
 documentation:
-  - if [ ${NAME} == "UT" ] then $PYINT -u setup.py build_sphinx fi
+  - if [ ${NAME} == "UT" ] then $PYINT -u setup.py build_sphinx --layout=html fi
   - if [ ${NAME} == "UT" ] then cp -R -f _doc/sphinxdoc/build/html dist/html fi
