@@ -13,6 +13,7 @@ matplotlib
 nbformat
 numpy
 pandas
+protobuf
 psutil
 pybind11
 pycodestyle
