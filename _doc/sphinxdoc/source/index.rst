@@ -42,8 +42,8 @@ It produces the following figures.
 :ref:`l-README`,
 :ref:`blog <ap-main-0>`
 
-.. image:: https://travis-ci.org/sdpython/pymlbenchmark.svg?branch=master
-    :target: https://travis-ci.org/sdpython/pymlbenchmark
+.. image:: https://travis-ci.com/sdpython/pymlbenchmark.svg?branch=master
+    :target: https://travis-ci.com/sdpython/pymlbenchmark
     :alt: Build status
 
 .. image:: https://ci.appveyor.com/api/projects/status/l2lk7a0r2pccpg3r?svg=true
