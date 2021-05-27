@@ -2,7 +2,7 @@
 import sys
 import os
 import sphinx_bootstrap_theme
-from pyquickhelper.helpgen.default_conf import set_sphinx_variables, get_default_stylesheet
+from pyquickhelper.helpgen.default_conf import set_sphinx_variables
 
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.split(__file__)[0])))
@@ -18,10 +18,7 @@ set_sphinx_variables(__file__, "pymlbenchmark", "Xavier Dupré", 2021,
 
 blog_root = "http://www.xavierdupre.fr/app/pymlbenchmark/helpsphinx/"
 
-html_context = {
-    'css_files': get_default_stylesheet([
-        '_static/my-styles.css', '_static/gallery.css']),
-}
+html_css_files = ['my-styles.css']
 
 html_logo = "phdoc_static/project_ico.png"
 
