@@ -60,10 +60,6 @@ It produces the following figures.
     :alt: MIT License
     :target: http://opensource.org/licenses/MIT
 
-.. image:: https://requires.io/github/sdpython/pymlbenchmark/requirements.svg?branch=master
-     :target: https://requires.io/github/sdpython/pymlbenchmark/requirements/?branch=master
-     :alt: Requirements Status
-
 .. image:: https://codecov.io/github/sdpython/pymlbenchmark/coverage.svg?branch=master
     :target: https://codecov.io/github/sdpython/pymlbenchmark?branch=master
 
