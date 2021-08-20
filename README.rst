@@ -8,7 +8,7 @@ pymlbenchmark: benchmark around machine learning
 ================================================
 
 .. image:: https://travis-ci.com/sdpython/pymlbenchmark.svg?branch=master
-    :target: https://travis-ci.com/sdpython/pymlbenchmark
+    :target: https://app.travis-ci.com/github/sdpython/pymlbenchmark
     :alt: Build status
 
 .. image:: https://ci.appveyor.com/api/projects/status/l2lk7a0r2pccpg3r?svg=true
