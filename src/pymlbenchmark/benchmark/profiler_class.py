@@ -122,7 +122,7 @@ class ProfilerCall:
             raise ValueError(  # pragma: no cover
                 "No profile was done.")
         if isinstance(filename, str):
-            with open(filename, "w") as f:
+            with open(filename, "w") as f:  # pylint: disable=W1514
                 self.to_txt(f)
             return
 
