@@ -46,11 +46,10 @@ jobs:
       - run:
           name: Install llvmlite
           command: |
-            sudo apt-get install lsb-release wget software-properties-common
-            wget https://apt.llvm.org/llvm.sh
-            chmod +x llvm.sh
-            sudo ./llvm.sh 10
-            ls /usr/bin/llvm*
+            . venv/bin/activate
+            # export LLVM_CONFIG=/usr/local/opt/llvm/bin/llvm-config
+            sudo ln -s /usr/bin/llvm-config-10 /usr/bin/llvm-config
+            pip install llvmlite numba
 
       - run:
           name: Install protobuf-compiler cmake
