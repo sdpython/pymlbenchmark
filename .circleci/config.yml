@@ -44,6 +44,18 @@ jobs:
                     sudo apt-get install -y graphviz
 
       - run:
+          name: Install cmake
+          command: |
+            sudo apt-get install cmake
+
+      - run:
+          name: Install standard libraries
+          command: |
+            python -m venv venv
+            . venv/bin/activate
+            pip install scipy matplotlib numpy cython pandas wheel pybind11
+
+      - run:
           name: Install llvmlite
           command: |
             . venv/bin/activate
@@ -59,7 +71,6 @@ jobs:
       - run:
           name: Install standard libraries
           command: |
-            python -m venv venv
             . venv/bin/activate
             pip install scipy matplotlib numpy cython pandas wheel pybind11
 
