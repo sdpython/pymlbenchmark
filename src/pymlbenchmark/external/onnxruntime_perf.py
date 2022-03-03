@@ -11,8 +11,7 @@ import pandas
 from sklearn.ensemble._forest import BaseForest
 from sklearn.tree._classes import BaseDecisionTree
 from mlprodict.onnxrt import OnnxInference
-from mlprodict.tools.asv_options_helper import (
-    get_opset_number_from_onnx, get_ir_version_from_onnx)
+from mlprodict import __max_supported_opset__, get_ir_version
 from ..benchmark import BenchPerfTest
 from ..benchmark.sklearn_helper import get_nb_skl_base_estimators
 
@@ -72,8 +71,8 @@ class OnnxRuntimeBenchPerfTest(BenchPerfTest):
             with contextlib.redirect_stderr(self.logconvert):
                 onx = to_onnx(self.skl, initial_types=initial_types,
                               options=onnx_options,
-                              target_opset=get_opset_number_from_onnx())
-                onx.ir_version = get_ir_version_from_onnx()
+                              target_opset=__max_supported_opset__)
+                onx.ir_version = get_ir_version(__max_supported_opset__)
 
         self._init(onx, runtimes)
 
@@ -120,7 +119,7 @@ class OnnxRuntimeBenchPerfTest(BenchPerfTest):
         """
         self.onnx_info = {
             'onnx_nodes': len(self.ort_onnx.graph.node),  # pylint: disable=E1101
-            'onnx_opset': get_opset_number_from_onnx(),
+            'onnx_opset': __max_supported_opset__,
         }
         self.onnx_info.update(kwargs)
 
