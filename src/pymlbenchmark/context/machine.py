@@ -82,9 +82,9 @@ def machine_information(pkgs=None):
                             info.append(sub.replace(' ', ''))
                     obs['value'] = ", ".join(info)
                 elif name == "onnx":
-                    from mlprodict import __max_supported_opset_  # pylint: disable=C0415
+                    from mlprodict import __max_supported_opset__  # pylint: disable=C0415
                     obs['value'] = "opset={}".format(
-                        __max_supported_opset_)
+                        __max_supported_opset__)
                 res.append(obs)
             else:
                 res.append(dict(name=name, version='not-imported'))
