@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/python:3.9.7
+      - image: cimg/python:3.10.5
     
     working_directory: ~/repo
     
@@ -51,14 +51,11 @@ jobs:
       - run:
           name: Install standard libraries
           command: |
-            python -m venv venv
-            . venv/bin/activate
             pip install scipy matplotlib numpy cython pandas wheel pybind11
 
       - run:
           name: Install llvmlite
           command: |
-            . venv/bin/activate
             # export LLVM_CONFIG=/usr/local/opt/llvm/bin/llvm-config
             sudo ln -s /usr/bin/llvm-config-10 /usr/bin/llvm-config
             pip install llvmlite numba
@@ -71,7 +68,6 @@ jobs:
       - run:
           name: Install standard libraries
           command: |
-            . venv/bin/activate
             pip install scipy matplotlib numpy cython pandas wheel pybind11
 
 #      - run:
@@ -91,15 +87,11 @@ jobs:
       - run:
           name: install onnxruntime
           command: |
-            python3 -m venv venv
-            . venv/bin/activate
             pip install onnxruntime>=1.6.0
 
       - run:
           name: install dependencies (2)
           command: |
-            python3 -m venv venv
-            . venv/bin/activate
             pip install -r requirements.txt
 
       - save_cache:
@@ -110,21 +102,18 @@ jobs:
       - run:
           name: compile and build
           command: |
-            . venv/bin/activate
             export PYTHONPATH=src
             python setup.py build_ext --inplace
 
       - run:
           name: run tests
           command: |
-            . venv/bin/activate
             export PYTHONPATH=src
             python setup.py unittests
 
       - run:
           name: wheel
           command: |
-            . venv/bin/activate
             export PYTHONPATH=src
             python setup.py bdist_wheel
             mkdir -p test-reports/dist
