@@ -1,37 +1,28 @@
-# conda
+autopep8
 cffi
+coverage
 Cython
 jupyter
+jupyter_sphinx
+jyquickhelper
 matplotlib
+mlinsights>=0.3
+mlprodict>=0.5
 notebook>=6.0.0
 numba
 numpy>=1.18.0
+onnx>=1.12.0
+onnxruntime>=1.12.0
 pillow
-scikit-learn>=0.24
-Sphinx
-
-# others
-autopep8
-coverage
-jupyter_sphinx
-jyquickhelper
 pycodestyle
-py-cpuinfo
+pyquickhelper>=1.10
+pyquicksetup
 pyinstrument
 pylint
+py-cpuinfo
+scikit-learn>=0.24
+sklearn-onnx
+Sphinx
 sphinx_bootstrap_theme
 tqdm
 wheel
-
-# tools
-mlinsights>=0.3
-mlprodict>=0.5
-pyquickhelper>=1.10
-pyquicksetup
-
-
-# onnx
-onnx>=1.8
-onnxruntime>=1.7.0
-git+https://github.com/xadupre/onnxconverter-common.git@jenkins
-git+https://github.com/xadupre/sklearn-onnx.git@jenkins
