@@ -21,7 +21,7 @@ pyinstrument
 pylint
 py-cpuinfo
 scikit-learn>=0.24
-sklearn-onnx
+skl2onnx
 Sphinx
 sphinx_bootstrap_theme
 tqdm
