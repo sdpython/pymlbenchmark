@@ -12,8 +12,9 @@ local_template = os.path.join(os.path.abspath(
 
 set_sphinx_variables(__file__, "pymlbenchmark", "Xavier Dupré", 2022,
                      "bootstrap", sphinx_bootstrap_theme.get_html_theme_path(),
-                     locals(), extlinks=dict(
-                         issue=('https://github.com/sdpython/pymlbenchmark/issues/%s', 'issue')),
+                     locals(), extlinks=dict(issue=(
+                         'https://github.com/sdpython/pymlbenchmark/issues/%s',
+                         'issue %s')),
                      title="Benchmarks around Machine Learning with Python", book=False)
 
 blog_root = "http://www.xavierdupre.fr/app/pymlbenchmark/helpsphinx/"
