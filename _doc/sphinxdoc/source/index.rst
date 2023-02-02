@@ -2,7 +2,7 @@
 .. |gitlogo| image:: _static/git_logo.png
              :height: 20
 
-.. image:: https://github.com/sdpython/pymlbenchmark/blob/master/_doc/sphinxdoc/source/phdoc_static/project_ico.png?raw=true
+.. image:: https://github.com/sdpython/pymlbenchmark/blob/master/_doc/sphinxdoc/source/_static/project_ico.png?raw=true
     :target: https://github.com/sdpython/pymlbenchmark/
 
 Benchmarks around Machine Learning with Python
