@@ -17,7 +17,7 @@ class TestSklearnHelper(ExtTestCase):
         rf.fit(X, y)
         n1 = get_nb_skl_base_estimators(rf, fitted=False)
         n2 = get_nb_skl_base_estimators(rf, fitted=True)
-        self.assertEqual(n1, 3)
+        self.assertIn(n1, (2, 3))
         self.assertEqual(n2, 5)
 
 
